@@ -7,12 +7,7 @@ import {
   UpdateCandidate,
 } from '../../models/package'
 import { ParsedProgress } from '../../models/operation'
-import {
-  ManagerDriver,
-  OperationCallbacks,
-  OperationHandle,
-} from './manager-driver'
-import { runCapturing, runStreaming } from './process-runner'
+import { CliDriverBase } from './cli-driver-base'
 import { parseWinGetTable } from './winget-table-parser'
 
 const EXECUTABLE = 'winget'
@@ -79,38 +74,12 @@ export function buildInstallArgs(
   return args
 }
 
-export class WinGetDriver implements ManagerDriver {
+export class WinGetDriver extends CliDriverBase {
   public readonly id = 'winget' as const
-
-  public async isAvailable(): Promise<ManagerAvailability> {
-    try {
-      const { stdout, code } = await runCapturing({
-        executable: EXECUTABLE,
-        args: ['--version'],
-      })
-      if (code !== 0) {
-        return {
-          id: this.id,
-          available: false,
-          unavailableReason: `winget --version exited ${code}`,
-        }
-      }
-      return { id: this.id, available: true, version: stdout.trim() }
-    } catch (error) {
-      return {
-        id: this.id,
-        available: false,
-        unavailableReason:
-          error instanceof Error ? error.message : 'winget could not be started',
-      }
-    }
-  }
+  protected readonly executable = EXECUTABLE
 
   public async search(query: string): Promise<readonly DiscoveredPackage[]> {
-    const { stdout } = await runCapturing({
-      executable: EXECUTABLE,
-      args: ['search', '--query', query, ...NON_INTERACTIVE],
-    })
+    const { stdout } = await this.capture(['search', '--query', query, ...NON_INTERACTIVE])
 
     return parseWinGetTable(stdout, SEARCH_COLUMNS).map(row => ({
       key: `winget:${row['Id'] ?? ''}`,
@@ -123,10 +92,7 @@ export class WinGetDriver implements ManagerDriver {
   }
 
   public async listInstalled(): Promise<readonly InstalledPackage[]> {
-    const { stdout } = await runCapturing({
-      executable: EXECUTABLE,
-      args: ['list', ...NON_INTERACTIVE],
-    })
+    const { stdout } = await this.capture(['list', ...NON_INTERACTIVE])
 
     return parseWinGetTable(stdout, LIST_COLUMNS)
       .filter(row => (row['Version'] ?? '').length > 0)
@@ -141,10 +107,7 @@ export class WinGetDriver implements ManagerDriver {
   }
 
   public async listUpdates(): Promise<readonly UpdateCandidate[]> {
-    const { stdout } = await runCapturing({
-      executable: EXECUTABLE,
-      args: ['upgrade', '--include-unknown', ...NON_INTERACTIVE],
-    })
+    const { stdout } = await this.capture(['upgrade', '--include-unknown', ...NON_INTERACTIVE])
 
     return parseWinGetTable(stdout, UPGRADE_COLUMNS)
       .filter(row => (row['Available'] ?? '').length > 0)
@@ -159,52 +122,29 @@ export class WinGetDriver implements ManagerDriver {
       }))
   }
 
-  public install(
+  protected installArgs(
     pkg: PackageRef,
-    options: InstallOptions,
-    callbacks: OperationCallbacks
-  ): OperationHandle {
-    return runStreaming(
-      {
-        executable: EXECUTABLE,
-        args: ['install', ...buildInstallArgs(pkg, options)],
-        elevated: options.elevated,
-      },
-      line => this.parseOutput(line),
-      callbacks
-    )
+    options: InstallOptions
+  ): readonly string[] {
+    return ['install', ...buildInstallArgs(pkg, options)]
   }
 
-  public update(
+  protected updateArgs(
     pkg: PackageRef,
-    options: InstallOptions,
-    callbacks: OperationCallbacks
-  ): OperationHandle {
-    return runStreaming(
-      {
-        executable: EXECUTABLE,
-        args: ['upgrade', ...buildInstallArgs(pkg, options)],
-        elevated: options.elevated,
-      },
-      line => this.parseOutput(line),
-      callbacks
-    )
+    options: InstallOptions
+  ): readonly string[] {
+    return ['upgrade', ...buildInstallArgs(pkg, options)]
   }
 
-  public uninstall(
+  protected uninstallArgs(
     pkg: PackageRef,
-    options: InstallOptions,
-    callbacks: OperationCallbacks
-  ): OperationHandle {
+    options: InstallOptions
+  ): readonly string[] {
     const args = ['uninstall', '--id', pkg.id, '--exact', ...NON_INTERACTIVE]
     if (options.interactive !== true) {
       args.push('--silent')
     }
-    return runStreaming(
-      { executable: EXECUTABLE, args, elevated: options.elevated },
-      line => this.parseOutput(line),
-      callbacks
-    )
+    return args
   }
 
   /**
@@ -212,7 +152,7 @@ export class WinGetDriver implements ManagerDriver {
    * percentage. Where no percentage is present the line is still surfaced as
    * output — reporting no progress is honest, inventing a number is not.
    */
-  public parseOutput(line: string): ParsedProgress {
+  public override parseOutput(line: string): ParsedProgress {
     const percent = /(\d{1,3})%/.exec(line)
     if (percent === null) {
       return { line }

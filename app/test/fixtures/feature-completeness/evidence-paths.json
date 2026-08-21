@@ -16,8 +16,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/lib/i18n.ts",
+              "app/src/lib/i18n-resources.ts"
+            ],
+            "note": "Engine plus 97 key pairs seeded from the design."
           }
         ],
         "documentation": [
@@ -40,8 +44,10 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/i18n-test.mjs"
+            ]
           }
         ],
         "builtArtifactInteraction": [
@@ -63,8 +69,10 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/lib/funny-level-text.ts"
+            ]
           }
         ],
         "documentation": [
@@ -87,8 +95,11 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/i18n-test.mjs"
+            ],
+            "note": "Asserts every level keeps every substitution slot: a joke may not drop a fact."
           }
         ],
         "builtArtifactInteraction": [
@@ -157,8 +168,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/lib/i18n.ts"
+            ],
+            "note": "Forces English and full seriousness without destroying stored choices. Not yet shared across apps, and no rename or unlock credential."
           }
         ],
         "documentation": [
@@ -181,8 +195,10 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/i18n-test.mjs"
+            ]
           }
         ],
         "builtArtifactInteraction": [
@@ -204,8 +220,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/lib/personal-vocabulary.ts"
+            ],
+            "note": "Loader and validator. No upload control on any surface yet."
           }
         ],
         "documentation": [
@@ -228,8 +247,11 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/personal-vocabulary-test.mjs"
+            ],
+            "note": "Twelve rejection paths, all fail-closed."
           }
         ],
         "builtArtifactInteraction": [
@@ -2850,12 +2872,17 @@
           {
             "status": "present",
             "paths": [
-              "app/src/main-process/manager-drivers/manager-driver.ts",
+              "app/src/main-process/manager-drivers/cli-driver-base.ts",
               "app/src/main-process/manager-drivers/winget-driver.ts",
-              "app/src/main-process/manager-drivers/process-runner.ts",
-              "app/src/main-process/manager-drivers/winget-table-parser.ts"
+              "app/src/main-process/manager-drivers/scoop-driver.ts",
+              "app/src/main-process/manager-drivers/chocolatey-driver.ts",
+              "app/src/main-process/manager-drivers/node-drivers.ts",
+              "app/src/main-process/manager-drivers/language-toolchain-drivers.ts",
+              "app/src/main-process/manager-drivers/powershell-drivers.ts",
+              "app/src/main-process/manager-drivers/vcpkg-driver.ts",
+              "app/src/main-process/manager-drivers/windows-command.ts"
             ],
-            "note": "WinGet only. The other ten in-scope managers are genuinely absent, not stubbed."
+            "note": "All eleven in-scope Windows managers. Probed live: winget, chocolatey, pip, npm, dotnet, powershell, powershell7 and bun are available on the development machine; scoop, cargo and vcpkg correctly report themselves absent."
           }
         ],
         "documentation": [
@@ -2884,9 +2911,10 @@
             "status": "present",
             "paths": [
               "app/test/unit/winget-driver-test.mjs",
-              "app/test/unit/winget-table-parser-test.mjs"
+              "app/test/unit/winget-table-parser-test.mjs",
+              "app/test/unit/windows-command-test.mjs"
             ],
-            "note": "Includes a test that spawns the real winget executable."
+            "note": "Includes real-cmd command-injection tests, watched failing with the escaping removed."
           }
         ],
         "builtArtifactInteraction": [

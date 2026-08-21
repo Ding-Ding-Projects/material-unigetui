@@ -5,19 +5,45 @@ import { InstallOptions, PackageRef } from '../../models/package'
 import { OperationAction } from '../../models/operation'
 import { ManagerDriver } from '../manager-drivers/manager-driver'
 import { WinGetDriver } from '../manager-drivers/winget-driver'
+import { ScoopDriver } from '../manager-drivers/scoop-driver'
+import { ChocolateyDriver } from '../manager-drivers/chocolatey-driver'
+import { NpmDriver, BunDriver } from '../manager-drivers/node-drivers'
+import {
+  PipDriver,
+  CargoDriver,
+  DotnetDriver,
+} from '../manager-drivers/language-toolchain-drivers'
+import {
+  PowerShellDriver,
+  PowerShell7Driver,
+} from '../manager-drivers/powershell-drivers'
+import { VcpkgDriver } from '../manager-drivers/vcpkg-driver'
 import { OperationsQueue } from '../operations-queue'
 
 /**
- * Drivers this build actually ships.
+ * Every driver this build ships.
  *
- * The remaining managers named in `managerIds` are genuinely not implemented
- * yet. They are absent from this map rather than present as stubs, so an
- * operation against one fails loudly with a named reason instead of silently
- * doing nothing.
+ * All eleven in-scope Windows managers are registered. A manager the machine
+ * does not have reports itself unavailable with a reason, which is different
+ * from — and much more useful than — being absent from the map entirely.
  */
 function createDrivers(): ReadonlyMap<ManagerId, ManagerDriver> {
   const drivers = new Map<ManagerId, ManagerDriver>()
-  drivers.set('winget', new WinGetDriver())
+  for (const driver of [
+    new WinGetDriver(),
+    new ScoopDriver(),
+    new ChocolateyDriver(),
+    new PipDriver(),
+    new NpmDriver(),
+    new CargoDriver(),
+    new DotnetDriver(),
+    new PowerShellDriver(),
+    new PowerShell7Driver(),
+    new VcpkgDriver(),
+    new BunDriver(),
+  ]) {
+    drivers.set(driver.id, driver)
+  }
   return drivers
 }
 

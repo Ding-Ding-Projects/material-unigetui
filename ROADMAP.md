@@ -26,7 +26,13 @@ human view of the same thing.
 - [x] Completeness inventory: 62 contracts
 - [x] Guard test with anchored assertions
 - [x] Executable negative regression — 9/9 sabotages caught
-- [x] Day Teet Hui generated from the inventory, 10/10 behaviour checks
+- [x] Documentation site built and generated from the inventory, 10/10 behaviour
+      checks passing locally against the real page
+- [ ] **Site actually deployed** — Pages is enabled and the workflow is committed,
+      but runs sit queued and never start on this account, so
+      `https://ding-ding-projects.github.io/material-unigetui/` still returns 404.
+      Two earlier runs failed on an over-broad asset guard, which is fixed. This
+      is an external blocker, not a missing file.
 - [x] `social-preview.png` rendered and committed at the repository root
 - [ ] **Social preview uploaded to the repository settings** — the API cannot do
       this; it needs one manual step (see README)

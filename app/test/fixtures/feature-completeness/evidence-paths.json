@@ -2054,8 +2054,8 @@
         ],
         "builtArtifactInteraction": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "blocked",
+            "reason": "Pages is enabled and the workflow is committed, but workflow runs stay queued on this account and never start, so the deployed site returns 404. Verified locally against the real page instead (script/verify-site.cjs, 10/10)."
           }
         ],
         "realCapture": [

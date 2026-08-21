@@ -627,8 +627,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "site/assets/site.js"
+            ],
+            "note": "On the site only. No application surface has one yet."
           }
         ],
         "documentation": [
@@ -651,8 +654,10 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "script/verify-site.cjs"
+            ]
           }
         ],
         "builtArtifactInteraction": [
@@ -674,8 +679,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "site/assets/site.js"
+            ],
+            "note": "Site tablist with arrow-key traversal. The application has a nav rail, not tabs, yet."
           }
         ],
         "documentation": [
@@ -698,8 +706,10 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "script/verify-site.cjs"
+            ]
           }
         ],
         "builtArtifactInteraction": [
@@ -966,8 +976,10 @@
         ],
         "documentation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/features/design-system/material-tokens.md"
+            ]
           }
         ],
         "localization": [
@@ -999,8 +1011,12 @@
         ],
         "realCapture": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/assets/screenshots/discover-dark.png",
+              "docs/assets/screenshots/discover-search.png"
+            ],
+            "note": "Captured from the built artifact on a hidden desktop."
           }
         ]
       }
@@ -1997,8 +2013,13 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "site/index.html",
+              "site/assets/site.css",
+              "site/assets/site.js",
+              "script/build-site.mjs"
+            ]
           }
         ],
         "documentation": [
@@ -2009,8 +2030,11 @@
         ],
         "localization": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "site/assets/site.js"
+            ],
+            "note": "English, Cantonese and bilingual on the site; the application itself is not localized yet."
           }
         ],
         "persistence": [
@@ -2021,8 +2045,11 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "script/verify-site.cjs"
+            ],
+            "note": "Drives the real page: tabs, search, regex builder, theme, language, mobile width, off-origin assets."
           }
         ],
         "builtArtifactInteraction": [
@@ -2044,8 +2071,13 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "social-preview.png",
+              "site/assets/social-preview.png",
+              "script/make-social-preview.cjs"
+            ],
+            "note": "Rendered from the MD3 tokens. Upload to repository settings is manual and still outstanding."
           }
         ],
         "documentation": [
@@ -2745,8 +2777,11 @@
         ],
         "realCapture": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/assets/screenshots/discover-search.png"
+            ],
+            "note": "Live winget results. The Installed and Updates screens are deliberately never captured populated: personal software inventory."
           }
         ]
       }
@@ -2819,8 +2854,11 @@
         ],
         "documentation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/features/package-management/winget-driver.md"
+            ],
+            "note": "Covers WinGet only, matching the implementation."
           }
         ],
         "localization": [

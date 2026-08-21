@@ -229,8 +229,10 @@
         ],
         "documentation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/features/design-system/personal-vocabulary.md"
+            ]
           }
         ],
         "localization": [
@@ -461,8 +463,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/settings-route.tsx"
+            ],
+            "note": "Progressive disclosure plus a provenance line distinguishing a chosen value from an untouched default."
           }
         ],
         "documentation": [
@@ -497,8 +502,11 @@
         ],
         "realCapture": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/assets/screenshots/settings.png",
+              "docs/assets/screenshots/settings-language.png"
+            ]
           }
         ]
       }
@@ -555,8 +563,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/settings-route.tsx"
+            ],
+            "note": "All five toggles persist and are documented. Their runtime behaviour is not wired to the surfaces yet."
           }
         ],
         "documentation": [
@@ -651,9 +662,11 @@
           {
             "status": "present",
             "paths": [
+              "app/src/ui/md3/regex-builder.tsx",
+              "app/src/ui/md3/search-field.tsx",
               "site/assets/site.js"
             ],
-            "note": "On the site only. No application surface has one yet."
+            "note": "Anchored to each field. Present on every application search surface and on the site; context menus and dropdowns do not exist yet."
           }
         ],
         "documentation": [
@@ -690,8 +703,11 @@
         ],
         "realCapture": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/assets/screenshots/regex-builder.png"
+            ],
+            "note": "Open and anchored to the settings search field in the built application."
           }
         ]
       }
@@ -703,9 +719,9 @@
           {
             "status": "present",
             "paths": [
-              "site/assets/site.js"
+              "app/src/ui/tabs.tsx"
             ],
-            "note": "Site tablist with arrow-key traversal. The application has a nav rail, not tabs, yet."
+            "note": "Strip with per-tab close. Docking to other edges is not built."
           }
         ],
         "documentation": [
@@ -722,8 +738,11 @@
         ],
         "persistence": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/tabs.tsx"
+            ],
+            "note": "Tabs, groups and the active tab persist through the settings store."
           }
         ],
         "focusedTest": [
@@ -753,8 +772,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/tabs.tsx"
+            ],
+            "note": "Pin toggle per tab; pinned tabs are excluded from bulk close by default."
           }
         ],
         "documentation": [
@@ -800,8 +822,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/tabs.tsx"
+            ],
+            "note": "Group assignment and collapse state exist; a move-into-group picker does not."
           }
         ],
         "documentation": [
@@ -847,8 +872,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/tabs.tsx"
+            ],
+            "note": "All four scopes: this strip, this group, grouped tabs, everything open."
           }
         ],
         "documentation": [
@@ -894,8 +922,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/tabs.tsx"
+            ],
+            "note": "Contains and not-contains, preview first, never runs on an empty query, pinned excluded."
           }
         ],
         "documentation": [
@@ -941,8 +972,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/command-palette.tsx",
+              "app/src/ui/app.tsx"
+            ],
+            "note": "Ctrl+Shift+F. Rows render live controls; destinations focus and flash the exact element."
           }
         ],
         "documentation": [
@@ -1048,8 +1083,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/app-theme.tsx",
+              "app/src/ui/settings-route.tsx"
+            ],
+            "note": "Theme and density persist. Accent, fonts and per-element editing are not built."
           }
         ],
         "documentation": [
@@ -1283,8 +1322,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/app.tsx",
+              "app/src/ui/settings-route.tsx"
+            ],
+            "note": "Display name only; the data folder, update feed and installer identity are untouched by it."
           }
         ],
         "documentation": [
@@ -1424,8 +1467,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/command-palette.tsx",
+              "app/src/ui/settings-route.tsx"
+            ],
+            "note": "Palette rows and settings rows share one control vocabulary."
           }
         ],
         "documentation": [
@@ -1612,8 +1659,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/notifications.tsx"
+            ],
+            "note": "Corner anchored; successes auto-dismiss, warnings and errors persist."
           }
         ],
         "documentation": [
@@ -1659,8 +1709,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/notifications.tsx"
+            ],
+            "note": "History is retained in the provider; no browsing surface for it yet."
           }
         ],
         "documentation": [
@@ -1706,8 +1759,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/md3/super-confirmation.tsx"
+            ],
+            "note": "Two keys arm a slider; emergency exit holds initial focus; confirm is guarded in code as well as by the disabled attribute."
           }
         ],
         "documentation": [
@@ -1753,8 +1809,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/package-routes.tsx",
+              "app/src/ui/app.tsx"
+            ],
+            "note": "Multi-select with an honestly scoped select-all and a count before running."
           }
         ],
         "documentation": [
@@ -2822,9 +2882,10 @@
             "status": "present",
             "paths": [
               "app/src/main-process/operations-queue.ts",
-              "app/src/shared/ipc-contract.ts"
+              "app/src/ui/operations-dock.tsx",
+              "app/src/ui/package-routes.tsx"
             ],
-            "note": "Queue and IPC exist; no UI yet triggers an install, so the path is unexercised end to end."
+            "note": "Install, update and uninstall reachable from the interface, queued in the main process, with cancel, output and forget."
           }
         ],
         "documentation": [

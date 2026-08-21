@@ -11,6 +11,7 @@ interface ThemeContextValue {
   readonly theme: ThemeName
   readonly palette: Md3Palette
   toggleTheme(): void
+  setTheme(theme: ThemeName): void
 }
 
 const ThemeContext = React.createContext<ThemeContextValue | null>(null)
@@ -47,6 +48,7 @@ export function AppThemeProvider(props: {
       theme,
       palette,
       toggleTheme: () => setTheme(current => (current === 'light' ? 'dark' : 'light')),
+      setTheme: (next: ThemeName) => setTheme(next),
     }),
     [theme, palette]
   )

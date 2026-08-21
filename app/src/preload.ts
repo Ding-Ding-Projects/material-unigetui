@@ -48,6 +48,26 @@ const bridge: MaterialUniGetUiBridge = {
       }
     },
   },
+  settings: {
+    all: () => ipcRenderer.invoke(IpcChannels.settingsAll),
+    set: (key: string, value: unknown) =>
+      ipcRenderer.invoke(IpcChannels.settingsSet, key, value),
+    setMany: (patch: Record<string, unknown>) =>
+      ipcRenderer.invoke(IpcChannels.settingsSetMany, patch),
+    clear: (key: string) => ipcRenderer.invoke(IpcChannels.settingsClear, key),
+    reset: () => ipcRenderer.invoke(IpcChannels.settingsReset),
+  },
+  vocabulary: {
+    load: () => ipcRenderer.invoke(IpcChannels.vocabularyLoad),
+    clear: () => ipcRenderer.invoke(IpcChannels.vocabularyClear),
+    entries: () => ipcRenderer.invoke(IpcChannels.vocabularyEntries),
+  },
+  shell: {
+    openExternal: (url: string) =>
+      ipcRenderer.invoke(IpcChannels.openExternal, url),
+    openAppData: () => ipcRenderer.invoke(IpcChannels.openPath),
+    appDataPath: () => ipcRenderer.invoke(IpcChannels.appDataPath),
+  },
   window: {
     minimize: () => ipcRenderer.send(IpcChannels.windowMinimize),
     toggleMaximize: () => ipcRenderer.send(IpcChannels.windowMaximize),

@@ -1,0 +1,2963 @@
+{
+  "schemaVersion": 2,
+  "canonicalFeatureDigest": "49cf99dece92cb7aec232ec29601dcd4e5541b494c22bb989af028614eacb48a",
+  "dimensions": [
+    "implementation",
+    "documentation",
+    "localization",
+    "persistence",
+    "focusedTest",
+    "builtArtifactInteraction",
+    "realCapture"
+  ],
+  "features": [
+    {
+      "id": "language-modes",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "independent-funny-levels",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dialog-emoji-toggle",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "school-mode",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "personal-vocabulary",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "spoken-narrator",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "narrator-voice-controls",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "scheduled-settings",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "external-settings-sources",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings-explanations",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "guided-forms",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "adhd-modes",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dim-sum-surprise",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "regex-builder",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "browser-style-tabs",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "tab-pinning",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "tab-grouping",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "tab-discovery-searches",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "tab-bulk-close",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "command-palette",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "material-design-conformance",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "present",
+            "paths": [
+              "app/src/ui/md3/md3-style-contract.ts",
+              "app/src/ui/app-theme.tsx"
+            ],
+            "note": "Both palettes lifted verbatim from the checked-in design reference."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "present",
+            "paths": [
+              "app/test/unit/winget-table-parser-test.mjs"
+            ],
+            "note": "Token roles are exercised indirectly; a dedicated token guard is still pending."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "appearance-controls",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "per-element-appearance",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "infinite-color-picker",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "animated-rainbow-color",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "app-logo-customization",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "app-display-rename",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-surfaces",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "resizable-panels",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "rich-controls",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "context-menu-shortcuts",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "accessibility",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "responsive-sizing",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "non-blocking-notifications",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "notification-centre",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "destructive-super-confirmation",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "bulk-actions",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "universal-export",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "external-editor",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "local-version-history",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "changelog-viewer",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "offline-documentation",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "landing-and-documentation-site",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shared-link-embed",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "toy-locks",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "support-tickets",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "unlock-ladder",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "totp-registration",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "built-in-authenticator",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "secret-mutation-history",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "file-converter",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ollama-suite-manager",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "status-hub",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blank-slate-presets",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "collapsible-filters",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "long-operation-progress",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "provider-text-rendering",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "package-discovery",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "present",
+            "paths": [
+              "app/src/ui/app.tsx",
+              "app/src/main-process/ipc/register-ipc.ts"
+            ],
+            "note": "Discover, Updates and Installed read live driver data."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "present",
+            "paths": [
+              "app/src/ui/app.tsx"
+            ],
+            "note": "Navigated in the built artifact; real pending updates listed."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "package-operations",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "present",
+            "paths": [
+              "app/src/main-process/operations-queue.ts",
+              "app/src/shared/ipc-contract.ts"
+            ],
+            "note": "Queue and IPC exist; no UI yet triggers an install, so the path is unexercised end to end."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "manager-drivers",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "present",
+            "paths": [
+              "app/src/main-process/manager-drivers/manager-driver.ts",
+              "app/src/main-process/manager-drivers/winget-driver.ts",
+              "app/src/main-process/manager-drivers/process-runner.ts",
+              "app/src/main-process/manager-drivers/winget-table-parser.ts"
+            ],
+            "note": "WinGet only. The other ten in-scope managers are genuinely absent, not stubbed."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "present",
+            "paths": [
+              "app/test/unit/winget-driver-test.mjs",
+              "app/test/unit/winget-table-parser-test.mjs"
+            ],
+            "note": "Includes a test that spawns the real winget executable."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "present",
+            "paths": [
+              "app/src/main-process/ipc/register-ipc.ts"
+            ],
+            "note": "Driven in the built app on a hidden desktop; real updates rendered."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "package-bundles",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsigned-squirrel-installer",
+      "evidence": {
+        "implementation": [
+          {
+            "status": "present",
+            "paths": [
+              "package.json"
+            ],
+            "note": "electron-winstaller is declared; no packaging script exists yet."
+          }
+        ],
+        "documentation": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "localization": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "persistence": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "focusedTest": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "builtArtifactInteraction": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ],
+        "realCapture": [
+          {
+            "status": "pending",
+            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+          }
+        ]
+      }
+    }
+  ]
+}

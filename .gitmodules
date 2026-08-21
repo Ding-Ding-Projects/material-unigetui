@@ -1,0 +1,4 @@
+[submodule "vendor/unigetui-reference"]
+	path = vendor/unigetui-reference
+	url = https://github.com/Devolutions/UniGetUI.git
+	shallow = true

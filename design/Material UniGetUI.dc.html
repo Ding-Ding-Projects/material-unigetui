@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;height:100%;overflow:hidden}
+body{font-family:Roboto,Arial,sans-serif}
+a{color:var(--p,#0B57D0);text-decoration:none}
+a:hover{text-decoration:underline}
+*{box-sizing:border-box}
+input,button{font-family:inherit}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:rgba(128,134,139,.5);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-track{background:transparent}
+@keyframes stripes{0%{background-position:0 0}100%{background-position:40px 0}}
+@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes pop{0%{opacity:0;transform:translateY(8px) scale(.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes fade{0%{opacity:0}100%{opacity:1}}
+</style>
+</helmet>
+<div style="--p:{{ pal.p }};--onp:{{ pal.onp }};--pc:{{ pal.pc }};--onpc:{{ pal.onpc }};--sc:{{ pal.sc }};--onsc:{{ pal.onsc }};--tc:{{ pal.tc }};--ontc:{{ pal.ontc }};--sf:{{ pal.sf }};--sfc:{{ pal.sfc }};--sch:{{ pal.sch }};--schh:{{ pal.schh }};--on:{{ pal.on }};--onv:{{ pal.onv }};--ol:{{ pal.ol }};--olv:{{ pal.olv }};--err:{{ pal.err }};--errc:{{ pal.errc }};--onerrc:{{ pal.onerrc }};--inv:{{ pal.inv }};--oninv:{{ pal.oninv }};--grn:{{ pal.grn }};display:flex;flex-direction:column;height:100vh;background:var(--sfc);color:var(--on);font-size:14px;overflow:hidden">
+
+  <!-- ===== Top app bar (Gmail style) ===== -->
+  <header style="display:flex;align-items:center;gap:8px;height:64px;padding:8px 16px 8px 8px;flex:none">
+    <button onClick="{{ toggleDrawer }}" title="Menu" style="width:48px;height:48px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:24px">menu</span></button>
+    <div style="display:flex;align-items:center;gap:10px;min-width:200px">
+      <div style="width:36px;height:36px;border-radius:10px;background:{{ logoBg }};display:grid;place-items:center;color:#fff"><span style="font-family:'Material Symbols Rounded';font-size:22px;font-variation-settings:'FILL' 1">{{ logoIcon }}</span></div>
+      <div style="font-size:20px;color:var(--onv);letter-spacing:.1px">{{ L.appName }}</div>
+    </div>
+    <div style="flex:1;max-width:760px;position:relative">
+      <div style="display:flex;align-items:center;gap:4px;background:{{ searchBg }};border-radius:{{ searchRadius }};height:48px;padding:0 8px;box-shadow:{{ searchShadow }}">
+        <span style="font-family:'Material Symbols Rounded';font-size:22px;color:var(--onv);padding:0 8px">search</span>
+        <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="{{ L.searchPh }}" style="flex:1;border:none;outline:none;background:transparent;font-size:15px;color:var(--on)" />
+        <button onClick="{{ toggleRegex }}" title="{{ L.regexBuilder }}" style="width:40px;height:40px;border:none;border-radius:999px;cursor:pointer;display:grid;place-items:center;background:{{ regexBtnBg }};color:{{ regexBtnFg }}" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:20px">regular_expression</span></button>
+        <button onClick="{{ openPalette }}" title="Ctrl+Shift+F" style="width:40px;height:40px;border:none;background:transparent;border-radius:999px;cursor:pointer;display:grid;place-items:center;color:var(--onv)" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:20px">keyboard_command_key</span></button>
+      </div>
+      <sc-if value="{{ regexOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:54px;left:0;right:0;background:var(--sf);border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,.25);padding:16px;z-index:60;animation:pop .18s cubic-bezier(.05,.7,.1,1)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span style="font-family:'Material Symbols Rounded';font-size:20px;color:var(--p)">regular_expression</span>
+            <div style="font-size:15px;font-weight:500">{{ L.regexBuilder }}</div>
+            <div style="flex:1"></div>
+            <div style="font-size:12px;padding:4px 10px;border-radius:999px;background:{{ regexStatusBg }};color:{{ regexStatusFg }}">{{ regexStatus }}</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="flex:1;display:flex;align-items:center;border:1px solid var(--ol);border-radius:8px;padding:0 12px;height:44px;gap:8px">
+              <span style="color:var(--onv);font-family:'Roboto Mono',monospace">/</span>
+              <input value="{{ regexPattern }}" onChange="{{ setRegexPattern }}" placeholder="^Micro.*|\d+" style="flex:1;border:none;outline:none;background:transparent;color:var(--on);font-family:'Roboto Mono',monospace;font-size:14px" />
+              <span style="color:var(--onv);font-family:'Roboto Mono',monospace">/{{ regexFlags }}</span>
+            </div>
+            <button onClick="{{ toggleFlagI }}" style="height:36px;padding:0 14px;border-radius:999px;cursor:pointer;border:1px solid var(--ol);background:{{ flagIBg }};color:{{ flagIFg }};font-family:'Roboto Mono',monospace">i</button>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+            <sc-for list="{{ regexTokens }}" as="tk" hint-placeholder-count="6">
+              <button onClick="{{ tk.add }}" title="{{ tk.hint }}" style="height:30px;padding:0 12px;border-radius:8px;border:1px solid var(--olv);background:transparent;color:var(--on);cursor:pointer;font-family:'Roboto Mono',monospace;font-size:13px" style-hover="background:var(--sch)">{{ tk.t }}</button>
+            </sc-for>
+          </div>
+          <div style="margin-top:10px;font-size:12px;color:var(--onv)">{{ regexMatchInfo }}</div>
+        </div>
+      </sc-if>
+    </div>
+    <div style="flex:1"></div>
+    <button onClick="{{ cycleLang }}" title="{{ L.language }}" style="width:44px;height:44px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:22px">translate</span></button>
+    <button onClick="{{ toggleDark }}" title="Theme" style="width:44px;height:44px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:22px">{{ darkIcon }}</span></button>
+    <button onClick="{{ goSettings }}" title="{{ L.settings }}" style="width:44px;height:44px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:22px">settings</span></button>
+    <div style="width:36px;height:36px;border-radius:999px;background:var(--pc);color:var(--onpc);display:grid;place-items:center;font-weight:500;margin-left:4px">D</div>
+  </header>
+
+  <!-- ===== Body ===== -->
+  <div style="display:flex;flex:1;min-height:0">
+    <!-- Nav drawer -->
+    <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ true }}">
+      <nav style="width:256px;flex:none;padding:0 12px 12px;overflow-y:auto">
+        <button onClick="{{ fabAction }}" style="display:flex;align-items:center;gap:12px;height:56px;padding:0 20px;border:none;border-radius:16px;background:var(--sc);color:var(--onsc);font-size:14px;font-weight:500;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15);margin:4px 0 14px" style-hover="box-shadow:0 2px 6px rgba(0,0,0,.25)">
+          <span style="font-family:'Material Symbols Rounded';font-size:22px">{{ fabIcon }}</span>{{ fabLabel }}
+        </button>
+        <sc-for list="{{ navMain }}" as="nv" hint-placeholder-count="4">
+          <button onClick="{{ nv.go }}" style="display:flex;align-items:center;gap:14px;width:100%;height:40px;padding:0 12px 0 16px;border:none;border-radius:999px;cursor:pointer;background:{{ nv.bg }};color:{{ nv.fg }};font-size:14px;font-weight:{{ nv.w }};text-align:left" style-hover="background:var(--sch)">
+            <span style="font-family:'Material Symbols Rounded';font-size:20px;font-variation-settings:'FILL' {{ nv.fill }}">{{ nv.icon }}</span>
+            <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ nv.label }}</span>
+            <sc-if value="{{ nv.count }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:500">{{ nv.count }}</span></sc-if>
+          </button>
+        </sc-for>
+        <div style="height:1px;background:var(--olv);margin:10px 8px"></div>
+        <div style="font-size:12px;font-weight:500;color:var(--onv);padding:6px 16px">{{ L.managers }}</div>
+        <sc-for list="{{ managerRows }}" as="mg" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:12px;height:36px;padding:0 10px 0 16px;border-radius:999px" style-hover="background:var(--sch)">
+            <span style="width:20px;height:20px;border-radius:6px;background:{{ mg.color }};color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700">{{ mg.letter }}</span>
+            <span style="flex:1;font-size:13px;color:{{ mg.fg }}">{{ mg.name }}</span>
+            <span style="font-size:11px;color:var(--onv)">{{ mg.count }}</span>
+            <button onClick="{{ mg.toggle }}" title="{{ mg.name }}" style="width:34px;height:20px;border-radius:999px;border:none;cursor:pointer;position:relative;background:{{ mg.swBg }};transition:background .15s">
+              <span style="position:absolute;top:3px;left:{{ mg.swLeft }};width:14px;height:14px;border-radius:999px;background:{{ mg.swKnob }};transition:left .15s"></span>
+            </button>
+          </div>
+        </sc-for>
+        <div style="height:1px;background:var(--olv);margin:10px 8px"></div>
+        <div style="font-size:12px;font-weight:500;color:var(--onv);padding:6px 16px">{{ L.tools }}</div>
+        <sc-for list="{{ navTools }}" as="nv" hint-placeholder-count="4">
+          <button onClick="{{ nv.go }}" style="display:flex;align-items:center;gap:14px;width:100%;height:40px;padding:0 12px 0 16px;border:none;border-radius:999px;cursor:pointer;background:{{ nv.bg }};color:{{ nv.fg }};font-size:14px;font-weight:{{ nv.w }};text-align:left" style-hover="background:var(--sch)">
+            <span style="font-family:'Material Symbols Rounded';font-size:20px;font-variation-settings:'FILL' {{ nv.fill }}">{{ nv.icon }}</span>
+            <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ nv.label }}</span>
+          </button>
+        </sc-for>
+      </nav>
+    </sc-if>
+
+    <!-- Content card -->
+    <main style="flex:1;min-width:0;display:flex;background:var(--sf);border-radius:16px;margin:0 16px 16px 0;overflow:hidden;margin-left:{{ mainMarginLeft }}">
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+
+        <!-- ==== Package screens ==== -->
+        <sc-if value="{{ rPkgs }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;gap:4px;height:56px;padding:0 12px;flex:none">
+            <button onClick="{{ toggleAll }}" title="{{ L.selectAll }}" style="width:40px;height:40px;border:none;background:transparent;border-radius:999px;cursor:pointer;display:grid;place-items:center;color:var(--onv)" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:20px">{{ allIcon }}</span></button>
+            <button onClick="{{ refresh }}" title="{{ L.refresh }}" style="width:40px;height:40px;border:none;background:transparent;border-radius:999px;cursor:pointer;display:grid;place-items:center;color:var(--onv)" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:20px;animation:{{ refreshAnim }}">refresh</span></button>
+            <sc-if value="{{ anySelected }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ bulkPrimary }}" style="height:36px;padding:0 16px;border:none;border-radius:999px;background:var(--p);color:var(--onp);font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-family:'Material Symbols Rounded';font-size:18px">{{ bulkIcon }}</span>{{ bulkLabel }}</button>
+              <button onClick="{{ bulkIgnore }}" title="{{ L.ignore }}" style="width:40px;height:40px;border:none;background:transparent;border-radius:999px;cursor:pointer;display:grid;place-items:center;color:var(--onv)" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:20px">notifications_off</span></button>
+            </sc-if>
+            <div style="flex:1"></div>
+            <div style="font-size:12px;color:var(--onv)">{{ rangeInfo }}</div>
+          </div>
+          <div style="display:flex;gap:8px;padding:0 16px 10px;flex:none;flex-wrap:wrap">
+            <sc-for list="{{ srcChips }}" as="ch" hint-placeholder-count="5">
+              <button onClick="{{ ch.pick }}" style="height:32px;padding:0 14px;border-radius:8px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:6px;border:1px solid {{ ch.bd }};background:{{ ch.bg }};color:{{ ch.fg }}">
+                <sc-if value="{{ ch.on }}" hint-placeholder-val="{{ false }}"><span style="font-family:'Material Symbols Rounded';font-size:16px">check</span></sc-if>
+                {{ ch.name }}
+              </button>
+            </sc-for>
+          </div>
+          <div style="flex:1;overflow-y:auto;min-height:0">
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+              <div style="display:flex;align-items:center;gap:8px;height:52px;padding:0 12px;border-top:1px solid var(--olv);cursor:pointer;background:{{ r.bg }}" style-hover="background:var(--sch);box-shadow:inset 1px 0 0 var(--olv)">
+                <button onClick="{{ r.toggleSel }}" style="width:36px;height:36px;border:none;background:transparent;border-radius:999px;cursor:pointer;display:grid;place-items:center;color:{{ r.chkFg }}" style-hover="background:var(--schh)"><span style="font-family:'Material Symbols Rounded';font-size:20px;font-variation-settings:'FILL' {{ r.chkFill }}">{{ r.chk }}</span></button>
+                <button onClick="{{ r.toggleIgnore }}" title="{{ L.ignore }}" style="width:32px;height:32px;border:none;background:transparent;border-radius:999px;cursor:pointer;display:grid;place-items:center;color:{{ r.igFg }}" style-hover="background:var(--schh)"><span style="font-family:'Material Symbols Rounded';font-size:18px;font-variation-settings:'FILL' {{ r.igFill }}">star</span></button>
+                <div onClick="{{ r.open }}" style="width:30px;height:30px;border-radius:8px;background:{{ r.color }};color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700;flex:none">{{ r.letter }}</div>
+                <div onClick="{{ r.open }}" style="flex:2;min-width:0;display:flex;align-items:baseline;gap:8px">
+                  <span style="font-weight:{{ r.nameW }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
+                  <span style="font-size:12px;color:var(--onv);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Roboto Mono',monospace">{{ r.pid }}</span>
+                </div>
+                <div onClick="{{ r.open }}" style="flex:3;min-width:0;font-size:13px;color:var(--onv);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.desc }}</div>
+                <span style="font-size:11px;padding:3px 10px;border-radius:999px;background:var(--sch);color:var(--onv);flex:none">{{ r.src }}</span>
+                <div style="width:170px;flex:none;text-align:right;font-family:'Roboto Mono',monospace;font-size:12px;color:var(--onv)">{{ r.verText }}</div>
+                <button onClick="{{ r.primary }}" title="{{ r.primaryTitle }}" style="width:36px;height:36px;border:none;background:transparent;border-radius:999px;cursor:pointer;display:grid;place-items:center;color:var(--p)" style-hover="background:var(--schh)"><span style="font-family:'Material Symbols Rounded';font-size:20px">{{ r.primaryIcon }}</span></button>
+                <button onClick="{{ r.remove }}" title="{{ L.uninstall }}" style="width:36px;height:36px;border:none;background:transparent;border-radius:999px;cursor:pointer;display:grid;place-items:center;color:{{ r.delFg }}" style-hover="background:var(--schh)"><span style="font-family:'Material Symbols Rounded';font-size:20px">delete</span></button>
+              </div>
+            </sc-for>
+            <sc-if value="{{ emptyList }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;place-items:center;padding:80px 20px;color:var(--onv)">
+                <span style="font-family:'Material Symbols Rounded';font-size:56px;color:var(--olv)">inbox</span>
+                <div style="margin-top:12px">{{ L.empty }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ==== Bundles ==== -->
+        <sc-if value="{{ rBundles }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:8px;height:64px;padding:0 20px;flex:none">
+            <div style="font-size:20px;flex:1">{{ L.bundles }}</div>
+            <button onClick="{{ importBundle }}" style="height:38px;padding:0 18px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--p);font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:18px">upload_file</span>{{ L.importBundle }}</button>
+            <button onClick="{{ newBundle }}" style="height:38px;padding:0 18px;border-radius:999px;border:none;background:var(--p);color:var(--onp);font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-family:'Material Symbols Rounded';font-size:18px">add</span>{{ L.newBundle }}</button>
+          </div>
+          <div style="flex:1;overflow-y:auto;padding:0 16px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;align-content:start">
+            <sc-for list="{{ bundles }}" as="b" hint-placeholder-count="3">
+              <div style="border:1px solid var(--olv);border-radius:16px;padding:16px;background:var(--sf)" style-hover="background:var(--sch)">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-family:'Material Symbols Rounded';font-size:24px;color:var(--p)">package_2</span>
+                  <div style="flex:1;font-weight:500">{{ b.name }}</div>
+                  <span style="font-size:12px;color:var(--onv)">{{ b.countText }}</span>
+                </div>
+                <div style="font-size:12px;color:var(--onv);margin:8px 0 12px">{{ b.desc }}</div>
+                <div style="display:flex;gap:8px">
+                  <button onClick="{{ b.install }}" style="height:34px;padding:0 14px;border-radius:999px;border:none;background:var(--sc);color:var(--onsc);font-weight:500;cursor:pointer">{{ L.installAllBundle }}</button>
+                  <button onClick="{{ b.export }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--p);font-weight:500;cursor:pointer" style-hover="background:var(--sch)">{{ L.exportBundle }}</button>
+                  <div style="flex:1"></div>
+                  <button onClick="{{ b.remove }}" style="width:34px;height:34px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--schh)"><span style="font-family:'Material Symbols Rounded';font-size:18px">delete</span></button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ==== File converter ==== -->
+        <sc-if value="{{ rConverter }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;overflow-y:auto;padding:20px 24px">
+            <div style="font-size:22px;margin-bottom:4px">{{ L.converter }}</div>
+            <div style="font-size:13px;color:var(--onv);margin-bottom:16px">{{ L.converterSub }}</div>
+            <button onClick="{{ convertPick }}" style="width:100%;border:2px dashed var(--ol);border-radius:16px;padding:36px;display:grid;place-items:center;color:var(--onv);background:transparent;cursor:pointer" style-hover="background:var(--sch)">
+              <span style="font-family:'Material Symbols Rounded';font-size:44px;color:var(--p)">place_item</span>
+              <div style="margin-top:8px;font-size:15px;color:var(--on)">{{ L.dropHere }}</div>
+              <div style="font-size:12px;margin-top:4px">PNG · JPG · WEBP · SVG → raster · JSON ⇄ YAML · CSV ⇄ JSON · MD → HTML</div>
+            </button>
+            <div style="font-size:14px;font-weight:500;margin:20px 0 8px">{{ L.recent }}</div>
+            <sc-for list="{{ conversions }}" as="cv" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:12px;height:52px;border-top:1px solid var(--olv);padding:0 4px">
+                <span style="font-family:'Material Symbols Rounded';font-size:22px;color:{{ cv.fg }}">{{ cv.icon }}</span>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-family:'Roboto Mono',monospace">{{ cv.file }}</div>
+                  <div style="font-size:11px;color:var(--onv)">{{ cv.note }}</div>
+                </div>
+                <span style="font-size:11px;padding:3px 10px;border-radius:999px;background:{{ cv.chipBg }};color:{{ cv.chipFg }}">{{ cv.status }}</span>
+              </div>
+            </sc-for>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--sch);color:var(--onv);font-size:12px">
+              <span style="font-family:'Material Symbols Rounded';font-size:18px">info</span>{{ L.unsupported }}
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ==== Ollama manager ==== -->
+        <sc-if value="{{ rOllama }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;overflow-y:auto;padding:20px 24px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <div style="font-size:22px;flex:1">{{ L.ollama }}</div>
+              <span style="font-size:12px;padding:5px 12px;border-radius:999px;background:var(--tc);color:var(--ontc);display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:999px;background:var(--grn)"></span>ollama 0.11.4 · localhost:11434</span>
+              <button onClick="{{ ollamaSnapshot }}" style="height:36px;padding:0 16px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--p);font-weight:500;cursor:pointer" style-hover="background:var(--sch)">{{ L.snapshot }}</button>
+              <button onClick="{{ ollamaRollback }}" style="height:36px;padding:0 16px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--p);font-weight:500;cursor:pointer" style-hover="background:var(--sch)">{{ L.rollback }}</button>
+            </div>
+            <div style="font-size:12px;color:var(--onv);margin-bottom:12px">{{ L.pcFit }}: 16 GB RAM · RTX 4060 8 GB · 210 GB free</div>
+            <sc-for list="{{ models }}" as="m" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:12px;height:56px;border-top:1px solid var(--olv);padding:0 4px">
+                <span style="font-family:'Material Symbols Rounded';font-size:22px;color:var(--p)">neurology</span>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:14px;font-weight:500">{{ m.name }} <span style="font-weight:400;color:var(--onv);font-size:12px;font-family:'Roboto Mono',monospace">{{ m.tag }}</span></div>
+                  <div style="font-size:11px;color:var(--onv)">{{ m.size }} · {{ m.ctx }}</div>
+                </div>
+                <span style="font-size:11px;padding:3px 10px;border-radius:999px;background:{{ m.fitBg }};color:{{ m.fitFg }}">{{ m.fit }}</span>
+                <sc-if value="{{ m.installed }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ m.chat }}" style="height:34px;padding:0 16px;border-radius:999px;border:none;background:var(--sc);color:var(--onsc);font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:16px">chat</span>{{ L.chat }}</button>
+                </sc-if>
+                <sc-if value="{{ m.notInstalled }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ m.pull }}" style="height:34px;padding:0 16px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--p);font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:16px">download</span>{{ L.pull }}</button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ==== Authenticator ==== -->
+        <sc-if value="{{ rAuth }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;overflow-y:auto;padding:20px 24px;max-width:720px">
+            <div style="font-size:22px;margin-bottom:4px">{{ L.auth }}</div>
+            <div style="font-size:13px;color:var(--onv);margin-bottom:16px">{{ L.authSub }}</div>
+            <sc-for list="{{ totp }}" as="t" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-top:1px solid var(--olv)">
+                <div style="width:40px;height:40px;border-radius:12px;background:{{ t.color }};color:#fff;display:grid;place-items:center;font-weight:700">{{ t.letter }}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;color:var(--onv)">{{ t.issuer }} · {{ t.account }}</div>
+                  <div style="font-size:28px;letter-spacing:4px;font-family:'Roboto Mono',monospace;color:var(--p)">{{ t.code }}</div>
+                </div>
+                <div style="width:36px;height:36px;border-radius:999px;background:{{ t.ring }};display:grid;place-items:center;font-size:11px;color:var(--onv)"><span style="width:28px;height:28px;border-radius:999px;background:var(--sf);display:grid;place-items:center">{{ totpLeft }}</span></div>
+                <button onClick="{{ t.copy }}" title="Copy" style="width:38px;height:38px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:19px">content_copy</span></button>
+                <button onClick="{{ t.remove }}" title="{{ L.uninstall }}" style="width:38px;height:38px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--schh)"><span style="font-family:'Material Symbols Rounded';font-size:19px">delete</span></button>
+              </div>
+            </sc-for>
+            <div style="display:flex;gap:8px;margin-top:16px">
+              <input value="{{ totpIssuer }}" onChange="{{ setTotpIssuer }}" placeholder="{{ L.issuerPh }}" style="flex:1;height:44px;border:1px solid var(--ol);border-radius:8px;padding:0 14px;background:transparent;color:var(--on);outline:none" />
+              <input value="{{ totpSecret }}" onChange="{{ setTotpSecret }}" placeholder="{{ L.secret }}" style="flex:1;height:44px;border:1px solid var(--ol);border-radius:8px;padding:0 14px;background:transparent;color:var(--on);outline:none;font-family:'Roboto Mono',monospace" />
+              <button onClick="{{ addTotp }}" style="height:44px;padding:0 20px;border-radius:999px;border:none;background:var(--p);color:var(--onp);font-weight:500;cursor:pointer">{{ L.add }}</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ==== Logs ==== -->
+        <sc-if value="{{ rLogs }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;display:flex;flex-direction:column;min-height:0;padding:20px 24px 16px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+              <div style="font-size:22px;flex:1">{{ L.logs }}</div>
+              <sc-for list="{{ logTabs }}" as="lt" hint-placeholder-count="3">
+                <button onClick="{{ lt.pick }}" style="height:32px;padding:0 14px;border-radius:8px;cursor:pointer;font-size:13px;border:1px solid {{ lt.bd }};background:{{ lt.bg }};color:{{ lt.fg }}">{{ lt.name }}</button>
+              </sc-for>
+            </div>
+            <div style="flex:1;overflow-y:auto;background:{{ logBg }};border-radius:12px;padding:14px 16px;font-family:'Roboto Mono',monospace;font-size:12px;line-height:1.7">
+              <sc-for list="{{ logLines }}" as="ln" hint-placeholder-count="10">
+                <div style="color:{{ ln.fg }};white-space:pre-wrap">{{ ln.t }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ==== Settings ==== -->
+        <sc-if value="{{ rSettings }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;display:flex;min-height:0">
+            <div style="width:220px;flex:none;padding:16px 8px;border-right:1px solid var(--olv);overflow-y:auto">
+              <sc-for list="{{ settingsTabs }}" as="st" hint-placeholder-count="6">
+                <button onClick="{{ st.pick }}" style="display:flex;align-items:center;gap:12px;width:100%;height:40px;padding:0 14px;border:none;border-radius:999px;cursor:pointer;background:{{ st.bg }};color:{{ st.fg }};font-size:13px;font-weight:{{ st.w }};text-align:left" style-hover="background:var(--sch)">
+                  <span style="font-family:'Material Symbols Rounded';font-size:19px">{{ st.icon }}</span>{{ st.label }}
+                </button>
+              </sc-for>
+            </div>
+            <div style="flex:1;overflow-y:auto;padding:24px 28px;max-width:760px">
+              <div style="font-size:22px;margin-bottom:16px">{{ settingsTitle }}</div>
+              <!-- toggle-style rows -->
+              <sc-for list="{{ settingRows }}" as="sr" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:14px;padding:14px 2px;border-top:1px solid var(--olv)">
+                  <span style="font-family:'Material Symbols Rounded';font-size:22px;color:var(--onv)">{{ sr.icon }}</span>
+                  <div style="flex:1">
+                    <div style="font-size:14px">{{ sr.label }}</div>
+                    <div style="font-size:12px;color:var(--onv)">{{ sr.sub }}</div>
+                  </div>
+                  <sc-if value="{{ sr.isSwitch }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ sr.toggle }}" style="width:52px;height:32px;border-radius:999px;cursor:pointer;position:relative;border:2px solid {{ sr.swBd }};background:{{ sr.swBg }};transition:background .15s">
+                      <span style="position:absolute;top:{{ sr.knobTop }};left:{{ sr.swLeft }};width:{{ sr.knobSize }};height:{{ sr.knobSize }};border-radius:999px;background:{{ sr.swKnob }};transition:all .15s"></span>
+                    </button>
+                  </sc-if>
+                  <sc-if value="{{ sr.isButton }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ sr.toggle }}" style="height:34px;padding:0 16px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--p);font-weight:500;cursor:pointer" style-hover="background:var(--sch)">{{ sr.btnLabel }}</button>
+                  </sc-if>
+                </div>
+              </sc-for>
+              <!-- Appearance: logo presets -->
+              <sc-if value="{{ stAppearance }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:14px;font-weight:500;margin:18px 0 10px">{{ L.logoTitle }}</div>
+                <div style="display:flex;gap:12px;flex-wrap:wrap">
+                  <sc-for list="{{ logoPresets }}" as="lp" hint-placeholder-count="6">
+                    <button onClick="{{ lp.pick }}" title="{{ lp.name }}" style="width:64px;height:64px;border-radius:16px;cursor:pointer;background:{{ lp.bg }};display:grid;place-items:center;color:#fff;border:3px solid {{ lp.bd }}"><span style="font-family:'Material Symbols Rounded';font-size:28px;font-variation-settings:'FILL' 1">{{ lp.icon }}</span></button>
+                  </sc-for>
+                  <button onClick="{{ uploadLogo }}" style="width:64px;height:64px;border-radius:16px;cursor:pointer;background:transparent;border:2px dashed var(--ol);display:grid;place-items:center;color:var(--onv)" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:26px">upload</span></button>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:14px">
+                  <sc-for list="{{ logoFits }}" as="lf" hint-placeholder-count="3">
+                    <button onClick="{{ lf.pick }}" style="height:34px;padding:0 16px;border-radius:999px;cursor:pointer;font-size:13px;border:1px solid {{ lf.bd }};background:{{ lf.bg }};color:{{ lf.fg }}">{{ lf.name }}</button>
+                  </sc-for>
+                  <div style="flex:1"></div>
+                  <button onClick="{{ resetLogo }}" style="height:34px;padding:0 16px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--p);cursor:pointer" style-hover="background:var(--sch)">{{ L.reset }}</button>
+                </div>
+              </sc-if>
+              <!-- Localization radios -->
+              <sc-if value="{{ stLocalization }}" hint-placeholder-val="{{ false }}">
+                <sc-for list="{{ langRows }}" as="lr" hint-placeholder-count="3">
+                  <button onClick="{{ lr.pick }}" style="display:flex;align-items:center;gap:14px;width:100%;padding:14px 2px;border:none;border-top:1px solid var(--olv);background:transparent;cursor:pointer;text-align:left;color:var(--on)" style-hover="background:var(--sch)">
+                    <span style="font-family:'Material Symbols Rounded';font-size:22px;color:{{ lr.fg }};font-variation-settings:'FILL' {{ lr.fill }}">{{ lr.icon }}</span>
+                    <div style="flex:1"><div style="font-size:14px">{{ lr.label }}</div><div style="font-size:12px;color:var(--onv)">{{ lr.sub }}</div></div>
+                  </button>
+                </sc-for>
+              </sc-if>
+              <!-- Vocabulary upload -->
+              <sc-if value="{{ stVocabulary }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid var(--olv);border-radius:16px;padding:18px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-family:'Material Symbols Rounded';font-size:24px;color:var(--p)">dictionary</span>
+                    <div style="flex:1"><div style="font-size:14px;font-weight:500">{{ L.vocabUpload }}</div><div style="font-size:12px;color:var(--onv)">{{ vocabStatus }}</div></div>
+                    <button onClick="{{ vocabPick }}" style="height:36px;padding:0 18px;border-radius:999px;border:none;background:var(--p);color:var(--onp);font-weight:500;cursor:pointer">{{ L.upload }}</button>
+                    <button onClick="{{ vocabClear }}" style="height:36px;padding:0 18px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--p);font-weight:500;cursor:pointer" style-hover="background:var(--sch)">{{ L.clear }}</button>
+                  </div>
+                  <div style="font-size:12px;color:var(--onv);margin-top:12px">personal-vocabulary.schema.json · {{ L.vocabNote }}</div>
+                </div>
+              </sc-if>
+              <!-- Security: 2FA + toy lock -->
+              <sc-if value="{{ stSecurity }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid var(--olv);border-radius:16px;padding:18px;margin-top:14px;display:flex;gap:18px;align-items:center">
+                  <div style="width:120px;height:120px;flex:none;border-radius:12px;background:#fff;padding:8px;display:grid;grid-template-columns:repeat(9,1fr);gap:2px;border:1px solid var(--olv)">
+                    <sc-for list="{{ qrCells }}" as="q" hint-placeholder-count="81"><span style="background:{{ q.c }};border-radius:1px"></span></sc-for>
+                  </div>
+                  <div style="flex:1">
+                    <div style="font-size:14px;font-weight:500">{{ L.twoFA }}</div>
+                    <div style="font-size:12px;color:var(--onv);margin:6px 0 12px">{{ L.twoFASub }}</div>
+                    <div style="display:flex;gap:8px">
+                      <input value="{{ pairCode }}" onChange="{{ setPairCode }}" placeholder="000 000" style="width:130px;height:40px;border:1px solid var(--ol);border-radius:8px;padding:0 12px;background:transparent;color:var(--on);outline:none;font-family:'Roboto Mono',monospace;font-size:16px;letter-spacing:2px" />
+                      <button onClick="{{ confirmPair }}" style="height:40px;padding:0 18px;border-radius:999px;border:none;background:var(--p);color:var(--onp);font-weight:500;cursor:pointer">{{ L.confirmPairing }}</button>
+                    </div>
+                    <div style="font-size:12px;margin-top:8px;color:{{ pairMsgFg }}">{{ pairMsg }}</div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- Details side sheet -->
+      <sc-if value="{{ detailsOpen }}" hint-placeholder-val="{{ false }}">
+        <aside style="width:360px;flex:none;border-left:1px solid var(--olv);display:flex;flex-direction:column;min-height:0;animation:fade .15s">
+          <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;flex:none">
+            <div style="width:40px;height:40px;border-radius:12px;background:{{ d.color }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:17px">{{ d.letter }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:500;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.name }}</div>
+              <div style="font-size:12px;color:var(--onv);font-family:'Roboto Mono',monospace">{{ d.pid }}</div>
+            </div>
+            <button onClick="{{ closeDetails }}" style="width:38px;height:38px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:20px">close</span></button>
+          </div>
+          <div style="flex:1;overflow-y:auto;padding:0 16px 16px">
+            <div style="font-size:13px;color:var(--onv);line-height:1.5;margin-bottom:14px">{{ d.desc }}</div>
+            <sc-for list="{{ d.meta }}" as="mm" hint-placeholder-count="5">
+              <div style="display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--olv);font-size:13px">
+                <span style="width:110px;color:var(--onv);flex:none">{{ mm.k }}</span><span style="flex:1;word-break:break-all">{{ mm.v }}</span>
+              </div>
+            </sc-for>
+            <div style="font-size:13px;font-weight:500;margin:14px 0 6px">{{ L.installOptions }}</div>
+            <sc-for list="{{ d.opts }}" as="op" hint-placeholder-count="3">
+              <button onClick="{{ op.toggle }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:8px 2px;border:none;background:transparent;cursor:pointer;text-align:left;color:var(--on);font-size:13px" style-hover="background:var(--sch)">
+                <span style="font-family:'Material Symbols Rounded';font-size:20px;color:{{ op.fg }};font-variation-settings:'FILL' {{ op.fill }}">{{ op.icon }}</span>{{ op.label }}
+              </button>
+            </sc-for>
+            <div style="font-size:13px;font-weight:500;margin:14px 0 6px">{{ L.versionHistory }}</div>
+            <sc-for list="{{ d.versions }}" as="vv" hint-placeholder-count="3">
+              <div style="display:flex;gap:10px;padding:6px 0;font-size:12px;font-family:'Roboto Mono',monospace;color:var(--onv)"><span style="color:var(--on)">{{ vv.v }}</span><span>{{ vv.d }}</span></div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:8px;padding:14px 16px;border-top:1px solid var(--olv);flex:none">
+            <button onClick="{{ d.primary }}" style="flex:1;height:40px;border-radius:999px;border:none;background:var(--p);color:var(--onp);font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-family:'Material Symbols Rounded';font-size:18px">{{ d.primaryIcon }}</span>{{ d.primaryLabel }}</button>
+            <button onClick="{{ d.remove }}" style="height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--ol);background:transparent;color:var(--err);font-weight:500;cursor:pointer" style-hover="background:var(--errc)">{{ L.uninstall }}</button>
+          </div>
+        </aside>
+      </sc-if>
+    </main>
+  </div>
+
+  <!-- Queue panel -->
+  <sc-if value="{{ queueOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;right:20px;bottom:20px;width:360px;background:var(--sf);border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,.3);z-index:70;overflow:hidden;animation:pop .2s cubic-bezier(.05,.7,.1,1)">
+      <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--inv);color:var(--oninv)">
+        <span style="font-family:'Material Symbols Rounded';font-size:20px">sync</span>
+        <div style="flex:1;font-size:14px;font-weight:500">{{ L.queue }}</div>
+        <div style="font-size:12px">{{ queueSummary }}</div>
+      </div>
+      <div style="max-height:260px;overflow-y:auto">
+        <sc-for list="{{ queue }}" as="q" hint-placeholder-count="2">
+          <div style="padding:10px 16px;border-top:1px solid var(--olv)">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-family:'Material Symbols Rounded';font-size:18px;color:{{ q.fg }}">{{ q.icon }}</span>
+              <div style="flex:1;font-size:13px">{{ q.label }}</div>
+              <div style="font-size:11px;color:var(--onv);font-family:'Roboto Mono',monospace">{{ q.pct }}</div>
+              <sc-if value="{{ q.running }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ q.cancel }}" style="width:28px;height:28px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--onv);display:grid;place-items:center" style-hover="background:var(--sch)"><span style="font-family:'Material Symbols Rounded';font-size:16px">close</span></button>
+              </sc-if>
+            </div>
+            <div style="height:4px;border-radius:999px;background:var(--sch);margin-top:8px;overflow:hidden">
+              <div style="height:100%;border-radius:999px;background:{{ q.barFg }};width:{{ q.w }};transition:width .25s linear"></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- Snackbar -->
+  <sc-if value="{{ snackOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:24px;bottom:24px;background:var(--inv);color:var(--oninv);border-radius:8px;padding:14px 20px;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.3);z-index:90;animation:pop .18s cubic-bezier(.05,.7,.1,1);max-width:440px">{{ snackText }}</div>
+  </sc-if>
+
+  <!-- Command palette -->
+  <sc-if value="{{ paletteOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeOverlays }}" style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:flex;justify-content:center;padding-top:12vh;animation:fade .12s">
+      <div onClick="{{ stopProp }}" style="width:640px;max-height:60vh;background:var(--sf);border-radius:24px;box-shadow:0 12px 40px rgba(0,0,0,.4);display:flex;flex-direction:column;overflow:hidden;animation:pop .18s cubic-bezier(.05,.7,.1,1);align-self:flex-start">
+        <div style="display:flex;align-items:center;gap:10px;padding:6px 18px;border-bottom:1px solid var(--olv)">
+          <span style="font-family:'Material Symbols Rounded';font-size:22px;color:var(--onv)">keyboard_command_key</span>
+          <input value="{{ paletteQuery }}" onChange="{{ setPaletteQuery }}" placeholder="{{ L.palettePh }}" autoFocus="{{ true }}" style="flex:1;border:none;outline:none;background:transparent;font-size:16px;color:var(--on);height:56px" />
+          <span style="font-size:11px;color:var(--onv);border:1px solid var(--olv);border-radius:6px;padding:2px 8px">Ctrl+Shift+F</span>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:8px">
+          <sc-for list="{{ paletteResults }}" as="pr" hint-placeholder-count="8">
+            <button onClick="{{ pr.run }}" style="display:flex;align-items:center;gap:14px;width:100%;height:46px;padding:0 14px;border:none;border-radius:12px;background:transparent;cursor:pointer;text-align:left;color:var(--on);font-size:14px" style-hover="background:var(--sch)">
+              <span style="font-family:'Material Symbols Rounded';font-size:20px;color:var(--onv)">{{ pr.icon }}</span>
+              <span style="flex:1">{{ pr.label }}</span>
+              <span style="font-size:11px;color:var(--onv)">{{ pr.hint }}</span>
+            </button>
+          </sc-for>
+          <sc-if value="{{ paletteEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:32px;text-align:center;color:var(--onv);font-size:13px">{{ L.noResults }}</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- Super confirmation -->
+  <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:110;display:grid;place-items:center;animation:fade .12s">
+      <div style="width:480px;background:var(--sf);border-radius:28px;padding:24px;box-shadow:0 12px 40px rgba(0,0,0,.4);animation:pop .2s cubic-bezier(.05,.7,.1,1)">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-family:'Material Symbols Rounded';font-size:28px;color:var(--err)">warning</span>
+          <div style="font-size:20px">{{ L.confirmTitle }}</div>
+        </div>
+        <div style="font-size:14px;color:var(--onv);margin:12px 0 16px;line-height:1.5">{{ confirmBody }}</div>
+        <div style="height:8px;border-radius:999px;margin-bottom:16px;background:repeating-linear-gradient(45deg,var(--errc),var(--errc) 10px,var(--err) 10px,var(--err) 20px);background-size:40px 8px;animation:stripes 1s linear infinite;opacity:{{ stripeOp }}"></div>
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <button onClick="{{ toggleKeyA }}" style="flex:1;height:44px;border-radius:12px;cursor:pointer;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid {{ keyABd }};background:{{ keyABg }};color:{{ keyAFg }}"><span style="font-family:'Material Symbols Rounded';font-size:18px">key</span>{{ L.keyA }}</button>
+          <button onClick="{{ toggleKeyB }}" style="flex:1;height:44px;border-radius:12px;cursor:pointer;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid {{ keyBBd }};background:{{ keyBBg }};color:{{ keyBFg }}"><span style="font-family:'Material Symbols Rounded';font-size:18px">key</span>{{ L.keyB }}</button>
+        </div>
+        <div style="font-size:12px;color:var(--onv);margin-bottom:6px">{{ L.slideToArm }} · {{ sliderVal }}%</div>
+        <input type="range" min="0" max="100" value="{{ sliderVal }}" onChange="{{ setSlider }}" style="width:100%;accent-color:var(--err)" />
+        <div style="display:flex;gap:10px;margin-top:18px">
+          <button onClick="{{ emergencyCancel }}" style="flex:1;height:44px;border-radius:999px;border:none;background:var(--sc);color:var(--onsc);font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-family:'Material Symbols Rounded';font-size:18px">emergency_home</span>{{ L.emergencyCancel }}</button>
+          <button onClick="{{ confirmGo }}" disabled="{{ confirmDisabled }}" style="flex:1;height:44px;border-radius:999px;border:none;font-weight:500;cursor:pointer;background:{{ confirmBg }};color:{{ confirmFg }}">{{ L.confirmBtn }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1600,&quot;height&quot;:1000},&quot;darkMode&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;language&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;en&quot;,&quot;yue&quot;,&quot;bilingual&quot;],&quot;default&quot;:&quot;en&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;updates&quot;,&quot;discover&quot;,&quot;installed&quot;,&quot;bundles&quot;,&quot;settings&quot;],&quot;default&quot;:&quot;updates&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    const mk=(name,pid,ver,nver,src,desc,color,home,license,size)=>({key:pid+src,name,pid,ver,nver,src,desc,color,home:home||'https://'+pid.split('.')[0].toLowerCase()+'.example.org',license:license||'MIT',size:size||((Math.floor(Math.random()*90)+8)+' MB')});
+    this.state={
+      route:props.startScreen||'updates', lang:props.language||'en', dark:props.darkMode??false,
+      drawerOpen:true, query:'', regexOpen:false, regexPattern:'', regexI:true,
+      selected:{}, ignored:{}, srcFilter:'All', refreshing:false,
+      paletteOpen:false, paletteQuery:'',
+      confirm:null, keyA:false, keyB:false, slider:0,
+      detailsKey:null, optAdmin:false, optInteractive:true, optHash:false,
+      queue:[], snack:null, logTab:'UniGetUI',
+      settingsTab:'general', logoIdx:0, logoFit:'fit', langSet:null,
+      vocabLoaded:false, pairCode:'', pairMsg:'', totpIssuer:'', totpSecret:'',
+      totpWindow:Math.floor(Date.now()/30000), totpLeft:30-Math.floor(Date.now()/1000)%30,
+      settings:{notify:true,autostart:true,tray:true,admin:false,parallel:true,prerelease:false,cache:true,telemetry:false,toylock:false,lockpass:false,channel:true,autoupdate:true},
+      managersOn:{WinGet:true,Scoop:true,Chocolatey:true,Pip:true,Npm:true,Cargo:false,'.NET Tool':true,PowerShell:false},
+      updates:[
+        mk('Mozilla Firefox','Mozilla.Firefox','128.0.2','129.0','WinGet','Fast, private and secure web browser from Mozilla.','#FF7139','https://www.mozilla.org/firefox','MPL-2.0','62 MB'),
+        mk('7-Zip','7zip.7zip','23.01','24.08','WinGet','File archiver with a high compression ratio.','#404040',null,'LGPL-2.1','1.6 MB'),
+        mk('Visual Studio Code','Microsoft.VisualStudioCode','1.91.1','1.92.0','WinGet','Code editing. Redefined. Free, built on open source.','#0078D4','https://code.visualstudio.com','MIT','96 MB'),
+        mk('Node.js LTS','nodejs-lts','20.15.0','20.16.0','Scoop','JavaScript runtime built on the V8 engine.','#3C873A','https://nodejs.org','MIT','31 MB'),
+        mk('Python','Python.Python.3.12','3.12.3','3.12.5','WinGet','Interpreted, interactive, object-oriented programming language.','#3776AB','https://www.python.org','PSF','26 MB'),
+        mk('Git','Git.Git','2.45.1','2.46.0','WinGet','Distributed version control system.','#F05033','https://git-scm.com','GPL-2.0','58 MB'),
+        mk('requests','requests','2.31.0','2.32.3','Pip','Elegant and simple HTTP library for Python.','#3776AB','https://requests.readthedocs.io','Apache-2.0','120 kB'),
+        mk('typescript','typescript','5.4.5','5.5.4','Npm','TypeScript is a language for application-scale JavaScript.','#3178C6','https://www.typescriptlang.org','Apache-2.0','40 MB'),
+        mk('OBS Studio','OBSProject.OBSStudio','30.1.2','30.2.1','WinGet','Free and open source software for video recording and live streaming.','#302E31','https://obsproject.com','GPL-2.0','132 MB'),
+        mk('PowerToys','Microsoft.PowerToys','0.81.1','0.82.0','WinGet','Windows system utilities to maximize productivity.','#0078D4','https://aka.ms/powertoys','MIT','230 MB')
+      ],
+      installed:[
+        mk('Microsoft Edge','Microsoft.Edge','127.0.2651.74',null,'WinGet','Chromium-based web browser from Microsoft.','#0B8043',null,'Proprietary','168 MB'),
+        mk('Windows Terminal','Microsoft.WindowsTerminal','1.20.11781.0',null,'WinGet','Modern terminal application for command-line users.','#333333',null,'MIT','80 MB'),
+        mk('VLC media player','VideoLAN.VLC','3.0.21',null,'WinGet','Free and open source cross-platform multimedia player.','#E85E00','https://www.videolan.org','GPL-2.0','42 MB'),
+        mk('ripgrep','ripgrep','14.1.0',null,'Scoop','Recursively search directories for a regex pattern.','#5E35B1',null,'MIT','2 MB'),
+        mk('ffmpeg','ffmpeg','7.0.1',null,'Scoop','Complete solution to record, convert and stream audio and video.','#00796B','https://ffmpeg.org','LGPL-2.1','89 MB'),
+        mk('numpy','numpy','2.0.1',null,'Pip','Fundamental package for scientific computing with Python.','#4DABCF','https://numpy.org','BSD-3','18 MB'),
+        mk('eslint','eslint','9.8.0',null,'Npm','Find and fix problems in your JavaScript code.','#4B32C3','https://eslint.org','MIT','9 MB'),
+        mk('dotnet-ef','dotnet-ef','8.0.7',null,'.NET Tool','Entity Framework Core command-line tools.','#512BD4',null,'MIT','14 MB'),
+        mk('Notepad++','Notepad++.Notepad++','8.6.9',null,'WinGet','Free source code editor and Notepad replacement.','#90A959',null,'GPL-3.0','4.5 MB'),
+        mk('Everything','voidtools.Everything','1.4.1.1024',null,'WinGet','Locate files and folders by name instantly.','#F57C00',null,'MIT','1.7 MB'),
+        mk('Docker Desktop','Docker.DockerDesktop','4.32.0',null,'WinGet','Containerize applications on your desktop.','#1D63ED','https://www.docker.com','Proprietary','560 MB'),
+        mk('Spotify','Spotify.Spotify','1.2.40',null,'WinGet','Digital music streaming service.','#1DB954',null,'Proprietary','110 MB')
+      ],
+      discover:[
+        mk('Blender','BlenderFoundation.Blender','4.2.0',null,'WinGet','Free and open source 3D creation suite.','#EA7600','https://www.blender.org','GPL-3.0','330 MB'),
+        mk('GIMP','GIMP.GIMP','2.10.38',null,'WinGet','GNU Image Manipulation Program.','#5C5543','https://www.gimp.org','GPL-3.0','250 MB'),
+        mk('Inkscape','Inkscape.Inkscape','1.3.2',null,'WinGet','Professional vector graphics editor.','#333333','https://inkscape.org','GPL-3.0','108 MB'),
+        mk('Audacity','Audacity.Audacity','3.6.1',null,'WinGet','Free, open source, cross-platform audio software.','#0050A0',null,'GPL-2.0','62 MB'),
+        mk('fzf','fzf','0.54.0',null,'Scoop','A command-line fuzzy finder.','#D81B60',null,'MIT','1.4 MB'),
+        mk('bat','bat','0.24.0',null,'Scoop','A cat clone with syntax highlighting and Git integration.','#00897B',null,'MIT','3 MB'),
+        mk('httpie','httpie','3.2.2',null,'Pip','Modern, user-friendly command-line HTTP client.','#73DC8C','https://httpie.io','BSD-3','2 MB'),
+        mk('vite','vite','5.3.5',null,'Npm','Next generation frontend tooling.','#646CFF','https://vitejs.dev','MIT','3 MB'),
+        mk('Obsidian','Obsidian.Obsidian','1.6.7',null,'WinGet','Private and flexible writing app on top of local Markdown files.','#7C3AED','https://obsidian.md','Proprietary','92 MB'),
+        mk('KeePassXC','KeePassXCTeam.KeePassXC','2.7.9',null,'WinGet','Cross-platform community-driven password manager.','#6CAC4D',null,'GPL-3.0','38 MB'),
+        mk('ImageMagick','ImageMagick.ImageMagick','7.1.1',null,'WinGet','Create, edit, compose, or convert digital images.','#1E88E5',null,'ImageMagick','44 MB'),
+        mk('cargo-watch','cargo-watch','8.5.1',null,'Cargo','Watches your Cargo project and runs commands on change.','#B7410E',null,'CC0','5 MB')
+      ],
+      bundlesList:[
+        {id:1,name:'Dev workstation',count:14,desc:'VS Code, Git, Node LTS, Python, Terminal, Docker, ripgrep, fzf…'},
+        {id:2,name:'Media suite',count:6,desc:'VLC, OBS Studio, Audacity, ffmpeg, ImageMagick, GIMP.'},
+        {id:3,name:'Fresh Windows setup',count:9,desc:'Browser, 7-Zip, Notepad++, Everything, PowerToys, Spotify…'}
+      ],
+      modelsInstalled:{'llama3.1:8b':true,'qwen2.5-coder:7b':true},
+      totpEntries:[
+        {id:1,issuer:'GitHub',account:'ding@hui.dev',color:'#24292F'},
+        {id:2,issuer:'Cloudflare',account:'ops@hui.dev',color:'#F38020'},
+        {id:3,issuer:'Tailscale',account:'ding@hui.dev',color:'#4B39EF'}
+      ],
+      conversions:[
+        {file:'har-gow-photo.webp → .png',note:'Lossless raster conversion · 2.1 MB → 3.4 MB',status:'ok'},
+        {file:'managers.yaml → .json',note:'Structure preserved · 4 kB',status:'ok'},
+        {file:'icon.svg → .ico',note:'Rasterized at 256px — vector data not kept',status:'loss'},
+        {file:'report.docx → .md',note:'Unsupported input type — no adapter, nothing was written',status:'fail'}
+      ]
+    };
+  }
+  componentDidMount(){
+    this._key=(e)=>{
+      if(e.ctrlKey&&e.shiftKey&&(e.key==='F'||e.key==='f')){e.preventDefault();this.setState({paletteOpen:true,paletteQuery:''});}
+      else if(e.key==='Escape'){this.setState({paletteOpen:false,regexOpen:false,confirm:null,keyA:false,keyB:false,slider:0});}
+    };
+    window.addEventListener('keydown',this._key);
+    this._tick=setInterval(()=>{
+      const now=Date.now(); const win=Math.floor(now/30000); const left=30-Math.floor(now/1000)%30;
+      let st={totpLeft:left}; if(win!==this.state.totpWindow) st.totpWindow=win;
+      if(this.state.queue.some(q=>q.running)){
+        const queue=this.state.queue.map(q=>{
+          if(!q.running) return q;
+          const p=Math.min(100,q.progress+4+Math.random()*9);
+          if(p>=100){this._complete(q);return {...q,progress:100,running:false,done:true};}
+          return {...q,progress:p};
+        });
+        st.queue=queue;
+      }
+      this.setState(st);
+    },350);
+  }
+  componentWillUnmount(){window.removeEventListener('keydown',this._key);clearInterval(this._tick);}
+  _complete(q){
+    setTimeout(()=>{
+      this.setState(s=>{
+        let updates=s.updates,installed=s.installed;
+        if(q.action==='update'){const p=updates.find(x=>x.key===q.key);if(p){updates=updates.filter(x=>x.key!==q.key);installed=[{...p,ver:p.nver,nver:null},...installed.filter(x=>x.pid!==p.pid)];}}
+        if(q.action==='install'){const p=s.discover.find(x=>x.key===q.key);if(p&&!installed.some(x=>x.key===p.key))installed=[{...p},...installed];}
+        if(q.action==='uninstall'){installed=installed.filter(x=>x.key!==q.key);updates=updates.filter(x=>x.key!==q.key);}
+        return {updates,installed,queue:s.queue.filter(x=>x.id!==q.id),snack:q.doneMsg};
+      });
+      this._snackTimer&&clearTimeout(this._snackTimer);
+      this._snackTimer=setTimeout(()=>this.setState({snack:null}),3200);
+    },900);
+  }
+  snack(t){this.setState({snack:t});this._snackTimer&&clearTimeout(this._snackTimer);this._snackTimer=setTimeout(()=>this.setState({snack:null}),3200);}
+  enqueue(pkg,action,label,doneMsg){
+    const id=Math.random().toString(36).slice(2);
+    this.setState(s=>({queue:[...s.queue,{id,key:pkg.key,action,label,doneMsg,progress:2,running:true}],selected:{}}));
+  }
+  L(){
+    const en={appName:'Material UniGetUI',searchPh:'Search packages, sources, IDs…',discover:'Discover packages',updates:'Software updates',installed:'Installed packages',bundles:'Package bundles',converter:'File converter',converterSub:'Bounded local adapters with byte detection, previews, batch outcomes and honest loss disclosure.',ollama:'Ollama suite manager',auth:'Authenticator',authSub:'Live TOTP codes for any registered secret, with a 30-second countdown.',logs:'Logs',settings:'Settings',managers:'Package managers',tools:'Tools',updateAll:'Update all',installSel:'Install',refresh:'Refresh sources',selectAll:'Select all',ignore:'Ignore updates',details:'Details',uninstall:'Uninstall',install:'Install',update:'Update',empty:'Nothing here — adjust filters or search.',queue:'Operations',cancel:'Cancel',confirmTitle:'Super confirmation',keyA:'Key A',keyB:'Key B',slideToArm:'Slide to arm',confirmBtn:'Execute',emergencyCancel:'Emergency cancel',homepage:'Homepage',license:'License',source:'Source',versionHistory:'Version history',installOptions:'Install options',exportBundle:'Export',importBundle:'Import bundle',newBundle:'New bundle',installAllBundle:'Install all',general:'General',appearance:'Appearance',localization:'Localization',security:'Security',vocabulary:'Vocabulary',updatesTab:'Updates',logoTitle:'App logo',upload:'Upload',reset:'Reset',clear:'Clear',language:'Language',vocabUpload:'Local personal vocabulary',vocabNote:'Stored in a private local cache; never leaves this device.',dropHere:'Drop files here or click to browse',recent:'Recent conversions',unsupported:'Unsupported inputs are reported honestly — no partial output is ever written.',pull:'Pull',chat:'Chat',snapshot:'Snapshot',rollback:'Rollback',fits:'Fits',tight:'Tight fit',tooBig:'Too big',secret:'Base32 secret',add:'Add',issuerPh:'Issuer · account',palettePh:'Type a command or search everything…',noResults:'No matching commands.',regexBuilder:'Regex builder',twoFA:'Two-factor registration',twoFASub:'Scan the locally drawn QR code, then confirm the pairing with a live code.',confirmPairing:'Confirm pairing',pcFit:'This PC',of:'of'};
+    const yue={appName:'Material UniGetUI',searchPh:'搜尋軟件包、來源、ID…',discover:'探索軟件包',updates:'軟件更新',installed:'已安裝軟件',bundles:'軟件包合集',converter:'檔案轉換器',converterSub:'本機有界轉換器：位元組偵測、預覽、批次結果同誠實嘅損耗披露。',ollama:'Ollama 套件管理器',auth:'驗證器',authSub:'任何已登記密鑰嘅實時 TOTP 驗證碼，30 秒倒數。',logs:'記錄',settings:'設定',managers:'套件管理器',tools:'工具',updateAll:'全部更新',installSel:'安裝',refresh:'重新整理來源',selectAll:'全選',ignore:'忽略更新',details:'詳情',uninstall:'解除安裝',install:'安裝',update:'更新',empty:'冇嘢喺度 — 調整篩選或者搜尋。',queue:'操作進行中',cancel:'取消',confirmTitle:'超級確認',keyA:'鎖匙 A',keyB:'鎖匙 B',slideToArm:'滑動解鎖',confirmBtn:'執行',emergencyCancel:'緊急取消',homepage:'網站',license:'授權',source:'來源',versionHistory:'版本歷史',installOptions:'安裝選項',exportBundle:'匯出',importBundle:'匯入合集',newBundle:'新合集',installAllBundle:'全部安裝',general:'一般',appearance:'外觀',localization:'語言',security:'安全',vocabulary:'詞彙',updatesTab:'更新',logoTitle:'應用程式標誌',upload:'上載',reset:'重設',clear:'清除',language:'語言',vocabUpload:'本機個人詞彙',vocabNote:'儲存喺私人本機快取；永遠唔會離開呢部機。',dropHere:'拖放檔案或者撳一下瀏覽',recent:'最近轉換',unsupported:'唔支援嘅檔案會誠實報告 — 永遠唔會寫出殘缺輸出。',pull:'下載',chat:'傾偈',snapshot:'快照',rollback:'還原',fits:'夠位',tight:'啱啱好',tooBig:'太大',secret:'Base32 密鑰',add:'加入',issuerPh:'發行者 · 帳戶',palettePh:'輸入指令或者搜尋所有嘢…',noResults:'冇相符嘅指令。',regexBuilder:'Regex 建構器',twoFA:'雙重認證登記',twoFASub:'掃描本機繪製嘅 QR code，再用實時驗證碼確認配對。',confirmPairing:'確認配對',pcFit:'呢部電腦',of:'/'};
+    const lang=this.state.langSet||this.state.lang;
+    if(lang==='yue')return yue;
+    if(lang==='bilingual'){const o={};for(const k in en)o[k]=en[k]===yue[k]?en[k]:en[k]+' · '+yue[k];return o;}
+    return en;
+  }
+  renderVals(){
+    const s=this.state,L=this.L();
+    const dark=s.dark;
+    const pal=dark?{p:'#A8C7FA',onp:'#062E6F',pc:'#0842A0',onpc:'#D3E3FD',sc:'#004A77',onsc:'#C2E7FF',tc:'#0F3B2E',ontc:'#8FF0C2',sf:'#1A1F26',sfc:'#0F1318',sch:'#28303B',schh:'#333D4B',on:'#E3E3E3',onv:'#A8ADB4',ol:'#8E918F',olv:'#3A4048',err:'#F2B8B5',errc:'#5C1F1B',onerrc:'#F9DEDC',inv:'#E3E3E3',oninv:'#1F1F1F',grn:'#6DD58C'}
+      :{p:'#0B57D0',onp:'#FFFFFF',pc:'#D3E3FD',onpc:'#041E49',sc:'#C2E7FF',onsc:'#001D35',tc:'#C4EED0',ontc:'#0F5223',sf:'#FFFFFF',sfc:'#F6F8FC',sch:'#EAF1FB',schh:'#DDE9F9',on:'#1F1F1F',onv:'#5E6368',ol:'#747775',olv:'#E1E5EA',err:'#B3261E',errc:'#F9DEDC',onerrc:'#410E0B',inv:'#303030',oninv:'#F2F2F2',grn:'#146C2E'};
+    const logoPresetDefs=[{bg:'linear-gradient(135deg,#0B57D0,#7C3AED)',icon:'deployed_code',name:'Default'},{bg:'linear-gradient(135deg,#146C2E,#00897B)',icon:'package_2',name:'Jade'},{bg:'linear-gradient(135deg,#E37400,#D81B60)',icon:'widgets',name:'Siu Mai'},{bg:'linear-gradient(135deg,#24292F,#5E6368)',icon:'terminal',name:'Mono'},{bg:'linear-gradient(135deg,#0842A0,#00A3BF)',icon:'grid_view',name:'Harbour'},{bg:'linear-gradient(135deg,#7C3AED,#F38020)',icon:'apps',name:'Neon'}];
+    const logo=logoPresetDefs[s.logoIdx];
+    // --- filtering ---
+    let rx=null,rxErr=null;
+    if(s.regexOpen&&s.regexPattern){try{rx=new RegExp(s.regexPattern,s.regexI?'i':'');}catch(e){rxErr=e.message;}}
+    const match=(p)=>{
+      if(s.srcFilter!=='All'&&p.src!==s.srcFilter)return false;
+      if(s.managersOn[p.src]===false)return false;
+      if(rx)return rx.test(p.name)||rx.test(p.pid)||rx.test(p.desc);
+      if(s.query){const q=s.query.toLowerCase();return (p.name+' '+p.pid+' '+p.desc+' '+p.src).toLowerCase().includes(q);}
+      return true;
+    };
+    const listMap={discover:s.discover,updates:s.updates,installed:s.installed};
+    const rPkgs=['discover','updates','installed'].includes(s.route);
+    const baseList=rPkgs?listMap[s.route]:[];
+    const list=baseList.filter(match);
+    const allPkgs=[...s.updates,...s.installed,...s.discover];
+    const findPkg=k=>allPkgs.find(p=>p.key===k);
+    const selKeys=Object.keys(s.selected).filter(k=>s.selected[k]&&list.some(p=>p.key===k));
+    const openConfirm=(pkg,mode)=>this.setState({confirm:{pkg,mode},keyA:false,keyB:false,slider:0});
+    const doPrimary=(p)=>{
+      if(s.route==='updates'){this.enqueue(p,'update',L.update+' · '+p.name+' → '+p.nver,p.name+' '+L.update.toLowerCase()+' ✓ '+p.nver);}
+      else if(s.route==='discover'){this.enqueue(p,'install',L.install+' · '+p.name,p.name+' '+L.install.toLowerCase()+' ✓');}
+      else{this.snack(p.name+' — reinstall queued');this.enqueue(p,'install',L.install+' · '+p.name,p.name+' ✓');}
+    };
+    const rows=list.map(p=>{
+      const sel=!!s.selected[p.key],ig=!!s.ignored[p.key];
+      return {key:p.key,name:p.name,pid:p.pid,desc:p.desc,src:p.src,color:p.color,letter:p.name[0].toUpperCase(),
+        verText:p.nver?(p.ver+' → '+p.nver):p.ver,nameW:s.route==='updates'?'700':'500',
+        bg:sel?'var(--sch)':'transparent',
+        chk:sel?'check_box':'check_box_outline_blank',chkFill:sel?1:0,chkFg:sel?'var(--p)':'var(--onv)',
+        igFg:ig?'#F4B400':'var(--olv)',igFill:ig?1:0,
+        primaryIcon:s.route==='updates'?'upgrade':(s.route==='discover'?'download':'sync'),
+        primaryTitle:s.route==='updates'?L.update:L.install,delFg:'var(--onv)',
+        toggleSel:()=>this.setState(st=>({selected:{...st.selected,[p.key]:!st.selected[p.key]}})),
+        toggleIgnore:()=>{this.setState(st=>({ignored:{...st.ignored,[p.key]:!st.ignored[p.key]}}));this.snack(ig?p.name+' — updates watched again':p.name+' — '+L.ignore);},
+        open:()=>this.setState({detailsKey:p.key}),
+        primary:()=>doPrimary(p),
+        remove:()=>openConfirm(p,'uninstall')};
+    });
+    // nav
+    const navDef=[
+      {id:'discover',icon:'explore',label:L.discover,count:''},
+      {id:'updates',icon:'upgrade',label:L.updates,count:String(s.updates.length)},
+      {id:'installed',icon:'check_circle',label:L.installed,count:String(s.installed.length)},
+      {id:'bundles',icon:'package_2',label:L.bundles,count:String(s.bundlesList.length)}
+    ];
+    const toolsDef=[
+      {id:'converter',icon:'sync_alt',label:L.converter},
+      {id:'ollama',icon:'neurology',label:L.ollama},
+      {id:'auth',icon:'shield_lock',label:L.auth},
+      {id:'logs',icon:'receipt_long',label:L.logs},
+      {id:'settings',icon:'settings',label:L.settings}
+    ];
+    const mkNav=n=>({...n,go:()=>this.setState({route:n.id,detailsKey:null,selected:{}}),bg:s.route===n.id?'var(--sc)':'transparent',fg:s.route===n.id?'var(--onsc)':'var(--on)',w:s.route===n.id?'700':'400',fill:s.route===n.id?1:0,count:n.count||false});
+    const managerDefs=[['WinGet','#0B57D0'],['Scoop','#7B4FBF'],['Chocolatey','#80442E'],['Pip','#3776AB'],['Npm','#CB3837'],['Cargo','#B7410E'],['.NET Tool','#512BD4'],['PowerShell','#012456']];
+    const managerRows=managerDefs.map(([name,color])=>{
+      const on=s.managersOn[name];
+      const count=allPkgs.filter(p=>p.src===name).length;
+      return {name,color,letter:name[0],count:String(count),fg:on?'var(--on)':'var(--onv)',
+        swBg:on?'var(--p)':'var(--olv)',swKnob:on?'var(--onp)':'var(--sf)',swLeft:on?'17px':'3px',
+        toggle:()=>{this.setState(st=>({managersOn:{...st.managersOn,[name]:!st.managersOn[name]}}));this.snack(name+(on?' — disabled':' — enabled'));}};
+    });
+    const sources=['All',...managerDefs.map(m=>m[0]).filter(n=>baseList.some(p=>p.src===n))];
+    const srcChips=sources.map(name=>{const on=s.srcFilter===name;return {name,on,pick:()=>this.setState({srcFilter:on?'All':name}),bg:on?'var(--sc)':'transparent',fg:on?'var(--onsc)':'var(--onv)',bd:on?'var(--sc)':'var(--olv)'};});
+    // details
+    const d0=s.detailsKey?findPkg(s.detailsKey):null;
+    const optDef=[['optAdmin','shield_person','Run as administrator'],['optInteractive','touch_app','Interactive installation'],['optHash','tag','Skip hash check']];
+    const d=d0?{name:d0.name,pid:d0.pid,desc:d0.desc,color:d0.color,letter:d0.name[0].toUpperCase(),
+      meta:[{k:L.source,v:d0.src},{k:L.homepage,v:d0.home},{k:L.license,v:d0.license},{k:'Version',v:d0.nver?d0.ver+' → '+d0.nver:d0.ver},{k:'Size',v:d0.size}],
+      opts:optDef.map(([k,icon,label])=>({icon:s[k]?'check_box':'check_box_outline_blank',fill:s[k]?1:0,fg:s[k]?'var(--p)':'var(--onv)',label,toggle:()=>this.setState({[k]:!s[k]})})),
+      versions:[{v:d0.nver||d0.ver,d:'2026-08-14'},{v:d0.ver,d:'2026-06-02'},{v:'previous',d:'2026-03-19'}],
+      primaryIcon:d0.nver?'upgrade':'download',primaryLabel:d0.nver?L.update:L.install,
+      primary:()=>{doPrimary(d0);this.setState({detailsKey:null});},
+      remove:()=>openConfirm(d0,'uninstall')}:{meta:[],opts:[],versions:[]};
+    // queue
+    const queue=s.queue.map(q=>({label:q.label,pct:Math.round(q.progress)+'%',w:Math.round(q.progress)+'%',running:q.running,
+      icon:q.done?'check_circle':'progress_activity',fg:q.done?'var(--grn)':'var(--p)',barFg:q.done?'var(--grn)':'var(--p)',
+      cancel:()=>{this.setState(st=>({queue:st.queue.filter(x=>x.id!==q.id)}));this.snack(L.cancel+' ✓ — '+q.label);}}));
+    // palette
+    const cmds=[
+      ...navDef.concat(toolsDef).map(n=>({icon:n.icon||'chevron_right',label:n.label,hint:'Go to',run:()=>this.setState({route:n.id,paletteOpen:false})})),
+      {icon:'upgrade',label:L.updateAll+' ('+s.updates.length+')',hint:'Action',run:()=>{this.setState({paletteOpen:false});s.updates.slice(0,4).forEach(p=>this.enqueue(p,'update',L.update+' · '+p.name,p.name+' ✓'));}},
+      {icon:dark?'light_mode':'dark_mode',label:dark?'Light theme':'Dark theme',hint:'Toggle',run:()=>this.setState({dark:!dark,paletteOpen:false})},
+      {icon:'translate',label:L.language+': English / 廣東話 / Bilingual',hint:'Cycle',run:()=>{this._cycleLang();this.setState({paletteOpen:false});}},
+      {icon:'regular_expression',label:L.regexBuilder,hint:'Search',run:()=>this.setState({regexOpen:true,paletteOpen:false})},
+      {icon:'refresh',label:L.refresh,hint:'Action',run:()=>{this.setState({paletteOpen:false});this._refresh();}},
+      {icon:'lock',label:'Toy lock: '+(s.settings.toylock?'on':'off'),hint:'Security',run:()=>{this.setState(st=>({settings:{...st.settings,toylock:!st.settings.toylock},paletteOpen:false}));this.snack('Toy lock '+(s.settings.toylock?'disarmed':'armed'));}},
+      ...allPkgs.slice(0,40).map(p=>({icon:'deployed_code',label:p.name+' — '+p.pid,hint:p.src,run:()=>this.setState({paletteOpen:false,detailsKey:p.key,route:s.updates.some(x=>x.key===p.key)?'updates':(s.installed.some(x=>x.key===p.key)?'installed':'discover')})}))
+    ];
+    const pq=s.paletteQuery.toLowerCase();
+    const paletteResults=(pq?cmds.filter(c=>c.label.toLowerCase().includes(pq)):cmds.slice(0,10)).slice(0,12);
+    // settings
+    const tabsDef=[['general','tune',L.general],['appearance','palette',L.appearance],['managersTab','widgets',L.managers],['localization','translate',L.localization],['vocabulary','dictionary',L.vocabulary],['security','shield_lock',L.security],['updatesTab','system_update',L.updatesTab]];
+    const settingsTabs=tabsDef.map(([id,icon,label])=>({icon,label,pick:()=>this.setState({settingsTab:id}),bg:s.settingsTab===id?'var(--sc)':'transparent',fg:s.settingsTab===id?'var(--onsc)':'var(--on)',w:s.settingsTab===id?'700':'400'}));
+    const sw=(key,icon,label,sub)=>{const on=s.settings[key];return {icon,label,sub,isSwitch:true,isButton:false,
+      swBg:on?'var(--p)':'var(--sch)',swBd:on?'var(--p)':'var(--ol)',swKnob:on?'var(--onp)':'var(--onv)',swLeft:on?'23px':'4px',knobTop:on?'4px':'6px',knobSize:on?'20px':'16px',
+      toggle:()=>{this.setState(st=>({settings:{...st.settings,[key]:!st.settings[key]}}));}};};
+    const btn=(icon,label,sub,btnLabel,fn)=>({icon,label,sub,isSwitch:false,isButton:true,btnLabel,toggle:fn});
+    const rowsByTab={
+      general:[sw('notify','notifications','Notifications','Toast when operations finish'),sw('autostart','rocket_launch','Launch at startup','Start minimized with Windows'),sw('tray','right_panel_close','Close to tray','Keep running in the notification area'),sw('admin','shield_person','Administrator by default','Elevate every operation'),sw('parallel','stacks','Parallel operations','Run up to 3 installs at once'),sw('cache','database','Cache package lists','Faster startup, refresh on demand')],
+      appearance:[sw('telemetry','animation','Reduced motion','Minimize springs and transitions')],
+      managersTab:[btn('widgets','WinGet','C:\\Windows\\System32\\winget.exe · 1.8.1911','Logs',()=>this.setState({route:'logs',logTab:'WinGet'})),btn('widgets','Scoop','%USERPROFILE%\\scoop · 0.5.2','Logs',()=>this.setState({route:'logs',logTab:'Scoop'})),btn('widgets','Chocolatey','C:\\ProgramData\\chocolatey · 2.3.0','Logs',()=>this.setState({route:'logs',logTab:'UniGetUI'})),btn('widgets','Pip / Npm / Cargo / .NET','Discovered from PATH','Rescan',()=>this.snack('PATH rescan complete — 8 managers found'))],
+      localization:[],vocabulary:[],
+      security:[sw('toylock','lock','Toy locks','Per-element locks on every rendered element'),sw('lockpass','password','Independent credential','Separate password or OTP per lock'),btn('folder_managed','Recovery folder','Folder-deletion recovery + Support Tickets desk','Open',()=>this.snack('Support Tickets desk opened'))],
+      updatesTab:[sw('autoupdate','system_update','Automatic updates','Squirrel background checks + ready-to-restart banner'),sw('prerelease','science','Beta channel','Receive pre-release builds'),btn('update','Check now','Last checked 6 minutes ago','Check',()=>this.snack('Up to date — 3.4.1 (Squirrel)'))]
+    };
+    const titleMap={general:L.general,appearance:L.appearance,managersTab:L.managers,localization:L.localization,vocabulary:L.vocabulary,security:L.security,updatesTab:L.updatesTab};
+    const langDefs=[['en','English','Full English interface'],['yue','廣東話','香港式粵語界面'],['bilingual','Bilingual · 雙語','English · 中文 side by side']];
+    const langNow=s.langSet||s.lang;
+    const langRows=langDefs.map(([id,label,sub])=>({label,sub,icon:langNow===id?'radio_button_checked':'radio_button_unchecked',fill:0,fg:langNow===id?'var(--p)':'var(--onv)',pick:()=>this.setState({langSet:id,lang:id})}));
+    const logoPresets=logoPresetDefs.map((lp,i)=>({...lp,bd:s.logoIdx===i?'var(--p)':'transparent',pick:()=>{this.setState({logoIdx:i});this.snack('App logo → '+lp.name);}}));
+    const logoFits=[['fit','Fit'],['crop','Crop'],['pad','Pad + background']].map(([id,name])=>({name,pick:()=>this.setState({logoFit:id}),bg:s.logoFit===id?'var(--sc)':'transparent',fg:s.logoFit===id?'var(--onsc)':'var(--onv)',bd:s.logoFit===id?'var(--sc)':'var(--olv)'}));
+    // qr cells deterministic
+    const qrCells=Array.from({length:81},(_,i)=>({c:((i*7+3)%11<5||i%13===0)?'#1F1F1F':'#FFFFFF'}));
+    // totp
+    const code=(id)=>String(Math.abs(Math.imul(s.totpWindow+id*7919,2654435761))%1000000).padStart(6,'0');
+    const ringPct=(s.totpLeft/30)*360;
+    const totp=s.totpEntries.map(t=>({...t,letter:t.issuer[0],code:code(t.id).replace(/(\d{3})(\d{3})/,'$1 $2'),
+      ring:'conic-gradient(var(--p) '+ringPct+'deg, var(--olv) 0deg)',
+      copy:()=>{this.snack(t.issuer+' — code copied');},
+      remove:()=>this.setState(st=>({totpEntries:st.totpEntries.filter(x=>x.id!==t.id)}))}));
+    // models
+    const modelDefs=[['llama3.1','8b-instruct-q4_K_M','4.9 GB','128k ctx','fits'],['qwen2.5-coder','7b-q5_K_M','5.4 GB','32k ctx','fits'],['gemma2','27b-q4_0','16 GB','8k ctx','tight'],['deepseek-r1','70b-q4_K_M','43 GB','64k ctx','big'],['phi3.5','3.8b-mini-q8_0','4.1 GB','128k ctx','fits'],['llava','13b-q4_0','8.0 GB','4k ctx','tight'],['mistral-nemo','12b-q4_K_M','7.1 GB','128k ctx','fits']];
+    const models=modelDefs.map(([name,tag,size,ctx,fit])=>{
+      const inst=!!s.modelsInstalled[name+':'+tag.split('-')[0]];
+      return {name,tag,size,ctx,installed:inst,notInstalled:!inst,
+        fit:fit==='fits'?L.fits:(fit==='tight'?L.tight:L.tooBig),
+        fitBg:fit==='fits'?'var(--tc)':(fit==='tight'?'#FEF7E0':'var(--errc)'),fitFg:fit==='fits'?'var(--ontc)':(fit==='tight'?'#7A5900':'var(--onerrc)'),
+        pull:()=>this.enqueue({key:'model:'+name},'pull',L.pull+' · '+name+':'+tag,name+' ✓ '+L.pull.toLowerCase()+'ed'),
+        chat:()=>this.snack(name+' — chat session opened (allowlisted harness profile)')};
+    });
+    // logs
+    const logSets={
+      UniGetUI:['[08:41:02] INFO  UniGetUI 3.4.1 renderer ready (Material 3 shell)','[08:41:02] INFO  8 package managers discovered on PATH','[08:41:03] INFO  WinGet source refresh: 4,812 packages in 1.9s','[08:41:03] INFO  Scoop buckets: main, extras, versions','[08:41:04] WARN  Cargo disabled by user preference','[08:41:05] INFO  '+s.updates.length+' updates available','[08:42:11] INFO  Toy-lock registry loaded · 0 locked surfaces','[08:43:20] INFO  Command palette indexed 52 targets'],
+      WinGet:['> winget upgrade --include-unknown','Name                 Id                              Version   Available','Mozilla Firefox      Mozilla.Firefox                 128.0.2   129.0','7-Zip                7zip.7zip                       23.01     24.08','Visual Studio Code   Microsoft.VisualStudioCode      1.91.1    1.92.0','5 upgrades available.'],
+      Scoop:['> scoop status','Scoop is up to date.','nodejs-lts: 20.15.0 -> 20.16.0','ripgrep is up to date (14.1.0)']
+    };
+    const logTabs=Object.keys(logSets).map(name=>({name,pick:()=>this.setState({logTab:name}),bg:s.logTab===name?'var(--sc)':'transparent',fg:s.logTab===name?'var(--onsc)':'var(--onv)',bd:s.logTab===name?'var(--sc)':'var(--olv)'}));
+    const logLines=(logSets[s.logTab]||logSets.UniGetUI).map(t=>({t,fg:t.includes('WARN')?'#F4B400':(t.startsWith('>')?'var(--p)':(dark?'#B8BDC4':'#37474F'))}));
+    // confirm
+    const c=s.confirm;
+    const armed=s.keyA&&s.keyB&&s.slider>=100;
+    // bundles
+    const bundles=s.bundlesList.map(b=>({...b,countText:b.count+' pkgs',
+      install:()=>{this.snack(b.name+' — installing '+b.count+' packages');this.enqueue({key:'bundle:'+b.id},'bundle','Bundle · '+b.name,b.name+' ✓ installed');},
+      export:()=>this.snack(b.name+' → exported as '+b.name.toLowerCase().replace(/ /g,'-')+'.ubundle'),
+      remove:()=>this.setState(st=>({bundlesList:st.bundlesList.filter(x=>x.id!==b.id)}))}));
+    const regexTokens=[['\\d+','digits'],['^','start'],['$','end'],['.*','any run'],['[A-Z]','uppercase'],['(a|b)','alternation'],['\\.','literal dot']].map(([t,hint])=>({t,hint,add:()=>this.setState(st=>({regexPattern:st.regexPattern+t}))}));
+    const fabByRoute={discover:['download',selKeys.length?L.installSel+' ('+selKeys.length+')':L.discover],updates:['upgrade',L.updateAll+' ('+s.updates.length+')'],installed:['ios_share',L.exportBundle],bundles:['add',L.newBundle]};
+    const fab=fabByRoute[s.route]||['upgrade',L.updateAll+' ('+s.updates.length+')'];
+    this._cycleLang=()=>{const order=['en','yue','bilingual'];const nx=order[(order.indexOf(langNow)+1)%3];this.setState({lang:nx,langSet:nx});};
+    this._refresh=()=>{this.setState({refreshing:true});setTimeout(()=>{this.setState({refreshing:false});this.snack(L.refresh+' ✓ — 4,812 WinGet · 1,930 Scoop · 512k Pip');},1400);};
+    return {
+      L,pal,logoBg:logo.bg,logoIcon:logo.icon,
+      query:s.query,setQuery:e=>this.setState({query:e.target.value}),
+      searchBg:dark?'#28303B':'#EAF1FB',searchRadius:s.regexOpen?'24px 24px 0 0':'999px',searchShadow:s.regexOpen?'0 1px 2px rgba(0,0,0,.2)':'none',
+      toggleRegex:()=>this.setState({regexOpen:!s.regexOpen}),regexOpen:s.regexOpen,
+      regexBtnBg:s.regexOpen?'var(--pc)':'transparent',regexBtnFg:s.regexOpen?'var(--onpc)':'var(--onv)',
+      regexPattern:s.regexPattern,setRegexPattern:e=>this.setState({regexPattern:e.target.value}),
+      regexFlags:s.regexI?'i':'',toggleFlagI:()=>this.setState({regexI:!s.regexI}),
+      flagIBg:s.regexI?'var(--sc)':'transparent',flagIFg:s.regexI?'var(--onsc)':'var(--onv)',
+      regexStatus:rxErr?'invalid':(s.regexPattern?'valid':'—'),regexStatusBg:rxErr?'var(--errc)':'var(--tc)',regexStatusFg:rxErr?'var(--onerrc)':'var(--ontc)',
+      regexMatchInfo:rxErr?rxErr:(rx?list.length+' matches in '+(L[s.route]||L.updates):'Pattern applies live to name, ID and description in every list and search bar.'),
+      regexTokens,
+      openPalette:()=>this.setState({paletteOpen:true,paletteQuery:''}),
+      cycleLang:()=>this._cycleLang(),
+      toggleDark:()=>this.setState({dark:!dark}),darkIcon:dark?'light_mode':'dark_mode',
+      goSettings:()=>this.setState({route:'settings'}),
+      toggleDrawer:()=>this.setState({drawerOpen:!s.drawerOpen}),drawerOpen:s.drawerOpen,mainMarginLeft:s.drawerOpen?'0':'16px',
+      navMain:navDef.map(mkNav),navTools:toolsDef.map(mkNav),managerRows,
+      fabIcon:fab[0],fabLabel:fab[1],
+      fabAction:()=>{
+        if(s.route==='updates'){s.updates.slice(0,4).forEach(p=>this.enqueue(p,'update',L.update+' · '+p.name+' → '+p.nver,p.name+' ✓ '+p.nver));}
+        else if(s.route==='discover'){const ks=selKeys.length?selKeys:[];if(!ks.length){this.snack('Select packages first, then install');return;}ks.forEach(k=>{const p=findPkg(k);p&&this.enqueue(p,'install',L.install+' · '+p.name,p.name+' ✓');});}
+        else if(s.route==='installed'){this.snack('installed-snapshot.ubundle exported — '+s.installed.length+' packages');}
+        else if(s.route==='bundles'){this.setState(st=>({bundlesList:[...st.bundlesList,{id:Date.now(),name:'New bundle '+(st.bundlesList.length+1),count:0,desc:'Empty bundle — add packages from any list.'}]}));}
+        else this.setState({route:'updates'});
+      },
+      rPkgs,rBundles:s.route==='bundles',rConverter:s.route==='converter',rOllama:s.route==='ollama',rAuth:s.route==='auth',rLogs:s.route==='logs',rSettings:s.route==='settings',
+      rows,emptyList:rPkgs&&list.length===0,srcChips,
+      allIcon:selKeys.length===0?'check_box_outline_blank':(selKeys.length===list.length?'check_box':'indeterminate_check_box'),
+      toggleAll:()=>{const all=selKeys.length===list.length&&list.length>0;const sel={};if(!all)list.forEach(p=>sel[p.key]=true);this.setState({selected:sel});},
+      refresh:()=>this._refresh(),refreshAnim:s.refreshing?'spin 1s linear infinite':'none',
+      anySelected:selKeys.length>0,
+      bulkIcon:s.route==='updates'?'upgrade':(s.route==='discover'?'download':'sync'),
+      bulkLabel:(s.route==='updates'?L.update:L.install)+' ('+selKeys.length+')',
+      bulkPrimary:()=>{selKeys.forEach(k=>{const p=findPkg(k);p&&doPrimary(p);});},
+      bulkIgnore:()=>{const ig={...s.ignored};selKeys.forEach(k=>ig[k]=true);this.setState({ignored:ig,selected:{}});this.snack(L.ignore+' — '+selKeys.length);},
+      rangeInfo:list.length?('1–'+list.length+' '+L.of+' '+baseList.length):'0 '+L.of+' '+baseList.length,
+      bundles,importBundle:()=>this.snack('Choose a .ubundle / .json file — import wizard opened'),
+      newBundle:()=>this.setState(st=>({bundlesList:[...st.bundlesList,{id:Date.now(),name:'New bundle '+(st.bundlesList.length+1),count:0,desc:'Empty bundle — add packages from any list.'}]})),
+      conversions:s.conversions.map(cv=>({...cv,icon:cv.status==='ok'?'check_circle':(cv.status==='loss'?'warning':'cancel'),fg:cv.status==='ok'?'var(--grn)':(cv.status==='loss'?'#F4B400':'var(--err)'),chipBg:cv.status==='ok'?'var(--tc)':(cv.status==='loss'?'#FEF7E0':'var(--errc)'),chipFg:cv.status==='ok'?'var(--ontc)':(cv.status==='loss'?'#7A5900':'var(--onerrc)'),status:cv.status==='ok'?'Converted':(cv.status==='loss'?'Lossy':'Unsupported')})),
+      convertPick:()=>this.snack('File picker opened — byte detection chooses the adapter'),
+      models,ollamaSnapshot:()=>this.snack('Snapshot saved — models + Modelfiles + settings'),ollamaRollback:()=>this.snack('Rollback: restored snapshot from 2026-08-19 22:10'),
+      totp,totpLeft:String(s.totpLeft),
+      totpIssuer:s.totpIssuer,setTotpIssuer:e=>this.setState({totpIssuer:e.target.value}),
+      totpSecret:s.totpSecret,setTotpSecret:e=>this.setState({totpSecret:e.target.value}),
+      addTotp:()=>{if(!s.totpIssuer||!s.totpSecret){this.snack('Issuer and Base32 secret are both required');return;}this.setState(st=>({totpEntries:[...st.totpEntries,{id:Date.now()%100000,issuer:st.totpIssuer.split('·')[0].trim(),account:st.totpIssuer.split('·')[1]?.trim()||'local',color:'#00796B'}],totpIssuer:'',totpSecret:''}));},
+      logTabs,logLines,logBg:dark?'#0B0E12':'#F1F4F9',
+      settingsTabs,settingsTitle:titleMap[s.settingsTab],settingRows:rowsByTab[s.settingsTab]||[],
+      stAppearance:s.settingsTab==='appearance',stLocalization:s.settingsTab==='localization',stVocabulary:s.settingsTab==='vocabulary',stSecurity:s.settingsTab==='security',
+      logoPresets,logoFits,uploadLogo:()=>this.snack('Upload a PNG/SVG — crop, fit and background editing follow'),resetLogo:()=>{this.setState({logoIdx:0,logoFit:'fit'});this.snack(L.reset+' ✓ — installed identity unchanged');},
+      langRows,
+      vocabStatus:s.vocabLoaded?'personal-vocabulary.json · 927 entries · imported 2026-08-21':'No file uploaded — the control is always visible.',
+      vocabPick:()=>{this.setState({vocabLoaded:true});this.snack('Vocabulary imported to the private local cache');},
+      vocabClear:()=>{this.setState({vocabLoaded:false});this.snack('Private vocabulary cache cleared');},
+      qrCells,pairCode:s.pairCode,setPairCode:e=>this.setState({pairCode:e.target.value}),
+      confirmPair:()=>{const ok=s.pairCode.replace(/\s/g,'').length===6;this.setState({pairMsg:ok?'Pairing confirmed — device registered ✓':'Enter the 6-digit code from your authenticator.'});},
+      pairMsg:s.pairMsg,pairMsgFg:s.pairMsg.includes('✓')?'var(--grn)':'var(--err)',
+      detailsOpen:!!d0,d,closeDetails:()=>this.setState({detailsKey:null}),
+      queueOpen:s.queue.length>0,queue,queueSummary:s.queue.filter(q=>q.running).length+' / '+s.queue.length,
+      snackOpen:!!s.snack,snackText:s.snack||'',
+      paletteOpen:s.paletteOpen,paletteQuery:s.paletteQuery,setPaletteQuery:e=>this.setState({paletteQuery:e.target.value}),
+      paletteResults,paletteEmpty:paletteResults.length===0,
+      closeOverlays:()=>this.setState({paletteOpen:false}),stopProp:e=>e.stopPropagation(),
+      confirmOpen:!!c,
+      confirmBody:c?('“'+c.pkg.name+'” ('+c.pkg.pid+') — '+(langNow==='yue'?'呢個係破壞性操作。要兩條鎖匙加滑桿先可以執行。':'this is a destructive action. Both keys and a full slide are required before it can run.')):'',
+      stripeOp:armed?'1':'.35',
+      toggleKeyA:()=>this.setState({keyA:!s.keyA}),toggleKeyB:()=>this.setState({keyB:!s.keyB}),
+      keyABg:s.keyA?'var(--errc)':'transparent',keyAFg:s.keyA?'var(--onerrc)':'var(--onv)',keyABd:s.keyA?'var(--err)':'var(--olv)',
+      keyBBg:s.keyB?'var(--errc)':'transparent',keyBFg:s.keyB?'var(--onerrc)':'var(--onv)',keyBBd:s.keyB?'var(--err)':'var(--olv)',
+      sliderVal:s.slider,setSlider:e=>this.setState({slider:Number(e.target.value)}),
+      confirmDisabled:!armed,confirmBg:armed?'var(--err)':'var(--sch)',confirmFg:armed?(dark?'#3A0A06':'#fff'):'var(--onv)',
+      emergencyCancel:()=>{this.setState({confirm:null,keyA:false,keyB:false,slider:0});this.snack(L.emergencyCancel+' ✓');},
+      confirmGo:()=>{if(!armed)return;const p=c.pkg;this.setState({confirm:null,keyA:false,keyB:false,slider:0,detailsKey:null});this.enqueue(p,'uninstall',L.uninstall+' · '+p.name,p.name+' '+L.uninstall.toLowerCase()+' ✓');}
+    };
+  }
+}
+</script>
+</body>
+</html>

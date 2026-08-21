@@ -1,0 +1,33 @@
+{
+  "name": "material-unigetui-root",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Material Design 3 rewrite of the UniGetUI interface",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build:main": "webpack --config app/webpack.main.js --mode production",
+    "build:renderer": "webpack --config app/webpack.renderer.js --mode production",
+    "build": "npm run build:main && npm run build:renderer",
+    "start": "electron app",
+    "test": "node script/test.mjs",
+    "count-lines": "node script/count-lines.mjs",
+    "validate:symbols": "node script/validate-material-symbols.mjs",
+    "validate:fonts": "node script/validate-font-manifest.mjs",
+    "generate:docs-bundle": "node script/generate-docs-browser-bundle.mjs",
+    "site:coverage": "node script/site-contract-coverage-test.mjs",
+    "package": "node script/package.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "electron": "42.0.1",
+    "electron-packager": "^17.1.1",
+    "electron-winstaller": "^5.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "5.9.3",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^7.2.2"
+  }
+}

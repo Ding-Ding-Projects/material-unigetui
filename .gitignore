@@ -1,0 +1,9 @@
+node_modules/
+out/
+dist/
+_site/
+*.log
+.DS_Store
+Thumbs.db
+app/static/common/fonts/*.woff2
+!app/static/common/fonts/MANIFEST.json

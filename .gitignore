@@ -7,3 +7,4 @@ _site/
 Thumbs.db
 app/static/common/fonts/*.woff2
 !app/static/common/fonts/MANIFEST.json
+app/build-test/

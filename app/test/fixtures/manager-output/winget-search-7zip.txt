@@ -1,0 +1,11 @@
+Name                               Id                        Version         Match         Source
+-------------------------------------------------------------------------------------------------
+7-Zip                              7zip.7zip                 26.02           Moniker: 7zip winget
+Advanced Archive Password Recovery Elcomsoft.ArchivePassword 4.66.266.6965   Tag: 7zip     winget
+NanaZip                            M2Team.NanaZip            6.5.1800.0      Tag: 7zip     winget
+NanaZip Preview                    M2Team.NanaZip.Preview    7.0.1800.0      Tag: 7zip     winget
+7-Zip ZS                           mcmilk.7zip-zstd          26.02-v1.5.7-R2 Tag: 7zip     winget
+7-Zip ZS Non Darkmode              mcmilk.7zip-zstd-ndm      26.02-v1.5.7-R2 Tag: 7zip     winget
+Dark7zip                           ozone10.7zip.Dark         26.02-0.70.0    Tag: 7zip     winget
+7zr                                7zip.7zr                  26.02                         winget
+QNapi                              QNapi.QNapi               0.2.3           Tag: p7zip    winget

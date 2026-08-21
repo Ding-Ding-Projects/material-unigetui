@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "description": "Material Design 3 rewrite of the UniGetUI interface",
   "license": "MIT",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build:main": "webpack --config app/webpack.main.js --mode production",
     "build:renderer": "webpack --config app/webpack.renderer.js --mode production",
@@ -22,9 +24,11 @@
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "css-loader": "^7.1.2",
     "electron": "42.0.1",
     "electron-packager": "^17.1.1",
     "electron-winstaller": "^5.0.0",
+    "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
     "typescript": "5.9.3",
     "webpack": "^5.104.1",

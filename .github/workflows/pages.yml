@@ -45,14 +45,19 @@ jobs:
           fi
 
       - name: Refuse any off-origin asset
-        # A CDN link would break the offline promise the footer makes, and would
-        # do it silently.
+        # A CDN reference would break the offline promise the footer makes, and
+        # would do it silently.
+        #
+        # Assets only — things the page LOADS. An ordinary <a href> to another
+        # site is navigation the visitor chose, not an asset, and an earlier
+        # version of this check failed the build over the link to this very
+        # repository.
         run: |
-          if grep -nE '(src|href)="https?://' site/index.html | grep -v 'og:image'; then
-            echo "::error::site/index.html references an off-origin asset"
+          if grep -nE '(<link[^>]+href|src)="https?://' site/index.html; then
+            echo "::error::site/index.html loads an off-origin asset"
             exit 1
           fi
-          echo "all assets are local"
+          echo "all loaded assets are local"
 
       - uses: actions/configure-pages@v6
 

@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material UniGetUI</title>
+<meta name="description" content="A Material Design 3 rewrite of the UniGetUI interface for Windows package managers.">
+<meta name="theme-color" content="#0B57D0">
+
+<!--
+  Open Graph. og:image is absolute because a relative one is the single most
+  common reason a pasted link shows no picture at all, and twitter:card is what
+  decides between a large image and a small thumbnail squeezed beside the text.
+-->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Material UniGetUI">
+<meta property="og:title" content="Material UniGetUI">
+<meta property="og:description" content="A Material Design 3 rewrite of the UniGetUI interface for Windows package managers.">
+<meta property="og:url" content="https://ding-ding-projects.github.io/material-unigetui/">
+<meta property="og:image" content="https://ding-ding-projects.github.io/material-unigetui/assets/social-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Material UniGetUI — the Material Design 3 interface for your package managers.">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="stylesheet" href="./assets/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">Material <span>UniGetUI</span></div>
+
+    <label class="btn" for="language-mode">
+      <span class="visually-hidden">Language</span>
+      <select id="language-mode" class="btn" style="border:0;background:transparent;min-height:auto;padding:0">
+        <option value="en">English</option>
+        <option value="yue">粵語</option>
+        <option value="bilingual">Bilingual</option>
+      </select>
+    </label>
+
+    <button class="btn" id="theme-toggle" type="button">Dark theme</button>
+    <a class="btn btn--filled" href="https://github.com/Ding-Ding-Projects/material-unigetui">Source</a>
+  </div>
+
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" data-tab="overview" id="tab-overview" aria-controls="panel-overview" aria-selected="true">Overview</button>
+      <button class="tab" role="tab" data-tab="features" id="tab-features" aria-controls="panel-features" aria-selected="false">Feature contracts</button>
+      <button class="tab" role="tab" data-tab="status" id="tab-status" aria-controls="panel-status" aria-selected="false">Honest status</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
+    <h1>Material UniGetUI</h1>
+    <p class="lede" data-string="tagline">The Material Design 3 interface for your package managers.</p>
+
+    <div class="note">
+      <strong>Not released yet.</strong> There is no installer to download. This
+      site describes work in progress, and the status tab says exactly how much
+      of it exists — because a page that implies a finished product is the one
+      thing a reader cannot check for themselves.
+    </div>
+
+    <h2>What it is</h2>
+    <p>A rewrite of the UniGetUI interface in Material Design 3, driving Windows
+    package managers through natively reimplemented drivers rather than through
+    the original engine. It searches, lists and updates packages using
+    <code>winget</code> today; the other in-scope managers are not written yet.</p>
+
+    <h2>Why the status is on the front page</h2>
+    <p>Because the alternative is a landing page that reads as finished while the
+    repository is plainly not, and a reader has no way to tell the difference.
+    Every claim here is generated from the same inventory the test suite checks.</p>
+  </section>
+
+  <section class="panel" id="panel-features" role="tabpanel" aria-labelledby="tab-features" hidden>
+    <h1>Feature contracts</h1>
+    <p class="lede">Every contract this project has adopted, generated from the
+    inventory the guard test enforces. A row here cannot outlive its row there.</p>
+
+    <label for="feature-search" data-string="searchLabel">Search features</label>
+    <div class="search">
+      <input id="feature-search" type="search" data-string-placeholder="searchPlaceholder"
+             placeholder="Search features, contracts, IDs…" autocomplete="off">
+      <span class="search__status" id="search-status" role="status" aria-live="polite"></span>
+      <button class="btn" id="regex-toggle" type="button" aria-expanded="false"
+              aria-controls="regex-builder" data-string="regexToggle">Regex builder</button>
+    </div>
+
+    <div class="regex-builder" id="regex-builder" hidden>
+      <div class="regex-builder__tokens">
+        <button class="chip" type="button" data-token="^">^ start</button>
+        <button class="chip" type="button" data-token="$">$ end</button>
+        <button class="chip" type="button" data-token=".">. any</button>
+        <button class="chip" type="button" data-token="\d">\d digit</button>
+        <button class="chip" type="button" data-token="\w">\w word</button>
+        <button class="chip" type="button" data-token="\s">\s space</button>
+        <button class="chip" type="button" data-token="[a-z]">[a-z] class</button>
+        <button class="chip" type="button" data-token="(…)">( ) group</button>
+        <button class="chip" type="button" data-token="|">| or</button>
+        <button class="chip" type="button" data-token="*">* many</button>
+        <button class="chip" type="button" data-token="+">+ one or more</button>
+        <button class="chip" type="button" data-token="?">? optional</button>
+      </div>
+      <div class="regex-builder__row">
+        <label><input type="checkbox" id="use-regex"> <span data-string="useRegex">Interpret as a regular expression</span></label>
+      </div>
+    </div>
+
+    <div class="scroll-x">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Contract</th><th>Evidence</th></tr>
+        </thead>
+        <tbody>
+        <tr data-feature-row data-search-text="language-modes english, cantonese, and bilingual language modes">
+          <td><code>language-modes</code></td>
+          <td>English, Cantonese, and bilingual language modes</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="independent-funny-levels independent english and cantonese funny-level controls">
+          <td><code>independent-funny-levels</code></td>
+          <td>Independent English and Cantonese funny-level controls</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="dialog-emoji-toggle dialog and message-box emoji toggle">
+          <td><code>dialog-emoji-toggle</code></td>
+          <td>Dialog and message-box emoji toggle</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="school-mode shared user-renamable school mode and unlock credential">
+          <td><code>school-mode</code></td>
+          <td>Shared user-renamable School mode and unlock credential</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="personal-vocabulary local personal-vocabulary json upload, validation, persistence, and reset">
+          <td><code>personal-vocabulary</code></td>
+          <td>Local personal-vocabulary JSON upload, validation, persistence, and reset</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="spoken-narrator serialized spoken event narrator">
+          <td><code>spoken-narrator</code></td>
+          <td>Serialized spoken event narrator</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="narrator-voice-controls per-language narrator voice, rate, and pitch controls">
+          <td><code>narrator-voice-controls</code></td>
+          <td>Per-language narrator voice, rate, and pitch controls</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="scheduled-settings scheduled language, appearance, and customization settings">
+          <td><code>scheduled-settings</code></td>
+          <td>Scheduled language, appearance, and customization settings</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="external-settings-sources validated api and home assistant scheduled-setting sources">
+          <td><code>external-settings-sources</code></td>
+          <td>Validated API and Home Assistant scheduled-setting sources</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="settings-explanations progressive setting explanations and default provenance">
+          <td><code>settings-explanations</code></td>
+          <td>Progressive setting explanations and default provenance</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="guided-forms guided forms with real choices, defaults, validation, and path browsing">
+          <td><code>guided-forms</code></td>
+          <td>Guided forms with real choices, defaults, validation, and path browsing</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="adhd-modes independent focus, low stimulation, time awareness, one thing at a time, and momentum modes">
+          <td><code>adhd-modes</code></td>
+          <td>Independent Focus, Low stimulation, Time awareness, One thing at a time, and Momentum modes</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="dim-sum-surprise non-blocking startup dim sum surprise">
+          <td><code>dim-sum-surprise</code></td>
+          <td>Non-blocking startup dim sum surprise</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="regex-builder anchored regex builder on every search, menu, dropdown, and settings surface">
+          <td><code>regex-builder</code></td>
+          <td>Anchored regex builder on every search, menu, dropdown, and settings surface</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="browser-style-tabs dockable browser-style tab navigation">
+          <td><code>browser-style-tabs</code></td>
+          <td>Dockable browser-style tab navigation</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="tab-pinning persistent tab pinning">
+          <td><code>tab-pinning</code></td>
+          <td>Persistent tab pinning</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="tab-grouping persistent tab grouping and move-into-group picker">
+          <td><code>tab-grouping</code></td>
+          <td>Persistent tab grouping and move-into-group picker</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="tab-discovery-searches strip, group, group-name, and master tab searches">
+          <td><code>tab-discovery-searches</code></td>
+          <td>Strip, group, group-name, and master tab searches</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="tab-bulk-close previewed text and regex tab bulk-close actions">
+          <td><code>tab-bulk-close</code></td>
+          <td>Previewed text and regex tab bulk-close actions</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="command-palette rich-control command palette with exact-element navigation">
+          <td><code>command-palette</code></td>
+          <td>Rich-control command palette with exact-element navigation</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="material-design-conformance material design 3 tokens, typography, shape, elevation, and motion">
+          <td><code>material-design-conformance</code></td>
+          <td>Material Design 3 tokens, typography, shape, elevation, and motion</td>
+          <td><span class="status status--present">2/7 evidenced</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="appearance-controls persisted theme, density, accent, and font customization">
+          <td><code>appearance-controls</code></td>
+          <td>Persisted theme, density, accent, and font customization</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="per-element-appearance per-element appearance editor from every context menu">
+          <td><code>per-element-appearance</code></td>
+          <td>Per-element appearance editor from every context menu</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="infinite-color-picker continuous color picker with cross-space translation">
+          <td><code>infinite-color-picker</code></td>
+          <td>Continuous color picker with cross-space translation</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="animated-rainbow-color animated rainbow option in every color picker">
+          <td><code>animated-rainbow-color</code></td>
+          <td>Animated rainbow option in every color picker</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="app-logo-customization app-logo presets, local upload, and safe display conversion">
+          <td><code>app-logo-customization</code></td>
+          <td>App-logo presets, local upload, and safe display conversion</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="app-display-rename user-renamable application display name decoupled from identity">
+          <td><code>app-display-rename</code></td>
+          <td>User-renamable application display name decoupled from identity</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="overlay-surfaces overlays that paint their own surface and stay viewport-bounded">
+          <td><code>overlay-surfaces</code></td>
+          <td>Overlays that paint their own surface and stay viewport-bounded</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="resizable-panels resizable and draggable panels with persisted geometry">
+          <td><code>resizable-panels</code></td>
+          <td>Resizable and draggable panels with persisted geometry</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="rich-controls live controls preferred over printed values wherever a value is shown">
+          <td><code>rich-controls</code></td>
+          <td>Live controls preferred over printed values wherever a value is shown</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="context-menu-shortcuts context-menu items display their real keyboard shortcuts">
+          <td><code>context-menu-shortcuts</code></td>
+          <td>Context-menu items display their real keyboard shortcuts</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="accessibility keyboard operation, visible focus, roles and names, contrast, reduced motion">
+          <td><code>accessibility</code></td>
+          <td>Keyboard operation, visible focus, roles and names, contrast, reduced motion</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="responsive-sizing no clipping at supported widths, densities, and display scales">
+          <td><code>responsive-sizing</code></td>
+          <td>No clipping at supported widths, densities, and display scales</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="non-blocking-notifications corner-anchored non-blocking notifications">
+          <td><code>non-blocking-notifications</code></td>
+          <td>Corner-anchored non-blocking notifications</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="notification-centre reviewable notification history with bulk actions">
+          <td><code>notification-centre</code></td>
+          <td>Reviewable notification history with bulk actions</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="destructive-super-confirmation two-key plus slider gate on destructive actions">
+          <td><code>destructive-super-confirmation</code></td>
+          <td>Two-key plus slider gate on destructive actions</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="bulk-actions multi-select and bulk actions on every list, table, and collection">
+          <td><code>bulk-actions</code></td>
+          <td>Multi-select and bulk actions on every list, table, and collection</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="universal-export export of every record in every format that can carry it">
+          <td><code>universal-export</code></td>
+          <td>Export of every record in every format that can carry it</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="external-editor open in external editor, with visual studio code handoff">
+          <td><code>external-editor</code></td>
+          <td>Open in external editor, with Visual Studio Code handoff</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="local-version-history append-only local git history with a filterable manager">
+          <td><code>local-version-history</code></td>
+          <td>Append-only local Git history with a filterable manager</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="changelog-viewer in-app changelog with date picker, search, export, and commit links">
+          <td><code>changelog-viewer</code></td>
+          <td>In-app changelog with date picker, search, export, and commit links</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="offline-documentation bundled offline documentation browser with completeness guard">
+          <td><code>offline-documentation</code></td>
+          <td>Bundled offline documentation browser with completeness guard</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="landing-and-documentation-site day teet hui carrying every contract on per-visitor storage">
+          <td><code>landing-and-documentation-site</code></td>
+          <td>Day Teet Hui carrying every contract on per-visitor storage</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="shared-link-embed product-specific social preview and open graph tags">
+          <td><code>shared-link-embed</code></td>
+          <td>Product-specific social preview and Open Graph tags</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="toy-locks per-element password or totp toy locks with independent credentials">
+          <td><code>toy-locks</code></td>
+          <td>Per-element password or TOTP toy locks with independent credentials</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="support-tickets support tickets recovery route to the application-data folder">
+          <td><code>support-tickets</code></td>
+          <td>Support Tickets recovery route to the application-data folder</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="unlock-ladder dim sum, sums, whack-a-mole, clock unlock ladder">
+          <td><code>unlock-ladder</code></td>
+          <td>Dim sum, sums, whack-a-mole, clock unlock ladder</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="totp-registration qr-based totp pairing with confirmation before arming">
+          <td><code>totp-registration</code></td>
+          <td>QR-based TOTP pairing with confirmation before arming</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="built-in-authenticator local authenticator for arbitrary totp secrets">
+          <td><code>built-in-authenticator</code></td>
+          <td>Local authenticator for arbitrary TOTP secrets</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="secret-mutation-history password-protected append-only secret and rename history">
+          <td><code>secret-mutation-history</code></td>
+          <td>Password-protected append-only secret and rename history</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="file-converter local bounded file converter with honest loss disclosure">
+          <td><code>file-converter</code></td>
+          <td>Local bounded file converter with honest loss disclosure</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="ollama-suite-manager local ollama runtime, model store, batch pull, chat, and harness manager">
+          <td><code>ollama-suite-manager</code></td>
+          <td>Local Ollama runtime, model store, batch pull, chat, and harness manager</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="status-hub status hub registration and live reporting">
+          <td><code>status-hub</code></td>
+          <td>Status Hub registration and live reporting</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="blank-slate-presets presets and real defaults offered by blank-slate editors">
+          <td><code>blank-slate-presets</code></td>
+          <td>Presets and real defaults offered by blank-slate editors</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="collapsible-filters collapsible search, filter, and statistics surfaces">
+          <td><code>collapsible-filters</code></td>
+          <td>Collapsible search, filter, and statistics surfaces</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="long-operation-progress real progress reported where a long operation was started">
+          <td><code>long-operation-progress</code></td>
+          <td>Real progress reported where a long operation was started</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="provider-text-rendering provider-authored text rendered through one shared isolated renderer">
+          <td><code>provider-text-rendering</code></td>
+          <td>Provider-authored text rendered through one shared isolated renderer</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="package-discovery discover, search, and filter packages across every driver">
+          <td><code>package-discovery</code></td>
+          <td>Discover, search, and filter packages across every driver</td>
+          <td><span class="status status--present">2/7 evidenced</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="package-operations install, update, and uninstall through a real cancellable queue">
+          <td><code>package-operations</code></td>
+          <td>Install, update, and uninstall through a real cancellable queue</td>
+          <td><span class="status status--present">1/7 evidenced</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="manager-drivers native drivers for every in-scope windows package manager">
+          <td><code>manager-drivers</code></td>
+          <td>Native drivers for every in-scope Windows package manager</td>
+          <td><span class="status status--present">3/7 evidenced</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="package-bundles bundle import, export, and installation">
+          <td><code>package-bundles</code></td>
+          <td>Bundle import, export, and installation</td>
+          <td><span class="status status--pending">not started</span></td>
+        </tr>
+        <tr data-feature-row data-search-text="unsigned-squirrel-installer unsigned squirrel.windows installer with automatic updates">
+          <td><code>unsigned-squirrel-installer</code></td>
+          <td>Unsigned Squirrel.Windows installer with automatic updates</td>
+          <td><span class="status status--present">1/7 evidenced</span></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-status" role="tabpanel" aria-labelledby="tab-status" hidden>
+    <h1>Honest status</h1>
+    <p class="lede">Generated from the evidence manifest, not written by hand.</p>
+
+    <div class="card">
+      <h2 style="margin-top:0">Where this actually stands</h2>
+      <ul>
+        <li><strong>62</strong> canonical contracts adopted.</li>
+        <li><strong>5</strong> of them have any evidence at all.</li>
+        <li><strong>9</strong> evidence records present out of <strong>434</strong>.</li>
+      </ul>
+      <p>The remaining records are marked pending with a written reason. A pending
+      row is not a failure; a missing row would be, and the guard fails the build
+      for exactly that.</p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">What genuinely works today</h2>
+      <ul>
+        <li>The application builds, launches, and navigates its real routes.</li>
+        <li>Discover, Software updates and Installed read live data from the
+        native <code>winget</code> driver.</li>
+        <li>The renderer is isolated behind a preload bridge that exposes named
+        calls only.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">What is deliberately not built yet</h2>
+      <ul>
+        <li>Ten of the eleven in-scope package managers.</li>
+        <li>Installing, updating and uninstalling from the interface — the queue
+        exists, nothing triggers it.</li>
+        <li>Most of the routes: bundles, history, converter, Ollama, authenticator,
+        logs, tickets, settings. They say so on screen instead of pretending.</li>
+        <li>No installer has been produced or released.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Every asset on this page is served from this origin — no CDN, no remote
+  font, no analytics. Your settings are stored in this browser only.</p>
+</footer>
+
+<script src="./assets/site.js"></script>
+</body>
+</html>

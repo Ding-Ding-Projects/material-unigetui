@@ -130,6 +130,14 @@ function DiscoverRoute(): JSX.Element {
   const [query, setQuery] = React.useState('')
   const [submitted, setSubmitted] = React.useState('')
 
+  // Search as the user types, like the design does, but debounced: each query
+  // spawns a real package-manager process, so one per keystroke would fork a
+  // dozen processes for a single word.
+  React.useEffect(() => {
+    const timer = setTimeout(() => setSubmitted(query), 400)
+    return () => clearTimeout(timer)
+  }, [query])
+
   const state = usePackages(async () => {
     if (submitted.trim().length === 0) {
       return []

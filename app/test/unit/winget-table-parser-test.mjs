@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import { importCompiled } from '../helpers/compiled.mjs'
+import { loadCompiled } from '../helpers/compiled.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const repoRoot = join(here, '..', '..', '..')
@@ -11,7 +11,7 @@ const repoRoot = join(here, '..', '..', '..')
 // The parser is TypeScript; the test exercises the compiled behaviour by
 // importing the source through the same tsc the build uses. Kept as a plain
 // re-implementation-free import so a rename in the source breaks this test.
-const { parseWinGetTable, parseHeaderSpans } = await importCompiled(
+const { parseWinGetTable, parseHeaderSpans } = loadCompiled(
   'main-process/manager-drivers/winget-table-parser.ts'
 )
 

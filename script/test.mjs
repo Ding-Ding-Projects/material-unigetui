@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 /**
- * Compiles the testable TypeScript to plain JS, then runs the node:test suite
- * against the compiled output.
+ * Compiles the testable TypeScript, then runs the node:test suite against the
+ * compiled output.
  *
- * Tests import the COMPILED source rather than re-declaring the logic they
- * check. A test that restates its subject proves only that the author can write
- * the same expression twice.
+ * Output is CommonJS on purpose. The sources use extensionless relative imports
+ * because webpack resolves them, and raw Node ESM does not — compiling to CJS
+ * lets the tests exercise the real source without rewriting every import for
+ * the benefit of the test runner alone.
  */
 import { spawnSync } from 'node:child_process'
 import { rmSync, existsSync, readdirSync } from 'node:fs'
@@ -23,13 +24,16 @@ rmSync(outDir, { recursive: true, force: true })
 console.log('· compiling testable sources')
 const compile = run('npx', [
   'tsc',
+  'app/src/main-process/manager-drivers/winget-driver.ts',
   'app/src/main-process/manager-drivers/winget-table-parser.ts',
   'app/src/ui/md3/md3-style-contract.ts',
   '--outDir', 'app/build-test',
-  '--module', 'esnext',
-  '--target', 'es2022',
-  '--moduleResolution', 'bundler',
   '--rootDir', 'app/src',
+  '--module', 'commonjs',
+  '--moduleResolution', 'node10',
+  '--target', 'es2022',
+  '--types', 'node',
+  '--esModuleInterop',
   '--strict',
 ])
 

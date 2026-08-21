@@ -22,20 +22,7 @@ const run = (cmd, args) =>
 rmSync(outDir, { recursive: true, force: true })
 
 console.log('· compiling testable sources')
-const compile = run('npx', [
-  'tsc',
-  'app/src/main-process/manager-drivers/winget-driver.ts',
-  'app/src/main-process/manager-drivers/winget-table-parser.ts',
-  'app/src/ui/md3/md3-style-contract.ts',
-  '--outDir', 'app/build-test',
-  '--rootDir', 'app/src',
-  '--module', 'commonjs',
-  '--moduleResolution', 'node10',
-  '--target', 'es2022',
-  '--types', 'node',
-  '--esModuleInterop',
-  '--strict',
-])
+const compile = run('npx', ['tsc', '-p', 'tsconfig.test.json'])
 
 if (compile.status !== 0) {
   console.error('✖ compile failed — not running tests against stale output')

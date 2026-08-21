@@ -28,11 +28,11 @@ human view of the same thing.
 - [x] Executable negative regression — 9/9 sabotages caught
 - [x] Documentation site built and generated from the inventory, 10/10 behaviour
       checks passing locally against the real page
-- [ ] **Site actually deployed** — Pages is enabled and the workflow is committed,
-      but runs sit queued and never start on this account, so
-      `https://ding-ding-projects.github.io/material-unigetui/` still returns 404.
-      Two earlier runs failed on an over-broad asset guard, which is fixed. This
-      is an external blocker, not a missing file.
+- [x] **Site deployed and verified** — live at
+      `https://ding-ding-projects.github.io/material-unigetui/`, serving 62 contract
+      rows and its Open Graph tags, with `og:image` reachable unauthenticated.
+      Runs queued for a long time before starting; two earlier ones failed on an
+      over-broad asset guard, since fixed.
 - [x] `social-preview.png` rendered and committed at the repository root
 - [ ] **Social preview uploaded to the repository settings** — the API cannot do
       this; it needs one manual step (see README)

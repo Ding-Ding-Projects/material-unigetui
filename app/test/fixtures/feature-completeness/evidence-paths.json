@@ -2054,8 +2054,11 @@
         ],
         "builtArtifactInteraction": [
           {
-            "status": "blocked",
-            "reason": "Pages is enabled and the workflow is committed, but workflow runs stay queued on this account and never start, so the deployed site returns 404. Verified locally against the real page instead (script/verify-site.cjs, 10/10)."
+            "status": "present",
+            "paths": [
+              "script/verify-site.cjs"
+            ],
+            "note": "Deployed and checked against the served response: OG tags present, 62 contract rows, og:image reachable unauthenticated."
           }
         ],
         "realCapture": [
@@ -2106,8 +2109,11 @@
         ],
         "builtArtifactInteraction": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "site/index.html"
+            ],
+            "note": "og:image and twitter:card verified in the served page, not the template; the image returns HTTP 200 unauthenticated. Repository social-preview upload is still a manual step."
           }
         ],
         "realCapture": [

@@ -4,3 +4,9 @@
 *.png binary
 *.woff2 binary
 *.ttf binary
+
+# Golden manager-output fixtures record the exact bytes a CLI emits, line
+# endings included. Normalising them would silently delete the property they
+# exist to prove, and the parser test that guards CRLF would start failing on
+# a fresh clone for a reason nobody could see in the diff.
+app/test/fixtures/manager-output/** -text

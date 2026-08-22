@@ -1,0 +1,283 @@
+/**
+ * Browser-style tab strip, ported from the design's
+ * "Tab strip (browser-style, groups + pins)" section.
+ *
+ * Selectors are scoped under `.tab-strip-wrap` so nothing here can be beaten
+ * by an equally-specific rule declared earlier in the shared stylesheets this
+ * lane does not own (app.css / components.css) — see the note in
+ * docs/features/tab-strip.md about the duplicate-declaration trap.
+ */
+
+.tab-strip-wrap {
+  position: relative;
+  flex: none;
+  background: var(--sf);
+  border-bottom: 1px solid var(--olv);
+}
+
+.tab-strip-wrap .tab-strip {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 0 16px;
+  height: 40px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.tab-strip-wrap .tab-strip__pinned {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  flex: none;
+  border-right: 1px solid var(--olv);
+  padding-right: 6px;
+  margin-right: 4px;
+}
+
+.tab-strip-wrap .tab-strip__group-chip {
+  height: 28px;
+  margin-bottom: 5px;
+  padding: 0 12px;
+  border: none;
+  border-radius: var(--md-shape-full);
+  cursor: pointer;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+.tab-strip-wrap .tab-strip__group-chip .tab-strip__group-count {
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+.tab-strip-wrap .tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 6px 0 14px;
+  border-radius: 12px 12px 0 0;
+  cursor: pointer;
+  background: var(--sch);
+  color: var(--onv);
+  border: 1px solid transparent;
+  border-bottom: none;
+  max-width: 200px;
+  min-width: 96px;
+  flex: none;
+}
+
+.tab-strip-wrap .tab[data-active='true'] {
+  background: var(--sf);
+  color: var(--on);
+  border-color: var(--olv);
+}
+
+.tab-strip-wrap .tab:hover {
+  background: var(--schh);
+}
+
+.tab-strip-wrap .tab[data-active='true']:hover {
+  background: var(--sf);
+}
+
+.tab-strip-wrap .tab__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  font-size: 12.5px;
+  font-family: var(--md-body-family, inherit);
+  text-align: left;
+}
+
+.tab-strip-wrap .tab__label:focus-visible {
+  outline: 2px solid var(--p);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.tab-strip-wrap .tab__label-text {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tab-strip-wrap .tab__group-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--md-shape-full);
+  flex: none;
+}
+
+.tab-strip-wrap .tab__pin,
+.tab-strip-wrap .tab__close,
+.tab-strip-wrap .tab-strip__action {
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  border-radius: var(--md-shape-full);
+  cursor: pointer;
+  color: inherit;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.tab-strip-wrap .tab__pin:hover,
+.tab-strip-wrap .tab__close:hover,
+.tab-strip-wrap .tab-strip__action:hover {
+  background: var(--schh);
+}
+
+.tab-strip-wrap .tab[data-pinned='true'] .tab__pin {
+  color: var(--p);
+}
+
+.tab-strip-wrap .tab-strip__actions {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  flex: none;
+  margin-bottom: 4px;
+}
+
+.tab-strip-wrap .tab-strip__action {
+  width: 30px;
+  height: 30px;
+  color: var(--onv);
+}
+
+.tab-strip-wrap .tab-strip__action[aria-expanded='true'] {
+  background: var(--sch);
+  color: var(--p);
+}
+
+/* Overlays paint their own surface: background, border, elevation and shape,
+   bounded by the viewport, scrolling internally rather than clipping. */
+.tab-strip-wrap .tab-panel {
+  position: absolute;
+  top: 42px;
+  right: 16px;
+  z-index: 80;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(480px, calc(100vh - 96px));
+  overflow-y: auto;
+  background: var(--sf);
+  color: var(--on);
+  border: 1px solid var(--olv);
+  border-radius: var(--md-shape-large, 16px);
+  box-shadow: var(--md-level3, 0 4px 8px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.2));
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tab-strip-wrap .tab-panel__scopes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tab-strip-wrap .tab-panel__results {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.tab-strip-wrap .tab-panel__result {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: var(--on);
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  min-height: 36px;
+}
+
+.tab-strip-wrap .tab-panel__result:hover,
+.tab-strip-wrap .tab-panel__result:focus-visible {
+  background: var(--sch);
+  outline: none;
+}
+
+.tab-strip-wrap .tab-panel__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--onv);
+}
+
+.tab-strip-wrap .tab-panel__field input[type='text'] {
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--olv);
+  background: var(--sch);
+  color: var(--on);
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.tab-strip-wrap .tab-panel__preview {
+  font-size: 12px;
+  color: var(--onv);
+}
+
+.tab-strip-wrap .tab-panel__group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.tab-strip-wrap .tab-panel__group-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--on);
+  text-align: left;
+  min-height: 36px;
+  font-size: 13px;
+}
+
+.tab-strip-wrap .tab-panel__group-row:hover,
+.tab-strip-wrap .tab-panel__group-row:focus-visible {
+  background: var(--sch);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-strip-wrap .tab-panel {
+    animation: none;
+  }
+}

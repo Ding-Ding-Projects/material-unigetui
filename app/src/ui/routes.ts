@@ -35,3 +35,13 @@ export type RouteId = (typeof allRoutes)[number]['id']
 export function routeLabel(id: RouteId): string {
   return allRoutes.find(route => route.id === id)?.label ?? id
 }
+
+/** The translation key that supplies the localized label for a route. */
+export function routeI18nKey(id: RouteId): string {
+  return allRoutes.find(route => route.id === id)?.i18nKey ?? id
+}
+
+/** The exact Material Symbols Rounded ligature name the design uses for a route. */
+export function routeIcon(id: RouteId): string {
+  return allRoutes.find(route => route.id === id)?.icon ?? 'circle'
+}

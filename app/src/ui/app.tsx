@@ -241,7 +241,6 @@ function NavDrawer(props: {
       ))}
 
       <div className="nav-drawer__divider" role="separator" />
-      <div className="nav-drawer__group-label">{t('tools')}</div>
       {renderGroup(t('tools'), toolsRoutes)}
     </nav>
   )

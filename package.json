@@ -22,7 +22,10 @@
     "ensure:electron": "node script/ensure-electron-binary.mjs",
     "prestart": "node script/ensure-electron-binary.mjs",
     "sync:inventory": "node script/sync-evidence-manifest.mjs",
-    "test:negative": "node script/negative-regression.mjs"
+    "test:negative": "node script/negative-regression.mjs",
+    "design-parity:reference-server": "node script/design-parity/reference-server.mjs",
+    "design-parity:diff": "node script/design-parity/diff.mjs",
+    "design-parity:guard": "node --test app/test/unit/design-parity-guard-test.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

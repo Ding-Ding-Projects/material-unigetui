@@ -1,0 +1,188 @@
+/**
+ * Styles owned by the tool routes (app/src/ui/tools/*, tool-routes.tsx).
+ *
+ * Reuses the shared primitives from components.css (.card, .btn, .chip,
+ * .search-field, .state-note, .note, .plain-table, .package-row …) rather
+ * than redeclaring them. Only genuinely new shapes — the converter drop
+ * zone, the model rows, the category tabs — live here.
+ */
+
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.tool-header__title { flex: 1; min-width: 200px; }
+.tool-header .search-anchor { flex: 0 0 auto; width: 260px; margin-bottom: 0; }
+
+.tool-dropzone {
+  width: 100%;
+  border: 2px dashed var(--ol);
+  border-radius: var(--md-shape-large);
+  padding: 36px;
+  display: grid;
+  place-items: center;
+  color: var(--onv);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+.tool-dropzone:hover, .tool-dropzone:focus-visible { background: var(--sch); }
+.tool-dropzone:focus-visible { outline: 2px solid var(--p); outline-offset: 2px; }
+.tool-dropzone:disabled { cursor: not-allowed; opacity: .7; }
+.tool-dropzone__title { margin-top: 8px; font-size: 15px; color: var(--on); }
+.tool-dropzone__hint { font-size: 12px; margin-top: 4px; text-align: center; }
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.category-tab {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--md-shape-small);
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--ol);
+  background: transparent;
+  color: var(--on);
+}
+.category-tab:hover { background: var(--sch); }
+.category-tab:focus-visible { outline: 2px solid var(--p); outline-offset: 2px; }
+.category-tab[aria-selected="true"] {
+  background: var(--sc);
+  color: var(--onsc);
+  border-color: transparent;
+}
+.category-tab__count { color: var(--onv); font-size: 11px; }
+.category-tab[aria-selected="true"] .category-tab__count { color: var(--onsc); }
+
+.format-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  border-top: 1px solid var(--olv);
+  padding: 6px 4px;
+}
+.format-row:first-child { border-top: 0; }
+.format-row__grow { flex: 1; min-width: 0; }
+.format-row__name { font-size: 13px; font-weight: 500; }
+.format-row__note { font-size: 11px; color: var(--onv); }
+.format-row__status {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: var(--md-shape-full);
+  background: var(--sch);
+  color: var(--onv);
+  white-space: nowrap;
+}
+
+.model-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  border-top: 1px solid var(--olv);
+  padding: 8px 4px;
+}
+.model-row:first-child { border-top: 0; }
+.model-row__grow { flex: 1; min-width: 0; }
+.model-row__name { font-size: 14px; font-weight: 500; }
+.model-row__tag {
+  font-weight: 400;
+  color: var(--onv);
+  font-size: 12px;
+  font-family: var(--md-mono-family);
+}
+.model-row__meta { font-size: 11px; color: var(--onv); }
+.model-row__fit {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: var(--md-shape-full);
+  white-space: nowrap;
+}
+.model-row__fit[data-fit="fits"] { background: var(--tc); color: var(--ontc); }
+.model-row__fit[data-fit="tight"] { background: var(--sch); color: var(--onv); }
+.model-row__fit[data-fit="too-big"] { background: var(--errc); color: var(--onerrc); }
+.model-row__fit[data-fit="unknown"] { background: var(--sch); color: var(--onv); }
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: var(--md-shape-full);
+  background: var(--tc);
+  color: var(--ontc);
+}
+.status-line__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--md-shape-full);
+  background: var(--grn);
+}
+.status-line[data-online="false"] .status-line__dot { background: var(--onv); }
+.status-line[data-online="false"] { background: var(--sch); color: var(--onv); }
+
+.automation-chips { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+
+.command-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  border-top: 1px solid var(--olv);
+  padding: 6px 4px;
+  flex-wrap: wrap;
+}
+.command-row:first-child { border-top: 0; }
+.command-row__code {
+  flex: 1;
+  min-width: 220px;
+  font-family: var(--md-mono-family);
+  font-size: 12.5px;
+  color: var(--p);
+}
+.command-row__desc { flex: 1; min-width: 160px; font-size: 12px; color: var(--onv); }
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: var(--md-shape-full);
+  cursor: pointer;
+  color: var(--onv);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+.icon-btn:hover { background: var(--sch); }
+.icon-btn:focus-visible { outline: 2px solid var(--p); outline-offset: 2px; }
+
+.ticket-category-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.about-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.about-tab {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--md-shape-small);
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--ol);
+  background: transparent;
+  color: var(--on);
+}
+.about-tab:hover { background: var(--sch); }
+.about-tab:focus-visible { outline: 2px solid var(--p); outline-offset: 2px; }
+.about-tab[aria-selected="true"] { background: var(--sc); color: var(--onsc); border-color: transparent; }

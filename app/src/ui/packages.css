@@ -1,0 +1,377 @@
+/**
+ * Package screens and Bundles — ported from the design's `<sc-if value="{{
+ * rPkgs }}">` and `<sc-if value="{{ rBundles }}">` sections.
+ *
+ * Deliberately new class names throughout (`.pkg-*`), never a redeclaration
+ * of `.package-row`, `.package-table`, `.btn`, `.card` etc. — those live in
+ * app.css / components.css, owned by a sibling lane. Two stylesheets
+ * declaring the same selector is a silent no-op decided by import order, so
+ * this file only ever adds classes app.css/components.css never define.
+ */
+
+.pkg-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 56px;
+  padding: 8px 12px;
+  flex: none;
+  flex-wrap: wrap;
+}
+
+.pkg-toolbar__spacer { flex: 1; }
+
+.pkg-toolbar__range {
+  font-size: var(--md-label-size);
+  color: var(--onv);
+  white-space: nowrap;
+}
+
+.pkg-icon-btn {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  border-radius: var(--md-shape-full);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--onv);
+  transition: background var(--md-duration-short) var(--md-easing-standard);
+}
+.pkg-icon-btn:hover { background: var(--sch); }
+.pkg-icon-btn:focus-visible { outline: 2px solid var(--p); outline-offset: 2px; }
+.pkg-icon-btn--small { width: 34px; height: 34px; }
+.pkg-icon-btn--accent { color: var(--p); }
+.pkg-icon-btn--danger:hover { background: var(--errc); }
+.pkg-icon-btn--active { color: #F4B400; }
+.pkg-icon-btn[disabled] { opacity: .4; cursor: not-allowed; }
+.pkg-icon-btn--disabled { opacity: .35; pointer-events: none; }
+
+/* Layered onto the shared .package-table__bulk from components.css, never
+   redeclaring it — that selector's base layout stays owned there. */
+.pkg-bulk-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pkg-pill-btn {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--olv);
+  border-radius: var(--md-shape-small);
+  background: transparent;
+  color: var(--onv);
+  cursor: pointer;
+  font-size: var(--md-label-size);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pkg-pill-btn:hover { background: var(--sch); }
+
+.pkg-bulk-primary {
+  height: 36px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--md-shape-full);
+  background: var(--p);
+  color: var(--onp);
+  font-weight: 500;
+  font-size: var(--md-body-size);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pkg-chips {
+  display: flex;
+  gap: 8px;
+  padding: 0 12px 10px;
+  flex: none;
+  flex-wrap: wrap;
+}
+
+.pkg-chip {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: var(--md-shape-small);
+  cursor: pointer;
+  font-size: var(--md-body-small-size);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--olv);
+  background: transparent;
+  color: var(--onv);
+}
+.pkg-chip--on {
+  border-color: var(--p);
+  background: var(--sc);
+  color: var(--onsc);
+}
+
+/* Row decoration layered on top of the shared .package-row from app.css. */
+.pkg-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pkg-row__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--md-shape-small);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: var(--md-body-small-size);
+  font-weight: 700;
+  flex: none;
+}
+
+.pkg-row__ignore.pkg-icon-btn--active { color: #F4B400; }
+
+.pkg-row__source-chip {
+  font-size: var(--md-label-small-size);
+  padding: 3px 10px;
+  border-radius: var(--md-shape-full);
+  background: var(--sch);
+  color: var(--onv);
+  flex: none;
+  white-space: nowrap;
+}
+
+.pkg-row__version {
+  width: 170px;
+  flex: none;
+  text-align: right;
+  font-family: var(--md-mono-family);
+  font-size: var(--md-label-size);
+  color: var(--onv);
+}
+
+.pkg-row__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+.pkg-empty {
+  display: grid;
+  place-items: center;
+  padding: 80px 20px;
+  color: var(--onv);
+  text-align: center;
+  gap: 8px;
+}
+.pkg-empty__icon { color: var(--olv); }
+
+/* -------------------------------------------------------------- dialogs -- */
+
+.pkg-dialog-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 124;
+  background: rgba(0, 0, 0, .35);
+  display: grid;
+  place-items: center;
+}
+
+.pkg-dialog {
+  width: 520px;
+  max-width: calc(100vw - 32px);
+  max-height: 84vh;
+  overflow-y: auto;
+  background: var(--sf);
+  border-radius: var(--md-shape-extra-large);
+  box-shadow: var(--md-level4);
+  padding: 20px;
+}
+
+.pkg-dialog__title {
+  font-size: var(--md-headline-size);
+  margin-bottom: 2px;
+}
+.pkg-dialog__subtitle {
+  font-size: var(--md-label-size);
+  color: var(--onv);
+  font-family: var(--md-mono-family);
+  margin-bottom: 14px;
+}
+
+.pkg-dialog__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.pkg-dialog__header-title { font-size: var(--md-title-size); flex: 1; }
+
+.pkg-dialog__group-label {
+  font-size: var(--md-label-size);
+  font-weight: 700;
+  color: var(--onv);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.pkg-dialog__chip-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.pkg-dialog__chip-row--columns { display: flex; gap: 20px; margin-bottom: 10px; }
+
+.pkg-choice-chip {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--md-shape-small);
+  cursor: pointer;
+  font-size: var(--md-label-size);
+  border: 1px solid var(--olv);
+  background: transparent;
+  color: var(--onv);
+}
+.pkg-choice-chip--on {
+  border-color: var(--p);
+  background: var(--sc);
+  color: var(--onsc);
+}
+
+.pkg-text-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--ol);
+  border-radius: var(--md-shape-small);
+  padding: 0 12px;
+  background: transparent;
+  color: var(--on);
+  outline: none;
+  font-size: var(--md-body-small-size);
+  margin-bottom: 8px;
+}
+.pkg-text-input:focus-visible { outline: 2px solid var(--p); outline-offset: 1px; }
+.pkg-text-input--mono { font-family: var(--md-mono-family); }
+
+.pkg-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 2px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--on);
+  font-size: var(--md-body-small-size);
+}
+.pkg-toggle-row:hover { background: var(--sch); }
+.pkg-toggle-row:focus-visible { outline: 2px solid var(--p); outline-offset: -2px; }
+
+.pkg-dialog__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.pkg-dialog__actions .btn { flex: 1; }
+
+.pkg-ignored-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 46px;
+  border-top: 1px solid var(--olv);
+  padding: 6px 0;
+}
+.pkg-ignored-row__meta { font-size: var(--md-label-size); color: var(--onv); font-family: var(--md-mono-family); }
+
+/* ---------------------------------------------------------------- sheet -- */
+
+.pkg-details-sheet {
+  width: 360px;
+  flex: none;
+  border-left: 1px solid var(--olv);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.pkg-details-sheet__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  flex: none;
+}
+.pkg-details-sheet__body { flex: 1; overflow-y: auto; padding: 0 16px 16px; }
+.pkg-details-sheet__meta-row {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--olv);
+  font-size: var(--md-body-small-size);
+}
+.pkg-details-sheet__meta-key { width: 110px; color: var(--onv); flex: none; }
+.pkg-details-sheet__meta-value { flex: 1; word-break: break-all; }
+.pkg-details-sheet__section-label {
+  font-size: var(--md-body-small-size);
+  font-weight: 500;
+  margin: 14px 0 6px;
+}
+.pkg-details-sheet__footer-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 10px;
+  flex: none;
+}
+.pkg-details-sheet__actions {
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--olv);
+  flex: none;
+}
+
+/* -------------------------------------------------------------- bundles -- */
+
+.pkg-bundles-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 64px;
+  padding: 12px 20px;
+  flex: none;
+  flex-wrap: wrap;
+}
+.pkg-bundles-toolbar__heading { font-size: var(--md-headline-size); flex: 1; }
+
+.pkg-bundles-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  align-content: start;
+}
+
+.pkg-bundle-card {
+  border: 1px solid var(--olv);
+  border-radius: var(--md-shape-large);
+  padding: 16px;
+  background: var(--sf);
+}
+.pkg-bundle-card:hover { background: var(--sch); }
+.pkg-bundle-card__head { display: flex; align-items: center; gap: 10px; }
+.pkg-bundle-card__name { flex: 1; font-weight: 500; }
+.pkg-bundle-card__count { font-size: var(--md-label-size); color: var(--onv); }
+.pkg-bundle-card__desc { font-size: var(--md-label-size); color: var(--onv); margin: 8px 0 12px; }
+.pkg-bundle-card__actions { display: flex; gap: 8px; align-items: center; }
+.pkg-bundle-card__spacer { flex: 1; }

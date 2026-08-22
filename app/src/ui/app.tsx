@@ -10,6 +10,13 @@ import { OperationsDock, useOperations } from './operations-dock'
 import { SettingsRoute, SettingsTabId, SETTINGS_TABS, SETTING_DESCRIPTORS } from './settings-route'
 import { TabStrip, useTabs } from './tabs'
 import {
+  LogsRoute,
+  HistoryRoute,
+  BundlesRoute,
+  TicketsRoute,
+  AutomationRoute,
+} from './tool-routes'
+import {
   PackageTable,
   PackageRow,
   usePackageActions,
@@ -409,6 +416,7 @@ function AppContent(): JSX.Element {
   const [paletteSize, setPaletteSize] = React.useState<'card' | 'full'>('card')
   const [dockOpen, setDockOpen] = React.useState(true)
   const [managers, setManagers] = React.useState<readonly ManagerAvailability[]>([])
+  const [installed, setInstalled] = React.useState<readonly PackageRow[]>([])
   const [reloadNonce, setReloadNonce] = React.useState(0)
 
   const route = tabs.activeRoute
@@ -420,6 +428,23 @@ function AppContent(): JSX.Element {
   React.useEffect(() => {
     void window.materialUniGetUi.managers.list().then(setManagers)
   }, [])
+
+  // Loaded once at startup so Bundles can export without the user having to
+  // visit Installed packages first.
+  React.useEffect(() => {
+    void window.materialUniGetUi.packages.installed().then(packages =>
+      setInstalled(
+        packages.map(pkg => ({
+          key: pkg.key,
+          id: pkg.id,
+          name: pkg.name,
+          manager: pkg.manager,
+          version: pkg.version,
+          source: pkg.source,
+        }))
+      )
+    )
+  }, [reloadNonce])
 
   // The theme setting and the theme provider are one value, not two that drift.
   React.useEffect(() => {
@@ -545,6 +570,21 @@ function AppContent(): JSX.Element {
       break
     case 'about':
       surface = <AboutRoute />
+      break
+    case 'logs':
+      surface = <LogsRoute />
+      break
+    case 'history':
+      surface = <HistoryRoute operations={operations} />
+      break
+    case 'bundles':
+      surface = <BundlesRoute installed={installed} />
+      break
+    case 'tickets':
+      surface = <TicketsRoute />
+      break
+    case 'automation':
+      surface = <AutomationRoute />
       break
     default:
       surface = <NotYetPorted route={route} />

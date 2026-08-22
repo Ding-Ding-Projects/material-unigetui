@@ -62,6 +62,22 @@ const bridge: MaterialUniGetUiBridge = {
     clear: () => ipcRenderer.invoke(IpcChannels.vocabularyClear),
     entries: () => ipcRenderer.invoke(IpcChannels.vocabularyEntries),
   },
+  logs: {
+    all: () => ipcRenderer.invoke(IpcChannels.logsAll),
+    clear: () => ipcRenderer.invoke(IpcChannels.logsClear),
+    path: () => ipcRenderer.invoke(IpcChannels.logsPath),
+  },
+  bundles: {
+    export: (entries, format: string) =>
+      ipcRenderer.invoke(IpcChannels.bundleExport, entries, format),
+    import: () => ipcRenderer.invoke(IpcChannels.bundleImport),
+  },
+  tickets: {
+    all: () => ipcRenderer.invoke(IpcChannels.ticketsAll),
+    create: (category: string, severity: string, description: string) =>
+      ipcRenderer.invoke(IpcChannels.ticketsCreate, category, severity, description),
+    advance: (id: string) => ipcRenderer.invoke(IpcChannels.ticketsAdvance, id),
+  },
   shell: {
     openExternal: (url: string) =>
       ipcRenderer.invoke(IpcChannels.openExternal, url),

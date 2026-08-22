@@ -26,6 +26,13 @@ import {
 } from '../manager-drivers/powershell-drivers'
 import { VcpkgDriver } from '../manager-drivers/vcpkg-driver'
 import { OperationsQueue } from '../operations-queue'
+import { appLog } from '../app-log'
+import { ticketStore } from '../support-tickets'
+import {
+  parseBundle,
+  exportBundleToFile,
+  BundleEntry,
+} from '../bundle-store'
 
 /**
  * Every driver this build ships.
@@ -64,12 +71,17 @@ export function registerAllIpc(): void {
   const drivers = createDrivers()
   const queue = new OperationsQueue(drivers)
 
-  queue.on('changed', operations =>
+  queue.on('changed', operations => {
     broadcast(IpcEvents.operationsChanged, operations)
-  )
-  queue.on('output', (id: string, line: string) =>
+  })
+
+  queue.on('output', (id: string, line: string) => {
+    // One listener, two jobs: the renderer needs the line live and the log
+    // needs it kept. Two separate listeners on one event is a subscription
+    // somebody eventually removes half of.
     broadcast(IpcEvents.operationsOutputLine, id, line)
-  )
+    appLog.write('debug', 'operation', `${id.slice(0, 8)}: ${line}`)
+  })
 
   ipcMain.handle(
     IpcChannels.packagesSearch,
@@ -215,6 +227,78 @@ export function registerAllIpc(): void {
   })
 
   ipcMain.handle(IpcChannels.vocabularyEntries, () => [...vocabulary.entries()])
+
+  /* ---------------------------------------------------------------- logs -- */
+
+  ipcMain.handle(IpcChannels.logsAll, () => appLog.all())
+  ipcMain.handle(IpcChannels.logsClear, () => appLog.clear())
+  ipcMain.handle(IpcChannels.logsPath, () => appLog.filePath())
+
+  /* ------------------------------------------------------------- bundles -- */
+
+  ipcMain.handle(
+    IpcChannels.bundleExport,
+    async (event, entries: readonly BundleEntry[], format: string) => {
+      const window = BrowserWindow.fromWebContents(event.sender)
+      const result = await exportBundleToFile(
+        window,
+        entries,
+        format as Parameters<typeof exportBundleToFile>[2]
+      )
+      appLog.write(
+        result.ok ? 'info' : 'warn',
+        'bundle',
+        result.ok
+          ? `exported ${entries.length} packages as ${format}`
+          : `export refused: ${result.reason}`
+      )
+      return result
+    }
+  )
+
+  ipcMain.handle(IpcChannels.bundleImport, async event => {
+    const window = BrowserWindow.fromWebContents(event.sender)
+    const picked = await (window === null
+      ? dialog.showOpenDialog({
+          filters: [{ name: 'Bundle', extensions: ['json'] }],
+          properties: ['openFile'],
+        })
+      : dialog.showOpenDialog(window, {
+          filters: [{ name: 'Bundle', extensions: ['json'] }],
+          properties: ['openFile'],
+        }))
+
+    const chosen = picked.filePaths[0]
+    if (picked.canceled || chosen === undefined) {
+      return { ok: false, reason: 'No file was chosen.' }
+    }
+
+    const raw = await fs.readFile(chosen, 'utf8')
+    const result = parseBundle(raw)
+    if (!result.ok) {
+      appLog.write('warn', 'bundle', `import refused: ${result.reason}`)
+      return { ok: false, reason: result.reason }
+    }
+
+    appLog.write(
+      'info',
+      'bundle',
+      `imported ${result.bundle.entries.length} packages, skipped ${result.skipped}`
+    )
+    return { ok: true, entries: result.bundle.entries, skipped: result.skipped }
+  })
+
+  /* ------------------------------------------------------------- tickets -- */
+
+  ipcMain.handle(IpcChannels.ticketsAll, () => ticketStore.all())
+  ipcMain.handle(
+    IpcChannels.ticketsCreate,
+    (_event, category: string, severity: string, description: string) =>
+      ticketStore.create(category, severity, description)
+  )
+  ipcMain.handle(IpcChannels.ticketsAdvance, (_event, id: string) =>
+    ticketStore.advance(id)
+  )
 
   /* --------------------------------------------------------------- shell -- */
 

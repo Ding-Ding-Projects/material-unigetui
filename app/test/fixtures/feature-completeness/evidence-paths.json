@@ -1860,8 +1860,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/bundle-store.ts"
+            ],
+            "note": "JSON, YAML, CSV, TSV, Markdown and plain text, with lossy formats disclosed before the export runs. Only bundles export so far."
           }
         ],
         "documentation": [
@@ -1955,7 +1958,7 @@
         "implementation": [
           {
             "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "reason": "No local Git history exists. The operation history and application log are session-scoped and are not a substitute."
           }
         ],
         "documentation": [
@@ -2258,8 +2261,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/support-tickets.ts",
+              "app/src/ui/tool-routes.tsx"
+            ],
+            "note": "Local tickets with a number, a status that advances and canned replies; the resolution opens the application-data folder and never deletes anything itself."
           }
         ],
         "documentation": [
@@ -2276,8 +2283,11 @@
         ],
         "persistence": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/support-tickets.ts"
+            ],
+            "note": "Tickets survive a restart in the application-data folder."
           }
         ],
         "focusedTest": [
@@ -2294,8 +2304,11 @@
         ],
         "realCapture": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/assets/screenshots/support-tickets.png"
+            ],
+            "note": "The plain no-network disclosure is rendered outside the comedy and is visible in the capture."
           }
         ]
       }
@@ -3000,8 +3013,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/bundle-store.ts",
+              "app/src/ui/tool-routes.tsx"
+            ],
+            "note": "Export in six formats and import with a skipped count. Installing from a bundle is not wired."
           }
         ],
         "documentation": [

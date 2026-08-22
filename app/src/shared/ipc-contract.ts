@@ -33,6 +33,14 @@ export const IpcChannels = {
   vocabularyLoad: 'vocabulary:load',
   vocabularyClear: 'vocabulary:clear',
   vocabularyEntries: 'vocabulary:entries',
+  logsAll: 'logs:all',
+  logsClear: 'logs:clear',
+  logsPath: 'logs:path',
+  bundleExport: 'bundle:export',
+  bundleImport: 'bundle:import',
+  ticketsAll: 'tickets:all',
+  ticketsCreate: 'tickets:create',
+  ticketsAdvance: 'tickets:advance',
   openExternal: 'shell:open-external',
   openPath: 'shell:open-path',
   appDataPath: 'app:data-path',
@@ -46,6 +54,25 @@ export const IpcEvents = {
   operationsChanged: 'operations:changed',
   operationsOutputLine: 'operations:output-line',
 } as const
+
+export interface BundleEntryDto {
+  readonly id: string
+  readonly name: string
+  readonly manager: string
+  readonly version?: string
+  readonly source?: string
+}
+
+export interface SupportTicketDto {
+  readonly id: string
+  readonly number: string
+  readonly category: string
+  readonly severity: string
+  readonly description: string
+  readonly status: string
+  readonly openedAt: string
+  readonly replies: readonly string[]
+}
 
 export interface VocabularyLoadResult {
   readonly ok: boolean
@@ -89,6 +116,28 @@ export interface MaterialUniGetUiBridge {
     load(): Promise<VocabularyLoadResult>
     clear(): Promise<void>
     entries(): Promise<ReadonlyArray<readonly [string, string]>>
+  }
+  readonly logs: {
+    all(): Promise<ReadonlyArray<{ at: string; level: string; scope: string; message: string }>>
+    clear(): Promise<void>
+    path(): Promise<string>
+  }
+  readonly bundles: {
+    export(
+      entries: readonly BundleEntryDto[],
+      format: string
+    ): Promise<{ ok: boolean; path?: string; reason?: string }>
+    import(): Promise<{
+      ok: boolean
+      entries?: readonly BundleEntryDto[]
+      skipped?: number
+      reason?: string
+    }>
+  }
+  readonly tickets: {
+    all(): Promise<readonly SupportTicketDto[]>
+    create(category: string, severity: string, description: string): Promise<readonly SupportTicketDto[]>
+    advance(id: string): Promise<readonly SupportTicketDto[]>
   }
   readonly shell: {
     openExternal(url: string): Promise<void>

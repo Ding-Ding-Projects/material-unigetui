@@ -6,19 +6,33 @@ today. Every claim was checked against the repository as it stands.
 ## Where this stands
 
 A Material Design 3 rewrite of the UniGetUI interface, built from a finished
-design canvas. It **builds, launches, installs, and does real work**, and about
-a sixth of the intended contract surface exists. Both halves of that sentence
-matter.
+design canvas. It **builds, launches, installs, and does real work**, and all
+fourteen sections of the checked-in design reference are now ported into the
+renderer. Two of those fourteen are structure without a backend, which is
+stated everywhere they are counted rather than folded into the total.
+
+Before this port the renderer had been rebuilt in the design's general spirit
+rather than from it: a 40px title bar whose window controls were typed
+characters, a plain-text navigation rail, no icon font at all, and Roboto
+named in CSS but never vendored, so every surface fell back to the system
+font. That is what changed.
 
 | | |
 | --- | --- |
+| Design sections ported | **14 of 14** (two are structure only, see below) |
 | Canonical contracts adopted | **62** |
-| Evidence records present | **72 of 434** |
-| Unit tests | **136**, all passing |
-| Negative regression | **9 of 9** sabotages caught |
-| Site behaviour checks | **10 of 10** |
-| Project lines | **22,801** (see `npm run count-lines`) |
-| Releases published | Yes — unsigned Squirrel.Windows installer, ~140 MB |
+| Unit tests | **180**, all passing, zero skipped |
+| Negative regression | every guard watched red, then green |
+| Design-parity evidence | in progress — see `docs/design-parity/inventory.json` |
+| Project lines | **32,273** (see `npm run count-lines`) |
+| Releases published | Yes — unsigned Squirrel.Windows installer, ~144 MB |
+
+**The two honest exceptions.** The file converter and the Ollama suite manager
+render the design's structure and have no bridge behind them at all — no
+converter namespace and no model-manager namespace exists. Both show an
+explicit empty state naming what is missing, and the converter's drop zone is
+genuinely disabled rather than a decorative live-looking control. They are
+incomplete features, not finished ones.
 
 ## The decisions that shape everything
 

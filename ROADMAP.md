@@ -70,16 +70,24 @@ Homebrew, Pacman, Snap. They exist upstream and are not being ported.
 
 ## Phase 3 — The remaining routes
 
-- [ ] Package bundles
-- [ ] Operation history
-- [ ] Automation · CLI & IPC
-- [ ] File converter
-- [ ] Ollama suite manager
-- [ ] Authenticator
-- [ ] Logs
-- [ ] Support Tickets
-- [ ] Help & About
-- [ ] Settings, and its 15 sub-tabs
+All fourteen sections of the checked-in design reference are now ported into
+the renderer. Two are ticked with an explicit qualification rather than
+silently: they render the design's structure and have no backend behind them.
+
+- [x] Package bundles
+- [x] Operation history
+- [x] Automation · CLI & IPC
+- [ ] File converter — the catalog, its eight categories and their search fields
+      are ported, but no converter bridge exists, so every format reports no
+      bundled adapter and the drop zone is genuinely disabled. Structure only.
+- [ ] Ollama suite manager — same: the design's chrome is ported, and the model
+      store, fit verdicts, cart, chat and harness profiles have nothing behind
+      them. The empty state names exactly what is missing.
+- [x] Authenticator
+- [x] Logs
+- [x] Support Tickets
+- [x] Help & About
+- [x] Settings, and its 15 sub-tabs
 
 ## Phase 4 — The universal contracts
 

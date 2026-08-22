@@ -232,10 +232,37 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
   const pinned = controller.tabs.filter(tab => tab.pinned)
   const ordinary = controller.tabs.filter(tab => !tab.pinned)
 
+  const orderedTabs = [...pinned, ...ordinary]
+
+  // Roving tabindex: only the active tab is a stop on the page's own Tab
+  // order; arrow keys move focus (and, per the tablist pattern, selection)
+  // among the tabs themselves.
+  const onTablistKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const currentIndex = orderedTabs.findIndex(t => t.id === controller.activeId)
+    if (currentIndex === -1) return
+    let nextIndex: number | null = null
+    if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % orderedTabs.length
+    else if (event.key === 'ArrowLeft')
+      nextIndex = (currentIndex - 1 + orderedTabs.length) % orderedTabs.length
+    else if (event.key === 'Home') nextIndex = 0
+    else if (event.key === 'End') nextIndex = orderedTabs.length - 1
+    if (nextIndex === null) return
+    const next = orderedTabs[nextIndex]
+    if (next === undefined) return
+    event.preventDefault()
+    controller.activate(next.id)
+    document.getElementById(`tab-${next.id}`)?.focus()
+  }
+
   return (
     <div className="tab-strip-wrap">
-      <div className="tab-strip" role="tablist" aria-label="Open tabs">
-        {[...pinned, ...ordinary].map(tab => (
+      <div
+        className="tab-strip"
+        role="tablist"
+        aria-label="Open tabs"
+        onKeyDown={onTablistKeyDown}
+      >
+        {orderedTabs.map(tab => (
           <div
             key={tab.id}
             className="tab"
@@ -243,8 +270,11 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
             data-active={tab.id === controller.activeId}
           >
             <button
+              id={`tab-${tab.id}`}
               role="tab"
               aria-selected={tab.id === controller.activeId}
+              aria-controls="route-surface"
+              tabIndex={tab.id === controller.activeId ? 0 : -1}
               className="tab__label"
               title={tab.pinned ? `${routeLabel(tab.route)} (pinned)` : routeLabel(tab.route)}
               onClick={() => controller.activate(tab.id)}

@@ -22,7 +22,10 @@
     "ensure:electron": "node script/ensure-electron-binary.mjs",
     "prestart": "node script/ensure-electron-binary.mjs",
     "sync:inventory": "node script/sync-evidence-manifest.mjs",
-    "test:negative": "node script/negative-regression.mjs"
+    "test:negative": "node script/negative-regression.mjs",
+    "design-parity:reference-server": "node script/design-parity/reference-server.mjs",
+    "design-parity:diff": "node script/design-parity/diff.mjs",
+    "design-parity:guard": "node --test app/test/unit/design-parity-guard-test.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
@@ -34,6 +37,7 @@
     "electron": "42.0.1",
     "electron-packager": "^17.1.1",
     "electron-winstaller": "^5.0.0",
+    "pngjs": "^7.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "style-loader": "^4.0.0",

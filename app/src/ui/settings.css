@@ -1,0 +1,422 @@
+/**
+ * Settings + Authenticator.
+ *
+ * Layout only — colour, type, shape, elevation and motion all come from the
+ * shared MD3 token contract (`--p`, `--onv`, `--md-shape-*`, `--md-level*`,
+ * …) declared once in md3-style-contract.ts and injected as CSS custom
+ * properties on the document root. Nothing here declares a raw hex value.
+ *
+ * Reuses the generic `.btn`, `.card`, `.switch`, `.text-input`, `.range`,
+ * `.setting-row*`, `.manager-list`, `.auth-entry*`, `.search-anchor` and
+ * `.state-note` classes already shipped in components.css — this file only
+ * adds what those do not already cover: the settings rail, the tab-specific
+ * cards the design calls for, and the authenticator's live-code rows.
+ */
+
+/* ---- Settings: left rail + content, matching the design's two-pane layout */
+
+.settings-view {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.settings-rail {
+  width: 220px;
+  flex: none;
+  padding: 16px 8px;
+  border-right: 1px solid var(--olv);
+  overflow-y: auto;
+}
+
+.settings-rail__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  margin-bottom: 2px;
+  border: none;
+  border-radius: var(--md-shape-full);
+  cursor: pointer;
+  background: transparent;
+  color: var(--onv);
+  font-size: var(--md-body-small-size);
+  text-align: left;
+}
+
+.settings-rail__item:hover {
+  background: var(--sch);
+}
+
+.settings-rail__item:focus-visible {
+  outline: 2px solid var(--p);
+  outline-offset: -2px;
+}
+
+.settings-rail__item[aria-selected='true'] {
+  background: var(--sc);
+  color: var(--onsc);
+  font-weight: 500;
+}
+
+.settings-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  max-width: 780px;
+}
+
+.settings-content__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.settings-content__head h1 {
+  flex: 1;
+  margin: 0;
+}
+
+/* ---- Shared card affordances the design reuses across several sections -- */
+
+.settings-card {
+  border: 1px solid var(--olv);
+  border-radius: var(--md-shape-large);
+  padding: 18px;
+  margin-top: 14px;
+}
+
+.settings-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.settings-card__head h2 {
+  flex: 1;
+  font-size: var(--md-body-size);
+  font-weight: 500;
+  margin: 0;
+}
+
+.settings-card__body {
+  font-size: var(--md-label-size);
+  color: var(--onv);
+  margin: 0 0 6px;
+}
+
+/* ---- Appearance: logo presets ------------------------------------------- */
+
+.logo-presets {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.logo-preset {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--md-shape-large);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border: 3px solid transparent;
+}
+
+.logo-preset[aria-pressed='true'] {
+  border-color: var(--p);
+}
+
+.logo-preset:focus-visible {
+  outline: 2px solid var(--p);
+  outline-offset: 2px;
+}
+
+.logo-preset--upload {
+  background: transparent;
+  border: 2px dashed var(--ol);
+  color: var(--onv);
+}
+
+.logo-preset--upload:hover {
+  background: var(--sch);
+}
+
+.logo-fit-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+/* ---- Localization: language radios + funny-level cards ------------------ */
+
+.language-radio {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 2px;
+  border: none;
+  border-top: 1px solid var(--olv);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--on);
+}
+
+.language-radio:hover {
+  background: var(--sch);
+}
+
+.language-radio:focus-visible {
+  outline: 2px solid var(--p);
+  outline-offset: -2px;
+}
+
+.language-radio__text {
+  flex: 1;
+}
+
+.language-radio__label {
+  font-size: var(--md-body-size);
+}
+
+.language-radio__sub {
+  font-size: var(--md-label-size);
+  color: var(--onv);
+}
+
+.funny-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.funny-card__head strong {
+  flex: 1;
+  font-size: var(--md-body-size);
+  font-weight: 500;
+}
+
+.funny-card__note {
+  font-size: var(--md-label-size);
+  color: var(--onv);
+}
+
+.funny-card input[type='range'] {
+  width: 100%;
+  accent-color: var(--p);
+}
+
+/* ---- Security: lock registry --------------------------------------------- */
+
+.lock-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 0;
+  border-top: 1px solid var(--olv);
+}
+
+.lock-row__label {
+  flex: 1;
+  font-size: var(--md-body-small-size);
+}
+
+.lock-row__state {
+  font-size: var(--md-label-size);
+  font-weight: 700;
+}
+
+.lock-row__state[data-locked='true'] {
+  color: var(--err);
+}
+
+.lock-row__state[data-locked='false'] {
+  color: var(--grn);
+}
+
+.lock-create-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.lock-create-grid .text-input {
+  width: 100%;
+}
+
+.lock-method-row {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.lock-method {
+  flex: 1;
+  height: 40px;
+  border-radius: var(--md-shape-medium);
+  cursor: pointer;
+  font-size: var(--md-body-small-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--olv);
+  background: transparent;
+  color: var(--onv);
+}
+
+.lock-method[aria-pressed='true'] {
+  background: var(--sc);
+  color: var(--onsc);
+  border-color: var(--sc);
+}
+
+.lock-duration-row {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.lock-duration {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--md-shape-small);
+  cursor: pointer;
+  font-size: var(--md-label-size);
+  border: 1px solid var(--olv);
+  background: transparent;
+  color: var(--onv);
+}
+
+.lock-duration[aria-pressed='true'] {
+  background: var(--sc);
+  color: var(--onsc);
+  border-color: var(--sc);
+}
+
+/* ---- Two-factor pairing card --------------------------------------------- */
+
+.two-factor-card {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.qr-code {
+  flex: none;
+  display: block;
+}
+
+.qr-code--error {
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--err);
+  color: var(--err);
+  font-size: var(--md-label-small-size);
+  text-align: center;
+  padding: 8px;
+}
+
+.two-factor-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.two-factor-card__fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.two-factor-card__confirm {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.two-factor-card__confirm input {
+  width: 130px;
+  font-family: var(--md-mono-family);
+  letter-spacing: 2px;
+}
+
+.two-factor-card__status {
+  font-size: var(--md-label-size);
+  margin-top: 8px;
+}
+
+.two-factor-card__status[data-ok='true'] {
+  color: var(--grn);
+}
+
+.two-factor-card__status[data-ok='false'] {
+  color: var(--err);
+}
+
+/* ---- Authenticator route: live-code rows --------------------------------- */
+
+.auth-add-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.auth-entry {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 4px;
+  border-top: 1px solid var(--olv);
+}
+
+.auth-entry__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-shape-medium);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  flex: none;
+}
+
+.auth-entry__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.auth-entry__code {
+  font-size: 26px;
+  letter-spacing: 4px;
+  font-family: var(--md-mono-family);
+  color: var(--p);
+}
+
+.auth-entry__ring {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--md-shape-full);
+  background: var(--sf);
+  border: 1px solid var(--olv);
+  display: grid;
+  place-items: center;
+  font-size: var(--md-label-small-size);
+  color: var(--onv);
+  flex: none;
+}

@@ -1,8 +1,12 @@
 import * as React from 'react'
+import './settings.css'
 import { useSettings, useI18n } from './app-state'
 import { useNotifications } from './notifications'
 import { SearchField, SearchState, emptySearchState, searchMatcher } from './md3/search-field'
+import { Icon } from './md3/icon'
 import { ManagerAvailability } from '../models/manager'
+import { QrCodeView } from './settings/qr-code-view'
+import { TranslationKey } from '../lib/i18n-resources'
 
 /**
  * Settings.
@@ -11,24 +15,28 @@ import { ManagerAvailability } from '../models/manager'
  * whether the current value was actually chosen or is still the shipped
  * default. "Default" and "somebody set this to the same thing" look identical
  * on screen otherwise, and only one of them is safe to change silently.
+ *
+ * `SETTINGS_TABS`, `SETTING_DESCRIPTORS`, `SettingsTabId` and the
+ * `SettingsRoute` props are read directly by app.tsx's command palette, so
+ * their shape stays exactly as it was — additive changes only.
  */
 
 export const SETTINGS_TABS = [
-  { id: 'general', label: 'General' },
-  { id: 'interface', label: 'Interface' },
-  { id: 'localization', label: 'Language' },
-  { id: 'appearance', label: 'Appearance' },
-  { id: 'notifications', label: 'Notifications' },
-  { id: 'operations', label: 'Operations' },
-  { id: 'managers', label: 'Managers' },
-  { id: 'accessibility', label: 'Accessibility' },
-  { id: 'vocabulary', label: 'Vocabulary' },
-  { id: 'security', label: 'Security' },
-  { id: 'backup', label: 'Backup' },
-  { id: 'internet', label: 'Internet' },
-  { id: 'scheduler', label: 'Scheduler' },
-  { id: 'experimental', label: 'Experimental' },
-  { id: 'updates', label: 'Updates' },
+  { id: 'general', label: 'General', icon: 'tune' },
+  { id: 'interface', label: 'Interface', icon: 'dashboard' },
+  { id: 'localization', label: 'Language', icon: 'translate' },
+  { id: 'appearance', label: 'Appearance', icon: 'palette' },
+  { id: 'notifications', label: 'Notifications', icon: 'notifications' },
+  { id: 'operations', label: 'Operations', icon: 'sync' },
+  { id: 'managers', label: 'Managers', icon: 'inventory_2' },
+  { id: 'accessibility', label: 'Accessibility', icon: 'accessibility_new' },
+  { id: 'vocabulary', label: 'Vocabulary', icon: 'dictionary' },
+  { id: 'security', label: 'Security', icon: 'lock' },
+  { id: 'backup', label: 'Backup', icon: 'settings_backup_restore' },
+  { id: 'internet', label: 'Internet', icon: 'public' },
+  { id: 'scheduler', label: 'Scheduler', icon: 'schedule' },
+  { id: 'experimental', label: 'Experimental', icon: 'science' },
+  { id: 'updates', label: 'Updates', icon: 'system_update' },
 ] as const
 
 export type SettingsTabId = (typeof SETTINGS_TABS)[number]['id']
@@ -194,6 +202,15 @@ export const SETTING_DESCRIPTORS: readonly SettingDescriptor[] = [
   },
 ]
 
+/**
+ * `SETTING_DESCRIPTORS.title`/`.explanation` are static English, by
+ * necessity: app.tsx's command palette (outside this lane, not touched here)
+ * reads them directly as plain strings rather than through the translator.
+ * Everything else this file renders — tab labels, headings, the appearance,
+ * localization, security and vocabulary cards, the authenticator page — is
+ * fully localized via `t()`/`a()`.
+ */
+
 export function SettingsRoute(props: {
   readonly tab: SettingsTabId
   readonly managers: readonly ManagerAvailability[]
@@ -201,6 +218,7 @@ export function SettingsRoute(props: {
 }): JSX.Element {
   const { settings, set, reset, isDefault } = useSettings()
   const { notify } = useNotifications()
+  const { t } = useI18n()
   const [search, setSearch] = React.useState<SearchState>(emptySearchState)
 
   const matcher = searchMatcher(search)
@@ -212,94 +230,141 @@ export function SettingsRoute(props: {
       : descriptor.tab === props.tab
   )
 
+  const activeTab = SETTINGS_TABS.find(tab => tab.id === props.tab)
+
   return (
-    <>
-      <h1 className="route-surface__heading">Settings</h1>
-      <p className="route-surface__sub">
-        Every control explains what it does and whether its value was chosen or
-        is still the shipped default.
-      </p>
-
-      <SearchField
-        id="settings-search"
-        label="Search settings"
-        placeholder="Search every settings tab…"
-        state={search}
-        sampleText={SETTING_DESCRIPTORS[0]?.title ?? ''}
-        resultSummary={
-          searching ? `${visible.length} settings across all tabs` : undefined
-        }
-        onChange={setSearch}
-      />
-
-      {!searching && (
-        <div className="subtabs" role="tablist" aria-label="Settings sections">
-          {SETTINGS_TABS.map(tab => (
-            <button
-              key={tab.id}
-              role="tab"
-              className="subtab"
-              aria-selected={tab.id === props.tab}
-              onClick={() => props.onTabChange(tab.id)}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {searching && visible.length > 0 && (
-        <div className="note">
-          Showing matches from every tab. Each result names the tab it lives on.
-        </div>
-      )}
-
-      {visible.length === 0 && (
-        <div className="state-note">
-          {searching
-            ? 'No setting matched that search.'
-            : 'This tab has no settings yet. Its row in the completeness inventory records what is still missing.'}
-        </div>
-      )}
-
-      {visible.map(descriptor => (
-        <SettingRow
-          key={descriptor.key}
-          descriptor={descriptor}
-          value={settings[descriptor.key]}
-          isDefault={isDefault(descriptor.key)}
-          showTab={searching}
-          onChange={value => void set(descriptor.key, value)}
-        />
-      ))}
-
-      {props.tab === 'managers' && !searching && (
-        <ManagerList managers={props.managers} />
-      )}
-
-      {props.tab === 'vocabulary' && !searching && <VocabularyControl />}
-
-      {props.tab === 'general' && !searching && (
-        <div className="card">
-          <h2>Reset</h2>
-          <p>
-            Returns every setting to its shipped default. It does not touch your
-            installed packages.
-          </p>
+    <div className="settings-view">
+      <div className="settings-rail" role="tablist" aria-label={t('sectionsNav')}>
+        {SETTINGS_TABS.map(tab => (
           <button
-            type="button"
-            className="btn"
-            onClick={() => {
-              void reset()
-              notify('info', 'Settings reset to defaults')
-            }}
+            key={tab.id}
+            id={`settings-tab-${tab.id}`}
+            role="tab"
+            className="settings-rail__item"
+            aria-selected={tab.id === props.tab}
+            onClick={() => props.onTabChange(tab.id)}
           >
-            Reset all settings
+            <Icon name={tab.icon} size={19} />
+            {tabLabel(t, tab.id, tab.label)}
           </button>
+        ))}
+      </div>
+
+      <div
+        className="settings-content"
+        role="tabpanel"
+        aria-labelledby={`settings-tab-${props.tab}`}
+      >
+        <div className="settings-content__head">
+          <h1 className="route-surface__heading">
+            {activeTab ? tabLabel(t, activeTab.id, activeTab.label) : t('settings')}
+          </h1>
+          <SearchField
+            id="settings-search"
+            label={t('settingsSearchLabel')}
+            placeholder={t('settingsSearchPh')}
+            state={search}
+            sampleText={SETTING_DESCRIPTORS[0]?.title ?? ''}
+            resultSummary={
+              searching
+                ? t('settingsResultsAllTabs', { count: String(visible.length) })
+                : undefined
+            }
+            onChange={setSearch}
+          />
         </div>
-      )}
-    </>
+        <p className="route-surface__sub">{t('settingsSub')}</p>
+
+        {searching && visible.length > 0 && (
+          <div className="note">{t('settingsShowingAllTabs')}</div>
+        )}
+
+        {visible.length === 0 && (
+          <div className="state-note">
+            {searching ? t('settingsNoMatch') : t('settingsTabEmpty')}
+          </div>
+        )}
+
+        {visible
+          // The Localization tab renders language mode and the two funny
+          // sliders as their own richer widgets below; skip the generic row
+          // for those three keys so they are not shown twice.
+          .filter(descriptor => searching || !isRichlyRendered(descriptor.key))
+          .map(descriptor => (
+            <SettingRow
+              key={descriptor.key}
+              descriptor={descriptor}
+              value={settings[descriptor.key]}
+              isDefault={isDefault(descriptor.key)}
+              showTab={searching}
+              onChange={value => void set(descriptor.key, value)}
+            />
+          ))}
+
+        {props.tab === 'localization' && !searching && (
+          <LocalizationExtras />
+        )}
+
+        {props.tab === 'appearance' && !searching && <AppearanceExtras />}
+
+        {props.tab === 'security' && !searching && <SecurityExtras />}
+
+        {props.tab === 'managers' && !searching && (
+          <ManagerList managers={props.managers} />
+        )}
+
+        {props.tab === 'vocabulary' && !searching && <VocabularyControl />}
+
+        {props.tab === 'general' && !searching && (
+          <div className="card settings-card">
+            <h2>{t('settingsResetHeading')}</h2>
+            <p>{t('settingsResetBody')}</p>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => {
+                void reset()
+                notify('info', t('settingsResetDone'))
+              }}
+            >
+              {t('settingsResetButton')}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   )
+
+  function tabLabel(
+    translate: (key: TranslationKey) => string,
+    id: SettingsTabId,
+    fallback: string
+  ): string {
+    const key = TAB_I18N_KEYS[id]
+    return key ? translate(key) : fallback
+  }
+}
+
+const TAB_I18N_KEYS: Partial<Record<SettingsTabId, TranslationKey>> = {
+  general: 'general',
+  interface: 'tabInterface',
+  localization: 'localization',
+  appearance: 'appearance',
+  notifications: 'tabNotifications',
+  operations: 'tabOperations',
+  managers: 'managers',
+  accessibility: 'tabAccessibility',
+  vocabulary: 'vocabulary',
+  security: 'security',
+  backup: 'tabBackup',
+  internet: 'tabInternet',
+  scheduler: 'tabScheduler',
+  experimental: 'tabExperimental',
+  updates: 'updatesTab',
+}
+
+function isRichlyRendered(key: string): boolean {
+  return key === 'languageMode' || key === 'funnyLevelEnglish' || key === 'funnyLevelCantonese'
 }
 
 function SettingRow(props: {
@@ -311,13 +376,16 @@ function SettingRow(props: {
 }): JSX.Element {
   const [explained, setExplained] = React.useState(false)
   const { descriptor } = props
+  const { t } = useI18n()
   const controlId = `setting-${descriptor.key}`
+  const title = descriptor.title
+  const explanation = descriptor.explanation
 
   return (
     <div className="setting-row" id={controlId}>
       <div className="setting-row__text">
         <label className="setting-row__title" htmlFor={`${controlId}-control`}>
-          {descriptor.title}
+          {title}
         </label>
         <div className="setting-row__meta">
           {props.showTab && (
@@ -328,8 +396,8 @@ function SettingRow(props: {
           {/* Provenance, stated rather than implied. */}
           <span className="setting-row__provenance">
             {props.isDefault
-              ? `Default (${formatValue(props.value)})`
-              : `Set to ${formatValue(props.value)}`}
+              ? t('settingsDefaultVal', { value: formatValue(props.value) })
+              : t('settingsSetVal', { value: formatValue(props.value) })}
           </span>
           <button
             type="button"
@@ -338,12 +406,12 @@ function SettingRow(props: {
             aria-controls={`${controlId}-explanation`}
             onClick={() => setExplained(open => !open)}
           >
-            {explained ? 'Hide details' : 'What does this do?'}
+            {explained ? t('settingsHideDetails') : t('settingsWhatDoes')}
           </button>
         </div>
         {explained && (
           <p id={`${controlId}-explanation`} className="setting-row__explanation">
-            {descriptor.explanation}
+            {explanation}
           </p>
         )}
       </div>
@@ -434,24 +502,588 @@ function formatValue(value: unknown): string {
   return String(value)
 }
 
+/**
+ * Language-mode radios and the two independent funny-level sliders, styled
+ * per the design's dedicated widgets rather than the generic setting row.
+ */
+function LocalizationExtras(): JSX.Element {
+  const { settings, set, isDefault } = useSettings()
+  const { t, a } = useI18n()
+
+  const languageMode = String(settings['languageMode'] ?? 'en')
+  const languageOptions: ReadonlyArray<{
+    readonly value: string
+    readonly icon: string
+    readonly labelKey: TranslationKey
+    readonly subKey: TranslationKey
+  }> = [
+    { value: 'en', icon: 'language', labelKey: 'languageEnLabel', subKey: 'languageEnSub' },
+    { value: 'yue', icon: 'translate', labelKey: 'languageYueLabel', subKey: 'languageYueSub' },
+    {
+      value: 'bilingual',
+      icon: '123',
+      labelKey: 'languageBilingualLabel',
+      subKey: 'languageBilingualSub',
+    },
+  ]
+
+  return (
+    <>
+      <div>
+        <p className="route-surface__sub" style={{ margin: '18px 0 0' }}>
+          {t('localizationLanguageBody')}
+        </p>
+        {languageOptions.map(option => (
+          <button
+            key={option.value}
+            type="button"
+            className="language-radio"
+            aria-pressed={languageMode === option.value}
+            onClick={() => void set('languageMode', option.value)}
+          >
+            <Icon
+              name={option.icon}
+              size={22}
+              filled={languageMode === option.value}
+              style={{ color: languageMode === option.value ? 'var(--p)' : 'var(--onv)' }}
+            />
+            <span className="language-radio__text">
+              <span className="language-radio__label">{t(option.labelKey)}</span>
+              <br />
+              <span className="language-radio__sub">{t(option.subKey)}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <FunnySliderCard
+        settingKey="funnyLevelEnglish"
+        headingKey="funnyHeadingEnglish"
+        value={Number(settings['funnyLevelEnglish'] ?? 5)}
+        isDefault={isDefault('funnyLevelEnglish')}
+        onChange={value => void set('funnyLevelEnglish', value)}
+        translate={t}
+        accessible={a}
+      />
+      <FunnySliderCard
+        settingKey="funnyLevelCantonese"
+        headingKey="funnyHeadingCantonese"
+        value={Number(settings['funnyLevelCantonese'] ?? 5)}
+        isDefault={isDefault('funnyLevelCantonese')}
+        onChange={value => void set('funnyLevelCantonese', value)}
+        translate={t}
+        accessible={a}
+      />
+    </>
+  )
+}
+
+const FUNNY_NOTE_KEYS: Record<number, TranslationKey> = {
+  1: 'funnyNote1',
+  2: 'funnyNote2',
+  3: 'funnyNote3',
+  4: 'funnyNote4',
+  5: 'funnyNote5',
+}
+
+function FunnySliderCard(props: {
+  readonly settingKey: string
+  readonly headingKey: TranslationKey
+  readonly value: number
+  readonly isDefault: boolean
+  onChange(value: number): void
+  translate(key: TranslationKey, variables?: Record<string, string>): string
+  accessible(key: TranslationKey, variables?: Record<string, string>): string
+}): JSX.Element {
+  const controlId = `setting-${props.settingKey}-slider`
+  const noteKey = FUNNY_NOTE_KEYS[Math.min(5, Math.max(1, Math.round(props.value)))] ?? 'funnyNote5'
+
+  return (
+    <div className="settings-card funny-card">
+      <div className="funny-card__head">
+        <Icon name="sentiment_very_satisfied" size={22} style={{ color: 'var(--p)' }} />
+        <strong>
+          {props.translate(props.headingKey)} · {props.value}
+        </strong>
+        <span className="funny-card__note">{props.translate(noteKey)}</span>
+      </div>
+      <label className="visually-hidden" htmlFor={controlId}>
+        {props.accessible(props.headingKey)}
+      </label>
+      <input
+        id={controlId}
+        type="range"
+        min={1}
+        max={5}
+        value={props.value}
+        onChange={event => props.onChange(Number(event.currentTarget.value))}
+      />
+    </div>
+  )
+}
+
+/** App-logo presets, upload and fit — Appearance tab. */
+function AppearanceExtras(): JSX.Element {
+  const { settings, set } = useSettings()
+  const { t, a } = useI18n()
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null)
+
+  const presets: ReadonlyArray<{ readonly id: string; readonly icon: string; readonly color: string }> = [
+    { id: 'deployed_code', icon: 'deployed_code', color: '#0B57D0' },
+    { id: 'inventory_2', icon: 'inventory_2', color: '#146C2E' },
+    { id: 'terminal', icon: 'terminal', color: '#7B1FA2' },
+    { id: 'bolt', icon: 'bolt', color: '#E37400' },
+    { id: 'hub', icon: 'hub', color: '#00796B' },
+    { id: 'widgets', icon: 'widgets', color: '#C2185B' },
+  ]
+
+  const chosenPreset = String(settings['logoPreset'] ?? 'deployed_code')
+  const chosenFit = String(settings['logoFit'] ?? 'contain')
+  const customLogo = typeof settings['logoCustomData'] === 'string' ? (settings['logoCustomData'] as string) : ''
+
+  const fitOptions: ReadonlyArray<{ value: string; key: TranslationKey }> = [
+    { value: 'contain', key: 'appearanceLogoFitContain' },
+    { value: 'cover', key: 'appearanceLogoFitCover' },
+    { value: 'fill', key: 'appearanceLogoFitFill' },
+  ]
+
+  return (
+    <div className="settings-card">
+      <div className="settings-card__head">
+        <Icon name="palette" size={22} style={{ color: 'var(--p)' }} />
+        <h2>{t('logoTitle')}</h2>
+      </div>
+      <p className="settings-card__body">{t('appearanceLogoBody')}</p>
+      <div className="logo-presets">
+        {presets.map(preset => (
+          <button
+            key={preset.id}
+            type="button"
+            className="logo-preset"
+            title={preset.id}
+            aria-label={preset.id}
+            aria-pressed={customLogo.length === 0 && chosenPreset === preset.id}
+            style={{ background: preset.color }}
+            onClick={() => {
+              void set('logoPreset', preset.id)
+              void set('logoCustomData', '')
+            }}
+          >
+            <Icon name={preset.icon} size={28} filled style={{ color: '#fff' }} />
+          </button>
+        ))}
+        <button
+          type="button"
+          className="logo-preset logo-preset--upload"
+          onClick={() => fileInputRef.current?.click()}
+          aria-label={t('appearanceLogoUploadHint')}
+          title={t('upload')}
+        >
+          <Icon name="upload" size={26} />
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/png,image/jpeg,image/svg+xml,image/webp"
+          className="visually-hidden"
+          aria-label={t('appearanceLogoUploadHint')}
+          onChange={event => {
+            const file = event.currentTarget.files?.[0]
+            if (!file) {
+              return
+            }
+            const reader = new FileReader()
+            reader.onload = () => {
+              if (typeof reader.result === 'string') {
+                void set('logoCustomData', reader.result)
+              }
+            }
+            reader.readAsDataURL(file)
+            event.currentTarget.value = ''
+          }}
+        />
+      </div>
+      <div className="logo-fit-row">
+        {fitOptions.map(option => (
+          <button
+            key={option.value}
+            type="button"
+            className="btn btn--small"
+            aria-pressed={chosenFit === option.value}
+            onClick={() => void set('logoFit', option.value)}
+          >
+            {t(option.key)}
+          </button>
+        ))}
+        <div style={{ flex: 1 }} />
+        <button
+          type="button"
+          className="btn"
+          onClick={() => {
+            void set('logoPreset', 'deployed_code')
+            void set('logoFit', 'contain')
+            void set('logoCustomData', '')
+          }}
+        >
+          {t('reset')}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+/** Toy-lock registry + two-factor pairing card — Security tab. */
+function SecurityExtras(): JSX.Element {
+  return (
+    <>
+      <LockRegistry />
+      <TwoFactorPairingCard />
+    </>
+  )
+}
+
+interface LockRow {
+  readonly id: string
+  readonly target: string
+  readonly label: string
+  readonly method: string
+  readonly locked: boolean
+}
+
+function LockRegistry(): JSX.Element {
+  const { t, a } = useI18n()
+  const { notify } = useNotifications()
+  const [locks, setLocks] = React.useState<readonly LockRow[]>([])
+  const [search, setSearch] = React.useState<SearchState>(emptySearchState)
+  const [target, setTarget] = React.useState('')
+  const [label, setLabel] = React.useState('')
+  const [credential, setCredential] = React.useState('')
+  const [method, setMethod] = React.useState<'password' | 'totp'>('password')
+  const [duration, setDuration] = React.useState<'once' | 'session' | '15m'>('session')
+
+  const refresh = React.useCallback(() => {
+    void window.materialUniGetUi.locks.list().then(async records => {
+      const withState = await Promise.all(
+        records.map(async record => ({
+          id: record.id,
+          target: record.target,
+          label: record.label,
+          method: record.method,
+          locked: await window.materialUniGetUi.locks.isLocked(record.target),
+        }))
+      )
+      setLocks(withState)
+    })
+  }, [])
+
+  React.useEffect(refresh, [refresh])
+
+  const matcher = searchMatcher(search)
+  const shown = locks.filter(lock => matcher.test(`${lock.label} ${lock.method}`))
+  const minutesFor = (value: 'once' | 'session' | '15m'): number =>
+    value === '15m' ? 15 : 0
+
+  return (
+    <div className="settings-card">
+      <div className="settings-card__head">
+        <Icon name="lock" size={22} style={{ color: 'var(--p)' }} />
+        <h2>{t('securityLockHeading')}</h2>
+        <SearchField
+          id="lock-search"
+          label={t('securityLockSearchLabel')}
+          placeholder={t('securityLockSearchPh')}
+          state={search}
+          sampleText={locks[0]?.label ?? ''}
+          onChange={setSearch}
+        />
+      </div>
+      <p className="settings-card__body">{t('securityLockBody')}</p>
+
+      {shown.length === 0 ? (
+        <div className="state-note">{t('lockEmpty')}</div>
+      ) : (
+        shown.map(lock => (
+          <div className="lock-row" key={lock.id}>
+            <Icon name={lock.method === 'totp' ? 'qr_code_2' : 'password'} size={18} style={{ color: 'var(--onv)' }} />
+            <span className="lock-row__label">{lock.label}</span>
+            <span className="lock-row__state" data-locked={lock.locked}>
+              {lock.locked ? t('lockStateLocked') : t('lockStateUnlocked')}
+            </span>
+            <button
+              type="button"
+              className="btn btn--small"
+              onClick={() => {
+                void window.materialUniGetUi.locks.relock(lock.target).then(() => {
+                  refresh()
+                  notify('info', t('lockRelockedNotify'))
+                })
+              }}
+            >
+              {t('lockRelockBtn')}
+            </button>
+            <button
+              type="button"
+              className="btn btn--small"
+              aria-label={`${t('lockRemoveBtn')} · ${lock.label}`}
+              onClick={() => {
+                void window.materialUniGetUi.locks.remove(lock.id).then(() => {
+                  refresh()
+                  notify('info', t('lockRemovedNotify'))
+                })
+              }}
+            >
+              <Icon name="delete" size={16} />
+            </button>
+          </div>
+        ))
+      )}
+
+      <div className="lock-method-row">
+        <button
+          type="button"
+          className="lock-method"
+          aria-pressed={method === 'password'}
+          onClick={() => setMethod('password')}
+        >
+          <Icon name="password" size={17} />
+          {t('lockMethodPassword')}
+        </button>
+        <button
+          type="button"
+          className="lock-method"
+          aria-pressed={method === 'totp'}
+          onClick={() => setMethod('totp')}
+        >
+          <Icon name="qr_code_2" size={17} />
+          {t('lockMethodTotp')}
+        </button>
+      </div>
+
+      <div className="lock-create-grid">
+        <label>
+          <span className="visually-hidden">{t('lockCreateTargetLabel')}</span>
+          <input
+            className="text-input"
+            placeholder={t('lockCreateTargetLabel')}
+            value={target}
+            onChange={event => setTarget(event.currentTarget.value)}
+          />
+        </label>
+        <label>
+          <span className="visually-hidden">{a('settingsWhatDoes')}</span>
+          <input
+            className="text-input"
+            placeholder="Label"
+            value={label}
+            onChange={event => setLabel(event.currentTarget.value)}
+          />
+        </label>
+      </div>
+      <input
+        className="text-input"
+        style={{ width: '100%', marginTop: 8 }}
+        placeholder={t('lockCreateCredLabel')}
+        value={credential}
+        onChange={event => setCredential(event.currentTarget.value)}
+      />
+
+      <div className="lock-duration-row">
+        {(
+          [
+            ['once', 'lockDurationOnce'],
+            ['session', 'lockDurationSession'],
+            ['15m', 'lockDuration15m'],
+          ] as const
+        ).map(([value, key]) => (
+          <button
+            key={value}
+            type="button"
+            className="lock-duration"
+            aria-pressed={duration === value}
+            onClick={() => setDuration(value)}
+          >
+            {t(key)}
+          </button>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        className="btn btn--filled"
+        disabled={target.trim().length === 0 || label.trim().length === 0 || credential.trim().length === 0}
+        onClick={() => {
+          const create =
+            method === 'password'
+              ? window.materialUniGetUi.locks.createPassword(target, label, credential, duration, minutesFor(duration))
+              : window.materialUniGetUi.locks.createTotp(target, label, credential, duration, minutesFor(duration))
+          void create.then(result => {
+            if ('error' in result) {
+              notify('warning', result.error)
+              return
+            }
+            setTarget('')
+            setLabel('')
+            setCredential('')
+            refresh()
+            notify('success', t('lockCreatedNotify'))
+          })
+        }}
+      >
+        {t('lockCreateBtn')}
+      </button>
+    </div>
+  )
+}
+
+/**
+ * Two-factor registration: a locally drawn QR code plus the manual Base32
+ * secret. The entry is only kept once the user proves they can generate a
+ * matching live code from it — until then it is created provisionally and
+ * removed again on a mismatch, so the factor never "arms" unconfirmed.
+ */
+function TwoFactorPairingCard(): JSX.Element {
+  const { t, a } = useI18n()
+  const { notify } = useNotifications()
+  const [secret, setSecret] = React.useState('')
+  const [issuer, setIssuer] = React.useState('Material UniGetUI')
+  const [account, setAccount] = React.useState('this device')
+  const [pendingId, setPendingId] = React.useState<string | null>(null)
+  const [code, setCode] = React.useState('')
+  const [status, setStatus] = React.useState<{ ok: boolean; message: string } | null>(null)
+
+  const uri = React.useMemo(() => {
+    if (secret.length === 0) {
+      return ''
+    }
+    const label = encodeURIComponent(`${issuer}:${account}`)
+    const query = new URLSearchParams({
+      secret,
+      issuer,
+      algorithm: 'SHA1',
+      digits: '6',
+      period: '30',
+    })
+    return `otpauth://totp/${label}?${query.toString()}`
+  }, [secret, issuer, account])
+
+  const generate = () => {
+    void window.materialUniGetUi.authenticator.generateSecret().then(async next => {
+      setSecret(next)
+      setStatus(null)
+      setCode('')
+      // Register provisionally — the confirm step decides whether it stays.
+      const label = encodeURIComponent(`${issuer}:${account}`)
+      const query = new URLSearchParams({
+        secret: next,
+        issuer,
+        algorithm: 'SHA1',
+        digits: '6',
+        period: '30',
+      })
+      const provisionalUri = `otpauth://totp/${label}?${query.toString()}`
+      const result = await window.materialUniGetUi.authenticator.add(provisionalUri, issuer, account)
+      if (result.ok) {
+        const entries = await window.materialUniGetUi.authenticator.list()
+        const match = entries.find(entry => entry.uri === provisionalUri)
+        setPendingId(match?.id ?? null)
+      }
+    })
+  }
+
+  const confirm = () => {
+    if (pendingId === null) {
+      setStatus({ ok: false, message: t('twoFANoSecretYet') })
+      return
+    }
+    void window.materialUniGetUi.authenticator.codes().then(codes => {
+      const real = codes.find(entry => entry.id === pendingId)
+      const cleaned = code.replace(/\s/g, '')
+      if (real !== undefined && real.code === cleaned && cleaned.length === 6) {
+        setStatus({ ok: true, message: t('twoFAConfirmSuccess') })
+        notify('success', t('twoFAConfirmSuccess'))
+        setPendingId(null)
+      } else {
+        setStatus({ ok: false, message: t('twoFAConfirmFail') })
+        // Un-arm: the factor never commits without a matching code.
+        void window.materialUniGetUi.authenticator.remove(pendingId).then(() => setPendingId(null))
+      }
+    })
+  }
+
+  return (
+    <div className="settings-card two-factor-card">
+      {uri.length > 0 ? (
+        <QrCodeView text={uri} label={t('twoFA')} />
+      ) : (
+        <div className="qr-code qr-code--error" style={{ width: 132, height: 132 }} aria-hidden="true">
+          <Icon name="qr_code_2" size={40} />
+        </div>
+      )}
+      <div className="two-factor-card__body">
+        <h2 style={{ fontSize: 'var(--md-body-size)', fontWeight: 500, margin: 0 }}>{t('twoFA')}</h2>
+        <p className="settings-card__body">{t('twoFASub')}</p>
+        <div className="two-factor-card__fields">
+          <input
+            className="text-input"
+            placeholder={t('twoFAIssuerLabel')}
+            aria-label={t('twoFAIssuerLabel')}
+            value={issuer}
+            onChange={event => setIssuer(event.currentTarget.value)}
+          />
+          <input
+            className="text-input"
+            placeholder={t('twoFAAccountLabel')}
+            aria-label={t('twoFAAccountLabel')}
+            value={account}
+            onChange={event => setAccount(event.currentTarget.value)}
+          />
+        </div>
+        <button type="button" className="btn" onClick={generate}>
+          <Icon name="autorenew" size={16} />
+          {t('twoFAGenerateBtn')}
+        </button>
+        {secret.length > 0 && (
+          <p className="setting-row__provenance" style={{ marginTop: 8 }}>
+            {t('twoFAManualSecret')}: <code>{secret}</code>
+          </p>
+        )}
+        <div className="two-factor-card__confirm">
+          <input
+            value={code}
+            onChange={event => setCode(event.currentTarget.value)}
+            placeholder={t('twoFAConfirmPlaceholder')}
+            aria-label={a('confirmPairing')}
+          />
+          <button type="button" className="btn btn--filled" onClick={confirm}>
+            {t('confirmPairing')}
+          </button>
+        </div>
+        {status && (
+          <p className="two-factor-card__status" data-ok={status.ok} role="status">
+            {status.message}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function ManagerList(props: {
   readonly managers: readonly ManagerAvailability[]
 }): JSX.Element {
+  const { t } = useI18n()
   return (
-    <div className="card">
-      <h2>Package managers</h2>
-      <p>
-        Detected on this computer. A manager that is not installed says so
-        rather than disappearing.
-      </p>
+    <div className="card settings-card">
+      <h2>{t('managersHeading')}</h2>
+      <p>{t('managersBody')}</p>
       <div className="manager-list">
         {props.managers.map(manager => (
           <div className="manager-row" key={manager.id} data-available={manager.available}>
             <div className="manager-row__name">{manager.id}</div>
             <div className="manager-row__state">
               {manager.available
-                ? `available${manager.version ? ` · ${manager.version}` : ''}`
-                : (manager.unavailableReason ?? 'not available')}
+                ? `${t('managerAvailable')}${manager.version ? ` · ${manager.version}` : ''}`
+                : (manager.unavailableReason ?? t('managerUnavailable'))}
             </div>
           </div>
         ))}
@@ -461,18 +1093,14 @@ function ManagerList(props: {
 }
 
 function VocabularyControl(): JSX.Element {
-  const [status, setStatus] = React.useState<string>('No file loaded.')
+  const { t } = useI18n()
+  const [status, setStatus] = React.useState<string>('')
   const { notify } = useNotifications()
 
   return (
-    <div className="card">
-      <h2>Personal vocabulary</h2>
-      <p>
-        Load a private JSON file of word replacements. Nothing ships with this
-        application: until you supply a valid file, every surface renders its
-        original wording. The file is read locally, never uploaded, and never
-        written to a log or an export.
-      </p>
+    <div className="card settings-card">
+      <h2>{t('vocabHeading')}</h2>
+      <p>{t('vocabBody')}</p>
       <div className="setting-row__control">
         <button
           type="button"
@@ -480,32 +1108,32 @@ function VocabularyControl(): JSX.Element {
           onClick={() => {
             void window.materialUniGetUi.vocabulary.load().then(result => {
               if (result.ok) {
-                setStatus(`Loaded ${result.count} replacements.`)
-                notify('success', 'Vocabulary loaded', `${result.count} replacements applied.`)
+                setStatus(t('vocabStatusLoaded', { count: String(result.count ?? 0) }))
+                notify('success', t('vocabLoadedNotify'), `${result.count ?? 0}`)
               } else {
-                setStatus(result.reason ?? 'That file was not accepted.')
-                notify('warning', 'Vocabulary not loaded', result.reason)
+                setStatus(result.reason ?? t('vocabStatusRejected'))
+                notify('warning', t('vocabNotLoadedNotify'), result.reason)
               }
             })
           }}
         >
-          Choose a JSON file…
+          {t('vocabChoose')}
         </button>
         <button
           type="button"
           className="btn"
           onClick={() => {
             void window.materialUniGetUi.vocabulary.clear().then(() => {
-              setStatus('No file loaded.')
-              notify('info', 'Vocabulary cleared')
+              setStatus(t('vocabStatusNone'))
+              notify('info', t('vocabClearedNotify'))
             })
           }}
         >
-          Clear
+          {t('clear')}
         </button>
       </div>
       <p className="setting-row__provenance" role="status">
-        {status}
+        {status.length > 0 ? status : t('vocabStatusNone')}
       </p>
     </div>
   )

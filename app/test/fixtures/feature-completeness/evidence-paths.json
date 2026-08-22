@@ -3088,14 +3088,20 @@
         ],
         "builtArtifactInteraction": [
           {
-            "status": "pending",
-            "reason": "The installer builds and is asserted unsigned, but it has not yet been installed and launched headlessly."
+            "status": "present",
+            "paths": [
+              "docs/assets/screenshots/installed-app.png"
+            ],
+            "note": "Installed headlessly from MaterialUniGetUISetup.exe, launched, captured, then uninstalled through Update.exe --uninstall and the folder removed. Automatic updates remain unimplemented."
           }
         ],
         "realCapture": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/assets/screenshots/installed-app.png"
+            ],
+            "note": "The installed application, not a development run."
           }
         ]
       }

@@ -42,6 +42,9 @@ human view of the same thing.
       PowerShell script, with silent mode and honest per-phase failures
 - [x] Unsigned Squirrel.Windows installer, with the signature state asserted from
       the PE certificate table rather than trusted from the configuration
+- [x] That installer installed headlessly, launched, captured, and uninstalled
+      again — settings persisted across the real install
+- [ ] Automatic updates from the Squirrel feed
 - [ ] A published release carrying that installer
 
 ## Phase 2 — The rest of the managers

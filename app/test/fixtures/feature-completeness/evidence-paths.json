@@ -613,20 +613,30 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/dim-sum.ts",
+              "app/src/ui/dim-sum-surprise.tsx"
+            ],
+            "note": "Photos come from the published catalog-v1* release assets; nothing is vendored. Offline means no surprise, which is documented."
           }
         ],
         "documentation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/features/design-system/dim-sum-surprise.md"
+            ],
+            "note": "Includes the deliberate deviation from the bundled-assets wording."
           }
         ],
         "localization": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/dim-sum-surprise.tsx"
+            ],
+            "note": "The dish name and the catalog alt text both follow the language mode."
           }
         ],
         "persistence": [
@@ -637,8 +647,10 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/dim-sum-test.mjs"
+            ]
           }
         ],
         "builtArtifactInteraction": [
@@ -650,7 +662,7 @@
         "realCapture": [
           {
             "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "reason": "It fires one launch in ten, so a capture is probabilistic and none has been taken."
           }
         ]
       }

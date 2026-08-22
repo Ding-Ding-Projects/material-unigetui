@@ -9,6 +9,7 @@ import { CommandPalette, PaletteEntry, usePaletteShortcut } from './command-pale
 import { OperationsDock, useOperations } from './operations-dock'
 import { SettingsRoute, SettingsTabId, SETTINGS_TABS, SETTING_DESCRIPTORS } from './settings-route'
 import { TabStrip, useTabs } from './tabs'
+import { DimSumSurprise } from './dim-sum-surprise'
 import {
   LogsRoute,
   HistoryRoute,
@@ -615,6 +616,8 @@ function AppContent(): JSX.Element {
           onClose={() => setPaletteOpen(false)}
         />
       )}
+
+      <DimSumSurprise />
 
       <div className="visually-hidden" aria-live="polite">
         {t('appName')}

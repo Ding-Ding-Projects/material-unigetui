@@ -27,6 +27,7 @@ import {
 import { VcpkgDriver } from '../manager-drivers/vcpkg-driver'
 import { OperationsQueue } from '../operations-queue'
 import { appLog } from '../app-log'
+import { resolveSurprise } from '../dim-sum'
 import { ticketStore } from '../support-tickets'
 import {
   parseBundle,
@@ -299,6 +300,23 @@ export function registerAllIpc(): void {
   ipcMain.handle(IpcChannels.ticketsAdvance, (_event, id: string) =>
     ticketStore.advance(id)
   )
+
+  /* -------------------------------------------------------------- dimsum -- */
+
+  ipcMain.handle(IpcChannels.dimSumSurprise, async () => {
+    const result = await resolveSurprise()
+    if (result === null) {
+      return null
+    }
+    return {
+      english: result.dish.english,
+      traditional: result.dish.traditional,
+      jyutping: result.dish.jyutping,
+      photoUrl: result.photoUrl,
+      altEnglish: result.dish.altEnglish,
+      altCantonese: result.dish.altCantonese,
+    }
+  })
 
   /* --------------------------------------------------------------- shell -- */
 

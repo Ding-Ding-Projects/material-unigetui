@@ -348,3 +348,27 @@
   margin: 0 0 6px; padding: 8px 12px; border-radius: 10px;
   background: var(--sch); color: var(--on); font-size: 13px;
 }
+
+/* ---- dim sum surprise -------------------------------------------------- */
+
+.dim-sum {
+  position: fixed; left: 18px; bottom: 18px; z-index: 45;
+  display: flex; align-items: center; gap: 14px;
+  max-width: min(420px, calc(100vw - 36px));
+  background: var(--sf); color: var(--on);
+  border: 1px solid var(--olv); border-radius: 16px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / .22);
+}
+.dim-sum__photo {
+  width: 64px; height: 64px; flex: none;
+  border-radius: 12px; object-fit: cover; background: var(--sch);
+}
+.dim-sum__text { flex: 1; min-width: 0; }
+.dim-sum__name { font-weight: 500; font-size: 15px; }
+.dim-sum__jyutping { font-size: 12px; color: var(--onv); }
+.dim-sum__dismiss {
+  border: 0; background: transparent; color: var(--onv); cursor: pointer;
+  font-size: 16px; min-width: 32px; min-height: 32px; border-radius: 16px;
+}
+.dim-sum__dismiss:hover { background: var(--sch); color: var(--on); }

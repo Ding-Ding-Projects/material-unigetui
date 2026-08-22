@@ -78,6 +78,9 @@ const bridge: MaterialUniGetUiBridge = {
       ipcRenderer.invoke(IpcChannels.ticketsCreate, category, severity, description),
     advance: (id: string) => ipcRenderer.invoke(IpcChannels.ticketsAdvance, id),
   },
+  dimSum: {
+    surprise: () => ipcRenderer.invoke(IpcChannels.dimSumSurprise),
+  },
   shell: {
     openExternal: (url: string) =>
       ipcRenderer.invoke(IpcChannels.openExternal, url),

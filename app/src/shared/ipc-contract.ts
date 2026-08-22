@@ -41,6 +41,7 @@ export const IpcChannels = {
   ticketsAll: 'tickets:all',
   ticketsCreate: 'tickets:create',
   ticketsAdvance: 'tickets:advance',
+  dimSumSurprise: 'dimsum:surprise',
   openExternal: 'shell:open-external',
   openPath: 'shell:open-path',
   appDataPath: 'app:data-path',
@@ -138,6 +139,17 @@ export interface MaterialUniGetUiBridge {
     all(): Promise<readonly SupportTicketDto[]>
     create(category: string, severity: string, description: string): Promise<readonly SupportTicketDto[]>
     advance(id: string): Promise<readonly SupportTicketDto[]>
+  }
+  readonly dimSum: {
+    /** Resolves one dish for this launch, or null. Never blocks startup. */
+    surprise(): Promise<{
+      english: string
+      traditional: string
+      jyutping: string
+      photoUrl: string
+      altEnglish: string
+      altCantonese: string
+    } | null>
   }
   readonly shell: {
     openExternal(url: string): Promise<void>

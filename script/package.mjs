@@ -23,6 +23,11 @@ const appManifest = JSON.parse(
 )
 
 const APP_NAME = 'MaterialUniGetUI'
+const ICON_ICO = join(repoRoot, 'build', 'icon.ico')
+// Reachable and immutable enough for Squirrel's Add/Remove Programs entry: it
+// resolves against the committed icon on the default branch.
+const ICON_URL =
+  'https://raw.githubusercontent.com/Ding-Ding-Projects/material-unigetui/main/build/icon.ico'
 const PRODUCT_NAME = appManifest.productName ?? 'Material UniGetUI'
 const VERSION = appManifest.version
 
@@ -94,6 +99,12 @@ if (!existsSync(join(repoRoot, 'app', 'main.js'))) {
 if (!existsSync(join(repoRoot, 'app', 'renderer.js'))) {
   fail('app/renderer.js is missing — run the build before packaging')
 }
+if (!existsSync(ICON_ICO)) {
+  fail(
+    'build/icon.ico is missing — run `npx electron script/make-app-icon.cjs`. ' +
+    'A framework default icon is not an application mark.'
+  )
+}
 
 // Clear prior output, so a stale artifact can never be mistaken for a fresh one.
 rmSync(outDir, { recursive: true, force: true })
@@ -108,6 +119,7 @@ run('npx', [
   '--out=out',
   '--overwrite',
   `--app-version=${VERSION}`,
+  `--icon=${ICON_ICO}`,
   // Explicitly refuse any signing configuration.
   '--no-prune',
   '--ignore=^/build-test',
@@ -145,6 +157,8 @@ await createWindowsInstaller({
   // name from `title`, which produced "Material UniGetUISetup.exe" — a space
   // in a download filename, and a name no release step could predict.
   setupExe: `${APP_NAME}Setup.exe`,
+  setupIcon: ICON_ICO,
+  iconUrl: ICON_URL,
   // No certificateFile, no certificatePassword, no signWithParams. Their
   // absence is the policy; adding any of them is the breach.
 })

@@ -1287,14 +1287,21 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "script/make-app-icon.cjs",
+              "build/icon.ico",
+              "build/icon-master.png"
+            ],
+            "note": "A real application mark and multi-resolution icon, wired into the executable, installer and Add/Remove Programs. User-side logo customization (presets, upload, crop) is not built."
           }
         ],
         "documentation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/features/build-and-release/application-icon.md"
+            ]
           }
         ],
         "localization": [
@@ -1311,8 +1318,11 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/app-icon-test.mjs"
+            ],
+            "note": "Reads the ICO directory out of the bytes, so a PNG renamed to .ico fails."
           }
         ],
         "builtArtifactInteraction": [

@@ -12,3 +12,7 @@ dimsum.json
 line-counts.md
 release-notes.md
 out/
+
+# The application mark is a committed source, not build output.
+!build/icon.ico
+!build/icon-master.png

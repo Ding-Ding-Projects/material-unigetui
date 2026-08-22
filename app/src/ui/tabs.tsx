@@ -1,6 +1,21 @@
 import * as React from 'react'
-import { RouteId, allRoutes, routeLabel } from './routes'
+import { RouteId, allRoutes, routeLabel, routeI18nKey, routeIcon } from './routes'
 import { SearchField, SearchState, emptySearchState, searchMatcher } from './md3/search-field'
+import { Icon } from './md3/icon'
+import { useI18n } from './app-state'
+import type { TranslationKey } from '../lib/i18n-resources'
+import './tabs.css'
+
+const GROUP_COLORS = ['#0B57D0', '#146C2E', '#B3261E', '#7B4FE0', '#B85C00'] as const
+
+/** A stable, deterministic pill colour per group name — no state to persist. */
+function groupColor(name: string): string {
+  let hash = 0
+  for (let index = 0; index < name.length; index += 1) {
+    hash = (hash * 31 + name.charCodeAt(index)) >>> 0
+  }
+  return GROUP_COLORS[hash % GROUP_COLORS.length]!
+}
 
 /**
  * Browser-style tabs.
@@ -184,16 +199,38 @@ export function useTabs(): TabsController {
   }
 }
 
+/** The route's localized label, falling back to the English one when no key exists. */
+function useTabLabel(): (route: RouteId) => string {
+  const { t } = useI18n()
+  return React.useCallback(
+    (route: RouteId) => {
+      const key = routeI18nKey(route) as TranslationKey
+      const translated = t(key)
+      return translated === key ? routeLabel(route) : translated
+    },
+    [t]
+  )
+}
+
 export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element {
   const controller = props.tabs
+  const { t } = useI18n()
+  const label = useTabLabel()
   const [searchOpen, setSearchOpen] = React.useState(false)
   const [scope, setScope] = React.useState<'strip' | 'group' | 'groups' | 'all'>('strip')
   const [search, setSearch] = React.useState<SearchState>(emptySearchState)
+  const [groupSearchOpen, setGroupSearchOpen] = React.useState(false)
+  const [groupSearch, setGroupSearch] = React.useState<SearchState>(emptySearchState)
   const [bulkOpen, setBulkOpen] = React.useState(false)
   const [bulkText, setBulkText] = React.useState('')
   const [bulkInvert, setBulkInvert] = React.useState(false)
+  const [movePickerFor, setMovePickerFor] = React.useState<string | null>(null)
+  const [moveSearch, setMoveSearch] = React.useState<SearchState>(emptySearchState)
+  const [newGroupName, setNewGroupName] = React.useState('')
 
   const matcher = searchMatcher(search)
+  const groupMatcher = searchMatcher(groupSearch)
+  const moveMatcher = searchMatcher(moveSearch)
 
   const scopeSource = React.useMemo(() => {
     switch (scope) {
@@ -211,9 +248,10 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
     }
   }, [scope, controller.tabs, controller.activeId])
 
-  const found = scopeSource.filter(tab =>
-    matcher.test(`${routeLabel(tab.route)} ${tab.group ?? ''}`)
-  )
+  const found = scopeSource.filter(tab => matcher.test(`${label(tab.route)} ${tab.group ?? ''}`))
+
+  const groupNames = Object.keys(controller.groups)
+  const foundGroups = groupNames.filter(name => groupMatcher.test(name))
 
   // Preview first: the exact tabs a bulk close would take, computed from the
   // same predicate the action uses so the two cannot disagree.
@@ -223,16 +261,25 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
     }
     const needle = bulkText.toLowerCase()
     return controller.tabs.filter(tab => {
-      const contains = routeLabel(tab.route).toLowerCase().includes(needle)
+      const contains = label(tab.route).toLowerCase().includes(needle)
       const matches = bulkInvert ? !contains : contains
       return matches && !tab.pinned
     })
-  }, [bulkText, bulkInvert, controller.tabs])
+  }, [bulkText, bulkInvert, controller.tabs, label])
 
   const pinned = controller.tabs.filter(tab => tab.pinned)
   const ordinary = controller.tabs.filter(tab => !tab.pinned)
 
   const orderedTabs = [...pinned, ...ordinary]
+
+  const moveTargets = groupNames.filter(name => moveMatcher.test(name))
+  const movingTab = controller.tabs.find(tab => tab.id === movePickerFor) ?? null
+
+  const closeMovePicker = React.useCallback(() => {
+    setMovePickerFor(null)
+    setMoveSearch(emptySearchState)
+    setNewGroupName('')
+  }, [])
 
   // Roving tabindex: only the active tab is a stop on the page's own Tab
   // order; arrow keys move focus (and, per the tablist pattern, selection)
@@ -254,106 +301,135 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
     document.getElementById(`tab-${next.id}`)?.focus()
   }
 
+  const renderTab = (tab: AppTab): JSX.Element => (
+    <div
+      key={tab.id}
+      className="tab"
+      data-pinned={tab.pinned}
+      data-active={tab.id === controller.activeId}
+      onContextMenu={event => {
+        event.preventDefault()
+        setMovePickerFor(tab.id)
+      }}
+    >
+      {tab.group !== null && (
+        <span
+          className="tab__group-dot"
+          style={{ background: groupColor(tab.group) }}
+          aria-hidden="true"
+        />
+      )}
+      <button
+        id={`tab-${tab.id}`}
+        role="tab"
+        aria-selected={tab.id === controller.activeId}
+        aria-controls="route-surface"
+        tabIndex={tab.id === controller.activeId ? 0 : -1}
+        className="tab__label"
+        title={tab.pinned ? `${label(tab.route)} (${t('pinned')})` : label(tab.route)}
+        onClick={() => controller.activate(tab.id)}
+      >
+        <Icon name={routeIcon(tab.route)} size={16} />
+        <span className="tab__label-text">{label(tab.route)}</span>
+        {tab.pinned && <Icon name="keep" size={13} />}
+      </button>
+      <button
+        className="tab__pin"
+        aria-label={tab.pinned ? `${t('unpin')} ${label(tab.route)}` : `${t('pin')} ${label(tab.route)}`}
+        onClick={() => controller.togglePin(tab.id)}
+      >
+        <Icon name={tab.pinned ? 'keep_off' : 'keep'} size={14} />
+      </button>
+      <button
+        className="tab__close"
+        aria-label={`${t('close')} ${label(tab.route)}`}
+        title={`${t('close')} (${label(tab.route)})`}
+        onClick={() => controller.close(tab.id)}
+      >
+        <Icon name="close" size={14} />
+      </button>
+    </div>
+  )
+
   return (
     <div className="tab-strip-wrap">
       <div
         className="tab-strip"
         role="tablist"
-        aria-label="Open tabs"
+        aria-label={t('tabStripLabel')}
         onKeyDown={onTablistKeyDown}
       >
-        {orderedTabs.map(tab => (
-          <div
-            key={tab.id}
-            className="tab"
-            data-pinned={tab.pinned}
-            data-active={tab.id === controller.activeId}
-          >
-            <button
-              id={`tab-${tab.id}`}
-              role="tab"
-              aria-selected={tab.id === controller.activeId}
-              aria-controls="route-surface"
-              tabIndex={tab.id === controller.activeId ? 0 : -1}
-              className="tab__label"
-              title={tab.pinned ? `${routeLabel(tab.route)} (pinned)` : routeLabel(tab.route)}
-              onClick={() => controller.activate(tab.id)}
-            >
-              {tab.pinned && <span aria-hidden="true">📌 </span>}
-              {routeLabel(tab.route)}
-              {tab.group !== null && <span className="tab__group">{tab.group}</span>}
-            </button>
-            <button
-              className="tab__pin"
-              aria-label={
-                tab.pinned
-                  ? `Unpin ${routeLabel(tab.route)}`
-                  : `Pin ${routeLabel(tab.route)}`
-              }
-              onClick={() => controller.togglePin(tab.id)}
-            >
-              {tab.pinned ? '▣' : '▢'}
-            </button>
-            <button
-              className="tab__close"
-              aria-label={`Close ${routeLabel(tab.route)}`}
-              onClick={() => controller.close(tab.id)}
-            >
-              {'×'}
-            </button>
-          </div>
-        ))}
+        {pinned.length > 0 && <div className="tab-strip__pinned">{pinned.map(renderTab)}</div>}
+        {ordinary.map(renderTab)}
 
-        <button
-          className="tab-strip__action"
-          onClick={() => setSearchOpen(open => !open)}
-          aria-expanded={searchOpen}
-        >
-          Search tabs
-        </button>
-        <button
-          className="tab-strip__action"
-          onClick={() => setBulkOpen(open => !open)}
-          aria-expanded={bulkOpen}
-        >
-          Close many
-        </button>
+        <div className="tab-strip__actions">
+          <button
+            className="tab-strip__action"
+            title={t('searchTabsStrip')}
+            aria-label={t('searchTabsStrip')}
+            onClick={() => setSearchOpen(open => !open)}
+            aria-expanded={searchOpen}
+          >
+            <Icon name="manage_search" size={18} />
+          </button>
+          <button
+            className="tab-strip__action"
+            title={t('searchTabGroups')}
+            aria-label={t('searchTabGroups')}
+            onClick={() => setGroupSearchOpen(open => !open)}
+            aria-expanded={groupSearchOpen}
+          >
+            <Icon name="folder_open" size={18} />
+          </button>
+          <button
+            className="tab-strip__action"
+            title={t('bulkCloseTabs')}
+            aria-label={t('bulkCloseTabs')}
+            onClick={() => setBulkOpen(open => !open)}
+            aria-expanded={bulkOpen}
+          >
+            <Icon name="playlist_remove" size={18} />
+          </button>
+        </div>
       </div>
 
       {searchOpen && (
         <div className="tab-panel">
-          <div className="tab-panel__scopes" role="group" aria-label="Search scope">
+          <div className="tab-panel__scopes" role="group" aria-label={t('searchScopeLabel')}>
             {(
               [
-                ['strip', 'This strip'],
-                ['group', 'This group'],
-                ['groups', 'Grouped tabs'],
-                ['all', 'Everything open'],
+                ['strip', 'searchScopeStrip'],
+                ['group', 'searchScopeGroup'],
+                ['groups', 'searchScopeGroups'],
+                ['all', 'searchScopeAll'],
               ] as const
-            ).map(([id, label]) => (
+            ).map(([id, key]) => (
               <button
                 key={id}
                 className="chip"
                 aria-pressed={scope === id}
                 onClick={() => setScope(id)}
               >
-                {label}
+                {t(key)}
               </button>
             ))}
           </div>
 
           <SearchField
             id="tab-search"
-            label="Search tabs"
-            placeholder="Search open tabs…"
+            label={t('searchTabsStrip')}
+            placeholder={t('searchTabsPlaceholder')}
             state={search}
-            sampleText={routeLabel(controller.tabs[0]?.route ?? 'discover')}
-            resultSummary={`${found.length} of ${scopeSource.length} in scope`}
+            sampleText={label(controller.tabs[0]?.route ?? 'discover')}
+            resultSummary={t('searchResultSummary', {
+              found: String(found.length),
+              total: String(scopeSource.length),
+            })}
             onChange={setSearch}
           />
 
           <div className="tab-panel__results">
-            {found.length === 0 && <div className="state-note">No tab matched.</div>}
+            {found.length === 0 && <div className="state-note">{t('noTabMatched')}</div>}
             {found.map(tab => (
               <button
                 key={tab.id}
@@ -363,8 +439,8 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
                   setSearchOpen(false)
                 }}
               >
-                {routeLabel(tab.route)}
-                {tab.pinned && ' · pinned'}
+                {label(tab.route)}
+                {tab.pinned && ` · ${t('pinned')}`}
                 {tab.group !== null && ` · ${tab.group}`}
               </button>
             ))}
@@ -372,14 +448,56 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
         </div>
       )}
 
+      {groupSearchOpen && (
+        <div className="tab-panel">
+          <SearchField
+            id="tab-group-search"
+            label={t('searchTabGroups')}
+            placeholder={t('searchGroupsPlaceholder')}
+            state={groupSearch}
+            sampleText={groupNames[0] ?? ''}
+            resultSummary={t('searchResultSummary', {
+              found: String(foundGroups.length),
+              total: String(groupNames.length),
+            })}
+            onChange={setGroupSearch}
+          />
+          <div className="tab-panel__group-list">
+            {foundGroups.length === 0 && <div className="state-note">{t('noGroupMatched')}</div>}
+            {foundGroups.map(name => {
+              const group = controller.groups[name]!
+              const count = controller.tabs.filter(tab => tab.group === name).length
+              return (
+                <div key={name} className="tab-panel__group-row">
+                  <span
+                    className="tab__group-dot"
+                    style={{ background: groupColor(name) }}
+                    aria-hidden="true"
+                  />
+                  <span style={{ flex: 1 }}>{name}</span>
+                  <span style={{ color: 'var(--onv)', fontSize: 11 }}>{count}</span>
+                  <button
+                    className="tab__pin"
+                    aria-label={group.collapsed ? `${t('expand')} ${name}` : `${t('collapse')} ${name}`}
+                    onClick={() => controller.setGroupCollapsed(name, !group.collapsed)}
+                  >
+                    <Icon name={group.collapsed ? 'expand_more' : 'expand_less'} size={16} />
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
       {bulkOpen && (
         <div className="tab-panel">
           <label className="tab-panel__field">
-            <span>Close tabs whose name…</span>
+            <span>{t('bulkCloseFieldLabel')}</span>
             <input
               type="text"
               value={bulkText}
-              placeholder="contains this text"
+              placeholder={t('bulkCloseFieldPlaceholder')}
               onChange={event => setBulkText(event.currentTarget.value)}
             />
           </label>
@@ -389,19 +507,19 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
               checked={bulkInvert}
               onChange={event => setBulkInvert(event.currentTarget.checked)}
             />
-            <span>Invert — close the ones that do NOT contain it</span>
+            <span>{t('bulkCloseInvert')}</span>
           </label>
 
           <div className="tab-panel__preview">
             {bulkText.trim().length === 0 ? (
               // Never runs on an empty query: that would close everything.
-              <span>Type something first. An empty query is not a match-all here.</span>
+              <span>{t('bulkCloseTypeFirst')}</span>
             ) : bulkDoomed.length === 0 ? (
-              <span>Nothing would close. Pinned tabs are always excluded.</span>
+              <span>{t('bulkCloseNothing')}</span>
             ) : (
               <span>
-                {bulkDoomed.length} would close:{' '}
-                {bulkDoomed.map(tab => routeLabel(tab.route)).join(', ')}
+                {t('bulkCloseCount', { count: String(bulkDoomed.length) })}{' '}
+                {bulkDoomed.map(tab => label(tab.route)).join(', ')}
               </span>
             )}
           </div>
@@ -416,7 +534,82 @@ export function TabStrip(props: { readonly tabs: TabsController }): JSX.Element 
               setBulkText('')
             }}
           >
-            Close {bulkDoomed.length}
+            {t('close')} {bulkDoomed.length}
+          </button>
+        </div>
+      )}
+
+      {/* Right-click a tab → a single "Move… into group…" entry, opening this
+          anchored picker with its own search rather than one menu item per
+          group. */}
+      {movingTab !== null && (
+        <div className="tab-panel" role="dialog" aria-label={t('moveIntoGroupTitle')}>
+          <div className="tab-panel__field">
+            <span>{t('moveIntoGroupTitle', { tab: label(movingTab.route) })}</span>
+          </div>
+
+          <SearchField
+            id="tab-move-search"
+            label={t('searchTabGroups')}
+            placeholder={t('searchGroupsPlaceholder')}
+            state={moveSearch}
+            sampleText={groupNames[0] ?? ''}
+            onChange={setMoveSearch}
+          />
+
+          <div className="tab-panel__group-list">
+            <button
+              className="tab-panel__group-row"
+              onClick={() => {
+                controller.moveToGroup(movingTab.id, null)
+                closeMovePicker()
+              }}
+            >
+              <Icon name="remove_circle" size={16} />
+              <span>{t('moveNoGroup')}</span>
+            </button>
+            {moveTargets.map(name => (
+              <button
+                key={name}
+                className="tab-panel__group-row"
+                onClick={() => {
+                  controller.moveToGroup(movingTab.id, name)
+                  closeMovePicker()
+                }}
+              >
+                <span
+                  className="tab__group-dot"
+                  style={{ background: groupColor(name) }}
+                  aria-hidden="true"
+                />
+                <span>{name}</span>
+              </button>
+            ))}
+          </div>
+
+          <label className="tab-panel__field">
+            <span>{t('moveCreateGroup')}</span>
+            <input
+              type="text"
+              value={newGroupName}
+              placeholder={t('moveCreateGroupPlaceholder')}
+              onChange={event => setNewGroupName(event.currentTarget.value)}
+            />
+          </label>
+          <button
+            type="button"
+            className="btn btn--small"
+            disabled={newGroupName.trim().length === 0}
+            onClick={() => {
+              controller.moveToGroup(movingTab.id, newGroupName.trim())
+              closeMovePicker()
+            }}
+          >
+            {t('moveCreateGroupAction')}
+          </button>
+
+          <button type="button" className="btn btn--small" onClick={closeMovePicker}>
+            {t('cancel')}
           </button>
         </div>
       )}

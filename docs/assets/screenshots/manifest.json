@@ -1,0 +1,128 @@
+{
+  "commit": "975dcc3be94a46e751643a42ceffa39089f5588f",
+  "capturedAt": "2026-08-22T02:41:09.539Z",
+  "method": "CDP Page.captureScreenshot against the real built Electron renderer, remote-debugging-port CDP route",
+  "images": [
+    {
+      "file": "route-discover.png",
+      "alt": "Discover packages screen in the built Material UniGetUI application, light theme",
+      "note": "route discover"
+    },
+    {
+      "file": "route-updates.png",
+      "alt": "Software updates screen in the built Material UniGetUI application, light theme",
+      "note": "route updates"
+    },
+    {
+      "file": "route-installed.png",
+      "alt": "Installed packages screen in the built Material UniGetUI application, light theme",
+      "note": "route installed"
+    },
+    {
+      "file": "route-bundles.png",
+      "alt": "Package bundles screen in the built Material UniGetUI application, light theme",
+      "note": "route bundles"
+    },
+    {
+      "file": "route-history.png",
+      "alt": "Operation history screen in the built Material UniGetUI application, light theme",
+      "note": "route history"
+    },
+    {
+      "file": "route-automation.png",
+      "alt": "Automation screen in the built Material UniGetUI application, light theme",
+      "note": "route automation"
+    },
+    {
+      "file": "route-converter.png",
+      "alt": "File converter screen in the built Material UniGetUI application, light theme",
+      "note": "route converter"
+    },
+    {
+      "file": "route-ollama.png",
+      "alt": "Ollama suite manager screen in the built Material UniGetUI application, light theme",
+      "note": "route ollama"
+    },
+    {
+      "file": "route-auth.png",
+      "alt": "Authenticator screen in the built Material UniGetUI application, light theme",
+      "note": "route auth"
+    },
+    {
+      "file": "route-logs.png",
+      "alt": "Logs screen in the built Material UniGetUI application, light theme",
+      "note": "route logs"
+    },
+    {
+      "file": "route-tickets.png",
+      "alt": "Support Tickets screen in the built Material UniGetUI application, light theme",
+      "note": "route tickets"
+    },
+    {
+      "file": "route-about.png",
+      "alt": "Help & About screen in the built Material UniGetUI application, light theme",
+      "note": "route about"
+    },
+    {
+      "file": "route-settings.png",
+      "alt": "Settings screen in the built Material UniGetUI application, light theme",
+      "note": "route settings"
+    },
+    {
+      "file": "settings-general.png",
+      "alt": "Settings surface with the general tab open, in the built application",
+      "note": "settings tab general"
+    },
+    {
+      "file": "settings-appearance.png",
+      "alt": "Settings surface with the appearance tab open, in the built application",
+      "note": "settings tab appearance"
+    },
+    {
+      "file": "settings-localization.png",
+      "alt": "Settings surface with the localization tab open, in the built application",
+      "note": "settings tab localization"
+    },
+    {
+      "file": "tab-strip-search.png",
+      "alt": "The tab strip with several open tabs and its search panel expanded, showing the tab-discovery search and regex-builder affordance",
+      "note": "tab strip search"
+    },
+    {
+      "file": "regex-builder.png",
+      "alt": "The anchored regex builder popover open beside the Discover screen search field, with guided pattern construction controls",
+      "note": "regex builder"
+    },
+    {
+      "file": "command-palette.png",
+      "alt": "The command palette opened with Ctrl+Shift+F, showing searchable destinations and settings",
+      "note": "palette"
+    },
+    {
+      "file": "route-discover-dark.png",
+      "alt": "Discover packages screen rendered in dark theme",
+      "note": "dark theme, set via Settings > Appearance > Theme (verified data-theme=\"dark\" after change)"
+    },
+    {
+      "file": "route-discover-narrow.png",
+      "alt": "Discover packages screen emulated at a 480px-wide viewport via CDP device metrics, showing the narrow-layout behaviour",
+      "note": "narrow viewport (480x900), NOT the real OS window (minWidth 1280)"
+    }
+  ],
+  "usedCaptureHook": false,
+  "routeLabels": {
+    "discover": "Discover packages",
+    "updates": "Software updates",
+    "installed": "Installed packages",
+    "bundles": "Package bundles",
+    "history": "Operation history",
+    "automation": "Automation",
+    "converter": "File converter",
+    "ollama": "Ollama suite manager",
+    "auth": "Authenticator",
+    "logs": "Logs",
+    "tickets": "Support Tickets",
+    "about": "Help & About",
+    "settings": "Settings"
+  }
+}

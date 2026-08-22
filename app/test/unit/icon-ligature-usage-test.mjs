@@ -64,10 +64,17 @@ function extractIconNamesFromSource() {
     let m
     while ((m = literalPattern.exec(src)) !== null) names.add(m[1])
     while ((m = dynamicPattern.exec(src)) !== null) {
+      // Only the ternary's RESULT branches name an icon. The condition can
+      // compare against an unrelated string -- `name={x === 'totp' ? 'qr_code_2'
+      // : 'password'}` -- and reading every literal in the expression reported
+      // 'totp' as a missing glyph when nothing had ever tried to draw it.
+      // Split on the first `?` that is not part of `?.` or `??`.
       const expr = m[1]
+      const branchStart = expr.search(/\?(?![.?])/)
+      const branches = branchStart === -1 ? expr : expr.slice(branchStart + 1)
       const stringLiteral = /'([a-zA-Z0-9_]+)'/g
       let s
-      while ((s = stringLiteral.exec(expr)) !== null) names.add(s[1])
+      while ((s = stringLiteral.exec(branches)) !== null) names.add(s[1])
     }
   }
   return [...names].sort()

@@ -466,6 +466,7 @@ function BulkBar(props: {
 }
 
 function AboutRoute(): JSX.Element {
+  const { t } = useI18n()
   const [dataPath, setDataPath] = React.useState('')
 
   React.useEffect(() => {
@@ -474,48 +475,32 @@ function AboutRoute(): JSX.Element {
 
   return (
     <>
-      <h1 className="route-surface__heading">Help &amp; About</h1>
-      <p className="route-surface__sub">
-        A Material Design 3 rewrite of the UniGetUI interface.
-      </p>
+      <h1 className="route-surface__heading">{t('aboutHeading')}</h1>
+      <p className="route-surface__sub">{t('aboutSub')}</p>
 
       <div className="card">
-        <h2>Unsigned artifacts</h2>
-        <p>
-          Builds of this application are unsigned and always will be. Windows
-          will show an unknown-publisher warning when installing one. That is
-          expected; it is not evidence of tampering, and it is also not a
-          substitute for checking what you downloaded.
-        </p>
+        <h2>{t('aboutUnsignedHeading')}</h2>
+        <p>{t('aboutUnsignedBody')}</p>
       </div>
 
       <div className="card">
-        <h2>Your data</h2>
+        <h2>{t('aboutDataHeading')}</h2>
+        <p>{t('aboutDataBody')}</p>
         <p>
-          Settings live in this folder. Deleting it resets everything, including
-          any locks — that is the documented recovery route if you are ever shut
-          out of your own copy.
-        </p>
-        <p>
-          <code>{dataPath || 'resolving…'}</code>
+          <code>{dataPath || t('aboutResolving')}</code>
         </p>
         <button
           type="button"
           className="btn"
           onClick={() => void window.materialUniGetUi.shell.openAppData()}
         >
-          Open that folder
+          {t('aboutOpenFolder')}
         </button>
       </div>
 
       <div className="card">
-        <h2>Package managers</h2>
-        <p>
-          Drivers are reimplemented natively rather than calling the original
-          UniGetUI engine. UniGetUI is included in the source repository as a
-          read-only reference for command lines and output parsing; none of its
-          code runs here.
-        </p>
+        <h2>{t('aboutManagersHeading')}</h2>
+        <p>{t('aboutManagersBody')}</p>
       </div>
     </>
   )
@@ -526,9 +511,7 @@ function NotYetPorted(props: { readonly route: RouteId }): JSX.Element {
   return (
     <>
       <h1 className="route-surface__heading">{routeLabel(props.route)}</h1>
-      <p className="route-surface__sub">
-        This surface is designed but not yet built.
-      </p>
+      <p className="route-surface__sub">{t('notYetPortedSub')}</p>
       <div className="state-note">
         <strong>{t('notImplementedTitle')}</strong> {t('notImplementedBody')}
       </div>

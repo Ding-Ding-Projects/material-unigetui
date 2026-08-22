@@ -1,0 +1,113 @@
+{
+  "generatedAt": "2026-08-22T02:36:19.849Z",
+  "threshold": 40,
+  "results": [
+    {
+      "screenId": "discover",
+      "referenceCapture": "docs/design-parity/captures/discover.reference.png",
+      "appCapture": "docs/design-parity/captures/discover.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/discover.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "sizeMismatch": true,
+      "comparedPixels": 1279128,
+      "diffPixels": 1235742,
+      "diffPercent": 96.608,
+      "threshold": 40
+    },
+    {
+      "screenId": "updates",
+      "referenceCapture": "docs/design-parity/captures/updates.reference.png",
+      "appCapture": "docs/design-parity/captures/updates.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/updates.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "sizeMismatch": true,
+      "comparedPixels": 1279128,
+      "diffPixels": 1234032,
+      "diffPercent": 96.474,
+      "threshold": 40
+    },
+    {
+      "screenId": "settings",
+      "referenceCapture": "docs/design-parity/captures/settings.reference.png",
+      "appCapture": "docs/design-parity/captures/settings.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/settings.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "sizeMismatch": true,
+      "comparedPixels": 1279128,
+      "diffPixels": 1233746,
+      "diffPercent": 96.452,
+      "threshold": 40
+    },
+    {
+      "screenId": "installed",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "bundles",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "history",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "automation",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "converter",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "ollama",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "auth",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "logs",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "tickets",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    },
+    {
+      "screenId": "about",
+      "skipped": true,
+      "reason": "missing raw capture(s) on disk"
+    }
+  ]
+}

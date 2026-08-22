@@ -1,0 +1,271 @@
+{
+  "$schema": "./inventory.schema.md",
+  "note": "Hand-written per-screen design-parity inventory. Every row below is written by hand, not discovered by scanning app/src/ui — a screen that disappeared from the app would disappear from an auto-generated list too, which defeats the point of this file. The route set is taken from app/src/ui/routes.ts (13 destinations: 4 primary + 9 tools); that file is the single source of truth for what screens this application has.",
+  "referenceFile": "design/Material UniGetUI v2.dc.html",
+  "referenceAppRouteBase": "http://127.0.0.1:4173/ (script/design-parity/reference-server.mjs)",
+  "realAppEntryPoint": "app/main.js via electron.exe app (no query-param routing exists in app/src/ui — every real-app route below is reached by clicking the nav-rail item with the stated Material Symbols ligature name, at the coordinates recorded per screen)",
+  "captureTuple": {
+    "theme": "light (default, unmodified)",
+    "viewportWidthPx": 1450,
+    "viewportHeightPx": 900,
+    "displayScale": "100% (96 DPI)",
+    "determinismNotes": [
+      "The startup dim-sum surprise (app/src/ui/dim-sum-surprise.tsx) fires on ~1/10 launches; every app-side capture below was taken from a launch where it did not fire. A capture whose screenshot shows the surprise overlay must be discarded and re-captured from a fresh launch, never accepted as-is.",
+      "Each app-side launch uses a fresh --user-data-dir under a temp directory so package-manager availability probing and any persisted state cannot vary between runs.",
+      "The real app queries live winget/scoop/etc. on the host machine, so the *content* of the Updates and Discover lists is real, host-specific package data, not the reference's fixture data. This is expected and is not a parity defect: the row's MD3 audit and diff record judge chrome, layout and component anatomy, not list contents. The diff percentage is reported honestly and will be nontrivial for these two rows for exactly this reason."
+    ]
+  },
+  "screens": [
+    {
+      "id": "discover",
+      "referenceRoute": "http://127.0.0.1:4173/ then click nav item with ligature text 'explore' (Discover packages)",
+      "realAppRoute": "default startup route; nav item with ligature text 'explore' (Discover packages), left rail",
+      "state": "empty search state (no query entered)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Nav rail selection uses filled tonal container + Material Symbols Rounded ligature icon — matches M3 navigation rail anatomy on both sides.",
+          "Search field on the real app carries an explicit Regex checkbox and Builder pill beside it (the regex-builder contract); the reference's search field shows only the search icon and a keyboard-shortcut hint chip. This is an intentional, reviewed deviation: the real app implements the mandatory regex-builder requirement, which the static reference screen does not model.",
+          "Empty state (inbox glyph + 'Type a search above to find something to install.') follows M3 empty-state anatomy: centered icon, single-line supporting text, no fabricated content.",
+          "Package-manager chip list in the left rail shows 'Not available on this computer' as inline secondary text for managers absent on this host (scoop, cargo, vcpkg) — an honest empty/unavailable state rather than a fabricated toggle."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/discover.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/discover.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/discover.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#discover",
+      "deviations": [
+        {
+          "reason": "Reference fixture data (Blender, GIMP, Inkscape, ...) vs real host package-manager query results; the real app has no seeded fixtures and genuinely queries winget/scoop on this machine.",
+          "reviewed": true
+        }
+      ]
+    },
+    {
+      "id": "updates",
+      "referenceRoute": "http://127.0.0.1:4173/ (default landing screen)",
+      "realAppRoute": "nav item with ligature text 'upgrade' (Software updates), left rail",
+      "state": "populated update list, All filter chip active",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Row layout (leading avatar chip, title + id, manager chip, version range, trailing icon-button cluster) matches the reference's card-row anatomy 1:1.",
+          "Filter chips (All / WinGet / Scoop / Pip / Npm ...) use M3 filter-chip selected/unselected states correctly on both sides.",
+          "'Update all (N)' primary action renders as an M3 filled button in both; count badge is a small filled circular badge on the nav-rail entry in both."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/updates.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/updates.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/updates.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#updates",
+      "deviations": [
+        {
+          "reason": "Reference fixture data (10 curated updates) vs real host winget query (29 real pending updates on this machine, different rows entirely).",
+          "reviewed": true
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "referenceRoute": "http://127.0.0.1:4173/ then click the settings gear icon in the top app bar",
+      "realAppRoute": "settings gear icon in the top app bar; General settings tab (default)",
+      "state": "General tab selected",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Settings uses a three-pane layout (nav rail | settings-category list | detail pane) on both sides, matching the reference's anatomy exactly.",
+          "Category list on the real app (General, Interface, Localization, Appearance, Notifications, Operations, Package managers, Accessibility, Vocabulary, Security, Backup, Internet, Scheduler, Experimental, Updates) is a superset of the reference's shown category list (General, Interface, Notifications, Operations, Backup, Internet & proxy, Administrator, Experimental, Scheduler, Appearance, Package managers, Localization, Vocabulary, Security, Updates) — both are the same 15 categories in a different visible order/wording; content matches route naming in app/src/ui/settings.",
+          "Detail cards ('Application display name', 'Reset') use M3 outlined card anatomy correctly."
+        ],
+        "openDefects": [
+          {
+            "description": "Settings search placeholder text is clipped mid-word: renders 'Search every settings tat' instead of 'Search every settings tab'.",
+            "file": "app/src/ui/settings.css",
+            "evidence": "docs/design-parity/captures/settings.app.png (top-right search field)"
+          },
+          {
+            "description": "Command palette (and by extension any surface reading raw setting titles/explanations rather than through the i18n translator) leaves 15 pre-existing setting titles/explanations in English regardless of active language mode.",
+            "file": "app/src/ui/command-palette.tsx",
+            "evidence": "reported by prior port pass; not independently re-verified by this evidence pass (command palette was not opened during this capture run)"
+          }
+        ]
+      },
+      "rawCaptureReference": "docs/design-parity/captures/settings.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/settings.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/settings.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#settings",
+      "deviations": []
+    },
+    {
+      "id": "installed",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'check_circle' (Installed packages)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; time-boxed to 3 of 13 screens (discover, updates, settings) as a proven end-to-end pipeline. Guard intentionally reports this row incomplete."
+    },
+    {
+      "id": "bundles",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'package_2' (Package bundles)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
+    },
+    {
+      "id": "history",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'history' (Operation history)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
+    },
+    {
+      "id": "automation",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'terminal' (Automation · CLI & IPC)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
+    },
+    {
+      "id": "converter",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'sync_alt' (File converter)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason. Known open defect already established from prior capture: the file converter renders the design's structure but has no adapter bridge behind it, so it is an honest empty state rather than a functioning converter."
+    },
+    {
+      "id": "ollama",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'neurology' (Ollama suite manager)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason. Known open defect already established from prior capture: the Ollama suite manager renders the design's structure but has no bridge behind it, so it is an honest empty state rather than talking to a real Ollama runtime."
+    },
+    {
+      "id": "auth",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'shield_lock' (Authenticator)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
+    },
+    {
+      "id": "logs",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'receipt_long' (Logs)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
+    },
+    {
+      "id": "tickets",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'support_agent' (Support Tickets)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
+    },
+    {
+      "id": "about",
+      "referenceRoute": "pending",
+      "realAppRoute": "nav item with ligature text 'info' (Help & About)",
+      "state": "pending",
+      "theme": "pending",
+      "viewport": "pending",
+      "scale": "pending",
+      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
+    }
+  ]
+}

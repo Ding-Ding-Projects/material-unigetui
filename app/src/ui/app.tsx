@@ -476,42 +476,168 @@ function BulkBar(props: {
   )
 }
 
+const ABOUT_TABS = [
+  { id: 'about', icon: 'info', key: 'aboutTabAbout' },
+  { id: 'contributors', icon: 'group', key: 'aboutTabContributors' },
+  { id: 'translators', icon: 'translate', key: 'aboutTabTranslators' },
+  { id: 'licenses', icon: 'license', key: 'aboutTabLicenses' },
+  { id: 'notes', icon: 'new_releases', key: 'aboutTabNotes' },
+  { id: 'help', icon: 'help', key: 'aboutTabHelp' },
+] as const
+
+type AboutTabId = (typeof ABOUT_TABS)[number]['id']
+
+/**
+ * Help & About, ported from the design's six-tab strip.
+ *
+ * The design fills Contributors and Translators from sample data. This build
+ * has no such roster, and inventing names would be a fabricated record rather
+ * than a port, so those tabs say what is actually true and point at the place
+ * the real answer lives. Licences names what this build genuinely ships.
+ */
 function AboutRoute(): JSX.Element {
   const { t } = useI18n()
+  const [tab, setTab] = React.useState<AboutTabId>('about')
   const [dataPath, setDataPath] = React.useState('')
 
   React.useEffect(() => {
     void window.materialUniGetUi.shell.appDataPath().then(setDataPath)
   }, [])
 
+  const open = (url: string) => void window.materialUniGetUi.shell.openExternal(url)
+
   return (
     <>
       <h1 className="route-surface__heading">{t('aboutHeading')}</h1>
       <p className="route-surface__sub">{t('aboutSub')}</p>
 
-      <div className="card">
-        <h2>{t('aboutUnsignedHeading')}</h2>
-        <p>{t('aboutUnsignedBody')}</p>
+      <div className="about-tabs" role="tablist" aria-label={t('aboutHeading')}>
+        {ABOUT_TABS.map(entry => (
+          <button
+            key={entry.id}
+            type="button"
+            role="tab"
+            id={`about-tab-${entry.id}`}
+            aria-selected={tab === entry.id}
+            aria-controls={`about-panel-${entry.id}`}
+            tabIndex={tab === entry.id ? 0 : -1}
+            className="about-tabs__tab"
+            onClick={() => setTab(entry.id)}
+          >
+            <Icon name={entry.icon} size={16} />
+            {t(entry.key)}
+          </button>
+        ))}
       </div>
 
-      <div className="card">
-        <h2>{t('aboutDataHeading')}</h2>
-        <p>{t('aboutDataBody')}</p>
-        <p>
-          <code>{dataPath || t('aboutResolving')}</code>
-        </p>
-        <button
-          type="button"
-          className="btn"
-          onClick={() => void window.materialUniGetUi.shell.openAppData()}
-        >
-          {t('aboutOpenFolder')}
-        </button>
-      </div>
+      <div role="tabpanel" id={`about-panel-${tab}`} aria-labelledby={`about-tab-${tab}`}>
+        {tab === 'about' && (
+          <>
+            <div className="about-identity">
+              <div className="about-identity__mark" aria-hidden="true">
+                <Icon name="deployed_code" size={36} filled />
+              </div>
+              <div>
+                <div className="about-identity__name">{t('appName')} 0.1.0</div>
+                <div className="about-identity__meta">{t('aboutBuildLine')}</div>
+              </div>
+            </div>
+            <p className="about-body">{t('aboutSummary')}</p>
 
-      <div className="card">
-        <h2>{t('aboutManagersHeading')}</h2>
-        <p>{t('aboutManagersBody')}</p>
+            <div className="card">
+              <h2>{t('aboutUnsignedHeading')}</h2>
+              <p>{t('aboutUnsignedBody')}</p>
+            </div>
+
+            <div className="card">
+              <h2>{t('aboutDataHeading')}</h2>
+              <p>{t('aboutDataBody')}</p>
+              <p>
+                <code>{dataPath || t('aboutResolving')}</code>
+              </p>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => void window.materialUniGetUi.shell.openAppData()}
+              >
+                {t('aboutOpenFolder')}
+              </button>
+            </div>
+
+            <div className="card">
+              <h2>{t('aboutManagersHeading')}</h2>
+              <p>{t('aboutManagersBody')}</p>
+            </div>
+          </>
+        )}
+
+        {tab === 'contributors' && (
+          <div className="state-note">
+            <strong>{t('aboutContributorsTitle')}</strong> {t('aboutContributorsBody')}
+            <p>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => open('https://github.com/Ding-Ding-Projects/material-unigetui/graphs/contributors')}
+              >
+                {t('aboutOpenContributors')}
+              </button>
+            </p>
+          </div>
+        )}
+
+        {tab === 'translators' && (
+          <div className="state-note">
+            <strong>{t('aboutTranslatorsTitle')}</strong> {t('aboutTranslatorsBody')}
+          </div>
+        )}
+
+        {tab === 'licenses' && (
+          <>
+            <div className="card">
+              <h2>{t('aboutLicenseAppHeading')}</h2>
+              <p>{t('aboutLicenseAppBody')}</p>
+            </div>
+            <div className="card">
+              <h2>{t('aboutLicenseFontsHeading')}</h2>
+              <p>{t('aboutLicenseFontsBody')}</p>
+            </div>
+            <div className="card">
+              <h2>{t('aboutLicenseUpstreamHeading')}</h2>
+              <p>{t('aboutLicenseUpstreamBody')}</p>
+            </div>
+          </>
+        )}
+
+        {tab === 'notes' && (
+          <div className="state-note">
+            <strong>{t('aboutNotesTitle')}</strong> {t('aboutNotesBody')}
+            <p>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => open('https://github.com/Ding-Ding-Projects/material-unigetui/releases')}
+              >
+                {t('aboutOpenReleases')}
+              </button>
+            </p>
+          </div>
+        )}
+
+        {tab === 'help' && (
+          <div className="state-note">
+            <strong>{t('aboutHelpTitle')}</strong> {t('aboutHelpBody')}
+            <p>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => open('https://github.com/Ding-Ding-Projects/material-unigetui/issues')}
+              >
+                {t('aboutOpenIssues')}
+              </button>
+            </p>
+          </div>
+        )}
       </div>
     </>
   )

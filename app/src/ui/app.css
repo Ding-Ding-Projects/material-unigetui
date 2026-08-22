@@ -168,3 +168,31 @@ body {
   flex: 1; border: 0; background: transparent; color: var(--on);
   font-size: 14px; outline: none;
 }
+
+/*
+ * Help & About's own tab strip, ported from the design's six-button row.
+ * These are outlined chips rather than the browser-style tabs the main strip
+ * uses, exactly as the reference draws them — a nested tab set that looked
+ * like the outer one would read as a second window.
+ */
+.about-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.about-tabs__tab {
+  display: flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 14px; border-radius: var(--md-shape-small);
+  border: 1px solid var(--olv); background: transparent; color: var(--onv);
+  font-size: 13px; cursor: pointer;
+  transition: background var(--md-duration-short) var(--md-easing-standard);
+}
+.about-tabs__tab:hover { background: var(--sch); }
+.about-tabs__tab:focus-visible { outline: 2px solid var(--p); outline-offset: 2px; }
+.about-tabs__tab[aria-selected='true'] {
+  background: var(--sc); color: var(--onsc); border-color: var(--sc);
+}
+.about-identity { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; }
+.about-identity__mark {
+  width: 64px; height: 64px; border-radius: 18px; flex: none;
+  background: var(--p); color: var(--onp); display: grid; place-items: center;
+}
+.about-identity__name { font-size: 20px; font-weight: 500; }
+.about-identity__meta { font-size: 12.5px; color: var(--onv); }
+.about-body { font-size: 13px; color: var(--onv); line-height: 1.6; max-width: 640px; }

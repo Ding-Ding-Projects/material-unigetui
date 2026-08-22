@@ -1,6 +1,6 @@
 {
-  "commit": "975dcc3be94a46e751643a42ceffa39089f5588f",
-  "capturedAt": "2026-08-22T02:41:09.539Z",
+  "commit": "1683ebdb04d4943d854971b9e4106c96ccc00943",
+  "capturedAt": "2026-08-22T03:06:35.523Z",
   "method": "CDP Page.captureScreenshot against the real built Electron renderer, remote-debugging-port CDP route",
   "images": [
     {

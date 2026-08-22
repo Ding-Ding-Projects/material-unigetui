@@ -3087,12 +3087,10 @@
           }
         ],
         "builtArtifactInteraction": [
-          [
-            {
-              "status": "pending",
-              "reason": "The installer builds and is asserted unsigned, but it has not yet been installed and launched headlessly."
-            }
-          ]
+          {
+            "status": "pending",
+            "reason": "The installer builds and is asserted unsigned, but it has not yet been installed and launched headlessly."
+          }
         ],
         "realCapture": [
           {

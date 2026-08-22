@@ -36,23 +36,31 @@ human view of the same thing.
 - [x] `social-preview.png` rendered and committed at the repository root
 - [ ] **Social preview uploaded to the repository settings** — the API cannot do
       this; it needs one manual step (see README)
-- [ ] Package operations reachable from the interface (the queue exists; nothing
-      triggers it yet)
-- [ ] `build.bat` / `build-installer.bat` / `download-dependencies.bat`
-- [ ] Unsigned Squirrel.Windows installer
+- [x] Package operations reachable from the interface, through the real queue,
+      with cancel, live output and forget
+- [x] `build.bat` / `build-installer.bat` / `download-dependencies.bat` over one
+      PowerShell script, with silent mode and honest per-phase failures
+- [x] Unsigned Squirrel.Windows installer, with the signature state asserted from
+      the PE certificate table rather than trusted from the configuration
+- [ ] A published release carrying that installer
 
 ## Phase 2 — The rest of the managers
 
-- [ ] Scoop
-- [ ] Chocolatey
-- [ ] Pip
-- [ ] Npm
-- [ ] Cargo
-- [ ] Dotnet
-- [ ] PowerShell
-- [ ] PowerShell 7
-- [ ] Vcpkg
-- [ ] Bun
+All eleven drivers are written and registered. Ticked where the driver was
+verified against the real executable on a development machine; the rest are
+written but unproven because the manager is not installed here.
+
+- [x] WinGet — verified live (158 installed, 18 updates)
+- [x] Chocolatey — verified live (16 installed, 7 updates)
+- [x] Pip — verified live (4 installed, 1 update)
+- [x] Npm — verified live (5 installed, 3 updates)
+- [x] Dotnet — verified live (available, no tools installed)
+- [x] PowerShell — verified live (5.1)
+- [x] PowerShell 7 — verified live (7.6.5)
+- [x] Bun — verified live (1.3.14)
+- [ ] Scoop — written, parser tested, not installed on this machine
+- [ ] Cargo — written, parser tested, not installed on this machine
+- [ ] Vcpkg — written, parser tested, not installed on this machine
 
 Deliberately out of scope while delivery is Windows-only: Apt, Dnf, Flatpak,
 Homebrew, Pacman, Snap. They exist upstream and are not being ported.
@@ -75,19 +83,25 @@ Homebrew, Pacman, Snap. They exist upstream and are not being ported.
 Each has a row in the inventory with its own seven evidence dimensions. None is
 optional; the ordering below is about sequence, not priority.
 
-- [ ] Language modes and both funny-level sliders wired to rendered copy
-- [ ] Tabs: docking, pinning, grouping, the four tab searches, bulk close
-- [ ] Anchored regex builder on every field, dropdown and context menu
-- [ ] Command palette on `Ctrl+Shift+F` with exact-element navigation
-- [ ] Appearance customization, per-element editors, infinite colour picker
+- [x] Language modes and both funny-level sliders wired to rendered copy
+- [x] Anchored regex builder on every application and site search field
+- [ ] The same builder on every dropdown and context menu — neither exists yet
+- [x] Tabs: pinning, grouping, the four tab searches, previewed bulk close
+- [ ] Tab strip docking to other edges
+- [x] Command palette on `Ctrl+Shift+F` with exact-element navigation
+- [x] Destructive-action super confirmation
+- [x] Non-blocking notifications
+- [ ] A browsable notification centre (history is kept; nothing renders it)
+- [x] Bulk actions on the package lists
+- [x] School mode forcing English and seriousness
+- [x] Personal-vocabulary upload, validated fail-closed
+- [x] ADHD mode settings — persisted and documented
+- [ ] ADHD modes actually changing the surfaces
+- [ ] Appearance: per-element editors, infinite colour picker, presets
 - [ ] Toy locks, Support Tickets recovery, the unlock ladder
 - [ ] TOTP pairing and the built-in authenticator
-- [ ] Notifications and a reviewable centre
-- [ ] Destructive-action super confirmation
-- [ ] Bulk actions, universal export, local version history
+- [ ] Universal export and local version history
 - [ ] Offline documentation browser
-- [ ] ADHD modes
-- [ ] School mode and personal-vocabulary upload
 - [ ] Narrator and voice selection
 - [ ] Status Hub registration
 - [ ] Accessibility and responsive sizing proven by capture, not assertion

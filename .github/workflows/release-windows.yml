@@ -1,0 +1,195 @@
+name: Build and release (Windows)
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'site/**'
+      - 'docs/**'
+      - '**/*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Never cancel a publish in flight. Unlike a validation run there is no verdict
+# to re-derive: a cancelled release can strand a tag with no artifact attached.
+concurrency:
+  group: release-windows-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      # No test job, no lint job, no type-check gate. This workflow builds,
+      # packages and publishes. Checking happens locally, in the task that
+      # changes the code, and never blocks a release.
+      - name: Record the start time
+        id: started
+        shell: bash
+        run: echo "at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          # The reference submodule is not needed to build; skipping it saves
+          # pulling 95 MB that no build step reads.
+          submodules: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Ensure the electron binary exists
+        # npm's install-script gate can leave the package present with no binary
+        # underneath it, which reads as "electron is not installed".
+        run: node script/ensure-electron-binary.mjs
+
+      - name: Build
+        run: npm run build
+
+      - name: Package the unsigned installer
+        # Code signing is permanently prohibited. package.mjs asserts the result
+        # is unsigned by reading the PE certificate table, and fails if a
+        # signature ever appears.
+        run: node script/package.mjs
+
+      - name: Compute the version tag
+        id: version
+        shell: bash
+        run: |
+          base=$(node -p "require('./app/package.json').version")
+          echo "tag=v${base}-build.${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "version=${base}" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve a dim sum code name
+        id: dimsum
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.ORG_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          # Names already spent, read from the releases this project has
+          # published, so a name is never reused.
+          used=$(gh release list --limit 200 --json body --jq '[.[].body | capture("dim-sum-slug: (?<s>[a-z0-9-]+)"; "g").s] | join(",")' 2>/dev/null || echo "")
+          result=$(node script/pick-dim-sum.mjs --used "$used")
+          echo "$result" > dimsum.json
+          echo "ok=$(node -p "require('./dimsum.json').ok")" >> "$GITHUB_OUTPUT"
+          echo "slug=$(node -p "require('./dimsum.json').slug || ''")" >> "$GITHUB_OUTPUT"
+          echo "name=$(node -p "require('./dimsum.json').codeName || ''")" >> "$GITHUB_OUTPUT"
+
+      - name: Count lines
+        id: lines
+        shell: bash
+        run: |
+          node script/count-lines.mjs > line-counts.md
+          echo "counted" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Assemble the release notes
+        id: notes
+        shell: bash
+        run: |
+          finished=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          started="${{ steps.started.outputs.at }}"
+          duration=$(( $(date -u -d "$finished" +%s) - $(date -u -d "$started" +%s) ))
+          printf -v pretty '%02d:%02d:%02d' $(( duration / 3600 )) $(( (duration % 3600) / 60 )) $(( duration % 60 ))
+
+          {
+            echo "## Material UniGetUI ${{ steps.version.outputs.version }}"
+            echo ""
+            if [ "${{ steps.dimsum.outputs.ok }}" = "true" ]; then
+              echo "**Code name — ${{ steps.dimsum.outputs.name }}**"
+              echo ""
+              echo "<!-- dim-sum-slug: ${{ steps.dimsum.outputs.slug }} -->"
+              echo "Photo: <https://github.com/Ding-Ding-Projects/dim-sum-photos>"
+            else
+              echo "_No dim sum code name this time; the catalog could not be resolved._"
+            fi
+            echo ""
+            echo "> [!WARNING]"
+            echo "> **These artifacts are unsigned.** Windows will show an unknown-publisher"
+            echo "> warning when you run the installer. That is expected and permanent for"
+            echo "> this project: code signing is prohibited here. It is not evidence of"
+            echo "> tampering, and it is also not a substitute for checking what you"
+            echo "> downloaded."
+            echo ""
+            echo "### What ran"
+            echo ""
+            echo "This workflow builds, packages and publishes. **It runs no tests and no"
+            echo "lint** — nothing here gates the release, and nothing below should be read"
+            echo "as a quality verdict. Local checks are run in the task that changes the"
+            echo "code; see the repository's completeness inventory for what is actually"
+            echo "verified."
+            echo ""
+            echo "### Timing"
+            echo ""
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| Workflow started | \`$started\` |"
+            echo "| Workflow completed | \`$finished\` |"
+            echo "| Workflow duration | \`$pretty\` |"
+            echo ""
+            echo "### Lines of code"
+            echo ""
+            cat line-counts.md
+          } > release-notes.md
+
+          echo "path=release-notes.md" >> "$GITHUB_OUTPUT"
+
+      - name: Publish exactly one release
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.ORG_TOKEN || secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          tag="${{ steps.version.outputs.tag }}"
+          # A tag is never recycled: a prior release under this tag means
+          # something is wrong, not that we should overwrite it.
+          if gh release view "$tag" > /dev/null 2>&1; then
+            echo "::error::release $tag already exists; refusing to overwrite it"
+            exit 1
+          fi
+          gh release create "$tag" \
+            --title "Material UniGetUI $tag" \
+            --notes-file release-notes.md \
+            --target "$GITHUB_SHA" \
+            out/installer/MaterialUniGetUISetup.exe \
+            out/installer/RELEASES \
+            out/installer/*.nupkg
+
+      - name: Prove the release really carries its installer
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.ORG_TOKEN || secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          tag="${{ steps.version.outputs.tag }}"
+          # Read it back rather than trusting the create call. A release with no
+          # installer attached looks identical from the command that made it.
+          assets=$(gh release view "$tag" --json assets --jq '[.[] | .[].name] | join(" ")')
+          echo "attached: $assets"
+          case "$assets" in
+            *MaterialUniGetUISetup.exe*) ;;
+            *) echo "::error::MaterialUniGetUISetup.exe is not attached to $tag"; exit 1 ;;
+          esac
+          draft=$(gh release view "$tag" --json isDraft --jq .isDraft)
+          if [ "$draft" != "false" ]; then
+            echo "::error::$tag was published as a draft"
+            exit 1
+          fi
+          echo "released $tag, non-draft, installer attached"
+
+      - name: Upload the artifacts regardless of what happened above
+        if: ${{ always() }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer-${{ github.run_id }}
+          path: |
+            out/installer/*
+            release-notes.md
+          if-no-files-found: warn
+          retention-days: 14

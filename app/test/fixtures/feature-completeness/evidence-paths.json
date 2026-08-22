@@ -3049,15 +3049,20 @@
           {
             "status": "present",
             "paths": [
-              "package.json"
+              "script/package.mjs",
+              "script/build-windows.ps1",
+              "build-installer.bat"
             ],
-            "note": "electron-winstaller is declared; no packaging script exists yet."
+            "note": "Builds MaterialUniGetUISetup.exe (140 MB), RELEASES and a full .nupkg. Automatic updates are not implemented."
           }
         ],
         "documentation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/features/build-and-release/unsigned-installer.md",
+              "docs/features/build-and-release/build-scripts.md"
+            ]
           }
         ],
         "localization": [
@@ -3074,15 +3079,20 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/unsigned-artifact-test.mjs"
+            ],
+            "note": "Reads the PE certificate table out of both the packaged executable and the installer, and asserts no signer is configured anywhere."
           }
         ],
         "builtArtifactInteraction": [
-          {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
-          }
+          [
+            {
+              "status": "pending",
+              "reason": "The installer builds and is asserted unsigned, but it has not yet been installed and launched headlessly."
+            }
+          ]
         ],
         "realCapture": [
           {

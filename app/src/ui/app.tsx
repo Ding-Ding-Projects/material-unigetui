@@ -14,9 +14,10 @@ import { AuthenticatorRoute } from './authenticator-route'
 import {
   LogsRoute,
   HistoryRoute,
-  BundlesRoute,
   TicketsRoute,
   AutomationRoute,
+  ConverterRoute,
+  OllamaRoute,
 } from './tool-routes'
 import {
   PackageTable,
@@ -28,6 +29,7 @@ import {
   SearchState,
   emptySearchState,
   searchMatcher,
+  PackageBundlesRoute,
 } from './package-routes'
 import { ManagerAvailability } from '../models/manager'
 import { isLanguageMode, LanguageMode, languageModes } from '../lib/i18n'
@@ -711,13 +713,19 @@ function AppContent(): JSX.Element {
       surface = <HistoryRoute operations={operations} />
       break
     case 'bundles':
-      surface = <BundlesRoute installed={installed} />
+      surface = <PackageBundlesRoute installed={installed} />
       break
     case 'tickets':
       surface = <TicketsRoute />
       break
     case 'automation':
       surface = <AutomationRoute />
+      break
+    case 'converter':
+      surface = <ConverterRoute />
+      break
+    case 'ollama':
+      surface = <OllamaRoute />
       break
     case 'auth':
       surface = <AuthenticatorRoute />

@@ -57,5 +57,5 @@ desktop application keeps working with the network unplugged.
   `^export const md3DarkPalette` at line starts — never a bare substring, which
   a rename or a commented-out line would satisfy.
 - The same suite asserts `app/src/ui/app.css` contains no raw hex colour.
-- `docs/assets/screenshots/discover-dark.png` is the dark palette rendered by
+- `docs/assets/screenshots/route-discover-dark.png` is the dark palette rendered by
   the real built application, not a mockup.

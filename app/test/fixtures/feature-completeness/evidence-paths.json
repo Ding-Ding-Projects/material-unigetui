@@ -504,8 +504,8 @@
           {
             "status": "present",
             "paths": [
-              "docs/assets/screenshots/settings.png",
-              "docs/assets/screenshots/settings-language.png"
+              "docs/assets/screenshots/settings-general.png",
+              "docs/assets/screenshots/settings-localization.png"
             ]
           }
         ]
@@ -1082,8 +1082,8 @@
           {
             "status": "present",
             "paths": [
-              "docs/assets/screenshots/discover-dark.png",
-              "docs/assets/screenshots/discover-search.png"
+              "docs/assets/screenshots/route-discover-dark.png",
+              "docs/assets/screenshots/route-discover.png"
             ],
             "note": "Captured from the built artifact on a hidden desktop."
           }
@@ -2331,7 +2331,7 @@
           {
             "status": "present",
             "paths": [
-              "docs/assets/screenshots/support-tickets.png"
+              "docs/assets/screenshots/route-tickets.png"
             ],
             "note": "The plain no-network disclosure is rendered outside the comedy and is visible in the capture."
           }
@@ -2500,7 +2500,7 @@
           {
             "status": "present",
             "paths": [
-              "docs/assets/screenshots/authenticator.png"
+              "docs/assets/screenshots/route-auth.png"
             ],
             "note": "A real entry generating a live code in the built application."
           }
@@ -2933,7 +2933,7 @@
           {
             "status": "present",
             "paths": [
-              "docs/assets/screenshots/discover-search.png"
+              "docs/assets/screenshots/route-discover.png"
             ],
             "note": "Live winget results. The Installed and Updates screens are deliberately never captured populated: personal software inventory."
           }
@@ -3160,7 +3160,7 @@
           {
             "status": "present",
             "paths": [
-              "docs/assets/screenshots/installed-app.png"
+              "docs/assets/screenshots/route-installed.png"
             ],
             "note": "Installed headlessly from MaterialUniGetUISetup.exe, launched, captured, then uninstalled through Update.exe --uninstall and the folder removed. Automatic updates remain unimplemented."
           }
@@ -3169,7 +3169,7 @@
           {
             "status": "present",
             "paths": [
-              "docs/assets/screenshots/installed-app.png"
+              "docs/assets/screenshots/route-installed.png"
             ],
             "note": "The installed application, not a development run."
           }

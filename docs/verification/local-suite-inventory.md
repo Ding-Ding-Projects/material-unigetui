@@ -18,7 +18,7 @@ Verified at commit `1f3f86c` on 2026-08-22.
 | Application icon | `npm test` (`app-icon-test.mjs`) | ICO directory read from bytes | 7 entries, 16–256px, embedded bytes found inside the packaged executable |
 | Line count | `npm run count-lines` | committed counter | 22,801 project lines; arithmetic self-checked |
 | Runtime smoke | headless launch + drive | Discover, Updates, Installed, Settings, Logs, Tickets, Authenticator | captures under `docs/assets/screenshots/` |
-| Installer runtime | headless install, launch, uninstall | the real `Setup.exe` | `docs/assets/screenshots/installed-app.png` |
+| Installer runtime | headless install, launch, uninstall | the real `Setup.exe` | `docs/assets/screenshots/route-installed.png` |
 | Driver integration | `npm test` (`winget-driver-test.mjs`) | spawns the real `winget` | live results asserted |
 | Command injection | `npm test` (`windows-command-test.mjs`) | spawns real `cmd.exe` with a hostile package name | watched failing with the escaping removed |
 | TOTP conformance | `npm test` (`totp-test.mjs`) | RFC 6238 vectors | all six, SHA-1/256/512 |

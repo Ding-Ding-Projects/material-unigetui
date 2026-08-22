@@ -112,6 +112,32 @@ body {
 .nav-drawer__manager-state { font-size: var(--md-label-size); color: var(--onv); }
 
 .route-surface { flex: 1; min-width: 0; overflow-y: auto; padding: 24px 28px; }
+
+/*
+ * Narrow widths. The drawer was a fixed 256px with no media rule anywhere in
+ * this stylesheet, so below about 900px it ate most of the window and pushed
+ * the top app bar's own controls off the edge. The window's own minWidth
+ * hides this on a desktop, which is exactly why it survived: it is only
+ * reachable by emulation, or by a display scale high enough to make the
+ * viewport that small in CSS pixels.
+ */
+@media (max-width: 900px) {
+  .nav-drawer { width: 208px; }
+  .route-surface { padding: 16px 18px; }
+  .top-app-bar { gap: 4px; padding: 8px 8px 8px 4px; }
+  .top-app-bar__brand { min-width: 0; }
+  .top-app-bar__name { overflow: hidden; text-overflow: ellipsis; }
+}
+
+@media (max-width: 640px) {
+  /* Below this the drawer cannot coexist with content, so it becomes an
+   * overlay the menu button opens rather than a permanent column. */
+  .nav-drawer {
+    position: absolute; top: 64px; bottom: 0; left: 0; z-index: 20;
+    width: 264px; box-shadow: var(--md-level2); background: var(--sf);
+  }
+  .top-app-bar__brand { display: none; }
+}
 .route-surface:focus-visible { outline: 2px solid var(--p); outline-offset: -2px; }
 .route-surface__heading { margin: 0 0 4px; font-size: 24px; font-weight: 400; }
 .route-surface__sub { margin: 0 0 20px; color: var(--onv); font-size: 13px; }

@@ -51,7 +51,7 @@ function TopAppBar(props: {
   onOpenPalette(): void
   onOpenSettings(): void
 }): JSX.Element {
-  const { theme, toggleTheme } = useTheme()
+  const { theme } = useTheme()
   const { settings, set } = useSettings()
   const { t, a, mode } = useI18n()
   const bridge = window.materialUniGetUi
@@ -59,6 +59,17 @@ function TopAppBar(props: {
   const chosenName = String(settings['displayName'] ?? '').trim()
   const displayName = chosenName.length > 0 ? chosenName : t('appName')
   const themeLabel = theme === 'light' ? t('themeToggleToDark') : t('themeToggleToLight')
+
+  /*
+   * Writes the setting, not the provider. The provider already follows
+   * `settings.theme`, so calling its own toggle changed the palette for one
+   * render and was then snapped back the next time the settings object
+   * changed identity — a button that fired, did something, and undid it
+   * before anyone could see. One source of truth, and it persists.
+   */
+  const toggleThemeSetting = () => {
+    void set('theme', theme === 'light' ? 'dark' : 'light')
+  }
 
   const cycleLanguage = () => {
     const currentIndex = languageModes.indexOf(mode)
@@ -103,7 +114,7 @@ function TopAppBar(props: {
         type="button"
         className="top-app-bar__icon-button"
         style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
-        onClick={toggleTheme}
+        onClick={toggleThemeSetting}
         aria-label={a(theme === 'light' ? 'themeToggleToDark' : 'themeToggleToLight')}
         title={themeLabel}
       >

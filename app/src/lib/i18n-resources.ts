@@ -312,6 +312,8 @@ export const baseResources = {
   tabExperimental: { en: "Experimental", yue: "實驗性" },
   settingsSub: { en: "Every control explains what it does and whether its value was chosen or is still the shipped default.", yue: "每個控制項都會講清楚自己做緊乜嘢，同埋而家嘅值係你揀嘅定係出廠預設。" },
   settingsSearchLabel: { en: "Search settings", yue: "搜尋設定" },
+  searchRegexToggle: { en: "Regex", yue: "正則" },
+  searchBuilderButton: { en: "Builder", yue: "產生器" },
   settingsSearchPh: { en: "Search every settings tab…", yue: "搜尋所有設定分頁…" },
   settingsResultsAllTabs: { en: "{count} settings across all tabs", yue: "所有分頁合共 {count} 個設定" },
   settingsShowingAllTabs: { en: "Showing matches from every tab. Each result names the tab it lives on.", yue: "顯示晒所有分頁嘅相符結果，每一項都會標明喺邊個分頁。" },

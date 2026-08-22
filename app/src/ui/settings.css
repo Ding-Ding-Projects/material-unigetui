@@ -73,11 +73,42 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 4px;
+  /*
+   * Wraps rather than squeezing. The search field sits in the same row as the
+   * heading, and with no basis of its own it shrank to whatever was left over
+   * once the heading had taken its share — which clipped its own placeholder.
+   * The longest label here is the bilingual one, so the row is sized for that
+   * and drops the field onto its own line before it can be crushed again.
+   */
+  flex-wrap: wrap;
 }
 
 .settings-content__head h1 {
-  flex: 1;
+  flex: 1 1 220px;
   margin: 0;
+}
+
+/*
+ * The flex child here is the search anchor, not the field inside it. Sizing
+ * `.search-field` did nothing at all, because the anchor above it was still
+ * the element deciding how much room there was to divide up.
+ */
+.settings-content__head .search-anchor {
+  flex: 1 1 460px;
+  min-width: 340px;
+}
+
+.settings-content__head .search-field {
+  margin-bottom: 0;
+}
+
+/*
+ * Only the search box, never every input in the field. `.search-field input`
+ * also matches the regex checkbox, so a min-width written that way stretched
+ * the checkbox away from its own label instead of widening the text box.
+ */
+.settings-content__head .search-field input[type='search'] {
+  min-width: 210px;
 }
 
 /* ---- Shared card affordances the design reuses across several sections -- */

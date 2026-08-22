@@ -6,6 +6,7 @@ import {
   compileMatcher,
   CompiledMatcher,
 } from './regex-builder'
+import { useI18n } from '../app-state'
 
 /**
  * A search field with its own anchored regex builder.
@@ -41,6 +42,7 @@ export function SearchField(props: {
   readonly resultSummary?: string
   onChange(state: SearchState): void
 }): JSX.Element {
+  const { t } = useI18n()
   const [builderOpen, setBuilderOpen] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const { state, onChange } = props
@@ -95,7 +97,7 @@ export function SearchField(props: {
               )
             }}
           />
-          <span>Regex</span>
+          <span>{t('searchRegexToggle')}</span>
         </label>
 
         <button
@@ -105,7 +107,7 @@ export function SearchField(props: {
           aria-controls={`${props.id}-builder`}
           onClick={() => setBuilderOpen(open => !open)}
         >
-          Builder
+          {t('searchBuilderButton')}
         </button>
       </div>
 

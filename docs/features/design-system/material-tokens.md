@@ -15,9 +15,25 @@ the long-form Material spellings would make every ported component stop matching
 the file it is checked against, and that comparison is the thing that catches a
 bad port.
 
+Colour is not the whole contract. The same file also declares
+theme-independent tokens the design's canvas runtime used identically in both
+themes: a typography scale (`md3Typography`), a shape scale (`md3Shape`), five
+elevation levels as real `box-shadow` values (`md3Elevation`), state-layer
+opacities for hover/focus/pressed/dragged (`md3StateLayerOpacity`), and motion
+durations/easings (`md3Motion`, including the design's own `pop` popover
+easing). `md3StaticTokensToCssText()` renders all of them as `--md-*` custom
+properties (`--md-headline-size`, `--md-shape-medium`, `--md-level1`,
+`--md-duration-short`, `--md-state-hover`, …), published on the document root
+alongside the palette by the same `AppThemeProvider` effect that used to set
+colour alone. The shape group alone gets a `shape-` prefix — `medium`,
+`large`, and `full` are generic enough names to collide with a future token
+of the same name; every other group's keys are already self-describing
+(`headlineSize`, `level1`, `durationShort`).
+
 ## Configuration
 
-The theme toggles from the title bar. It is not persisted yet — that is the
+The theme toggles from the top app bar (`TopAppBar` in `app/src/ui/app.tsx`,
+ported from the design's `<header>`). It is not persisted yet — that is the
 `appearance-controls` row in the inventory, and it is `pending`.
 
 ## Failure modes

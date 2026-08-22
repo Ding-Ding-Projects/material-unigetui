@@ -3,6 +3,7 @@ import {
   Md3Palette,
   md3PaletteFor,
   md3PaletteToCssText,
+  md3StaticTokensToCssText,
 } from './md3/md3-style-contract'
 
 export type ThemeName = 'light' | 'dark'
@@ -39,7 +40,10 @@ export function AppThemeProvider(props: {
 
   React.useEffect(() => {
     const root = document.documentElement
-    root.setAttribute('style', md3PaletteToCssText(palette))
+    root.setAttribute(
+      'style',
+      `${md3PaletteToCssText(palette)};${md3StaticTokensToCssText()}`
+    )
     root.setAttribute('data-theme', theme)
   }, [palette, theme])
 

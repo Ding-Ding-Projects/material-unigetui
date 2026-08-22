@@ -30,87 +30,217 @@ import {
   searchMatcher,
 } from './package-routes'
 import { ManagerAvailability } from '../models/manager'
-import { isLanguageMode } from '../lib/i18n'
+import { isLanguageMode, LanguageMode, languageModes } from '../lib/i18n'
+import { Icon } from './md3/icon'
 
 /* ------------------------------------------------------------- chrome --- */
 
-function TitleBar(): JSX.Element {
+/**
+ * The Gmail-style top app bar, ported from the design's `<header>` section
+ * (64px, icon-button cluster on both ends). Window controls are the app's
+ * own addition: the design is a browser-canvas mockup with no OS chrome to
+ * replace, but a real Electron build still needs a frameless window's own
+ * minimise/maximise/close — so they are appended after the design's avatar
+ * slot rather than invented in its place.
+ */
+function TopAppBar(props: {
+  readonly drawerOpen: boolean
+  onToggleDrawer(): void
+  onOpenPalette(): void
+  onOpenSettings(): void
+}): JSX.Element {
   const { theme, toggleTheme } = useTheme()
-  const { settings } = useSettings()
+  const { settings, set } = useSettings()
+  const { t, a, mode } = useI18n()
   const bridge = window.materialUniGetUi
 
   const chosenName = String(settings['displayName'] ?? '').trim()
-  const displayName = chosenName.length > 0 ? chosenName : 'Material UniGetUI'
-  const themeLabel =
-    theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'
+  const displayName = chosenName.length > 0 ? chosenName : t('appName')
+  const themeLabel = theme === 'light' ? t('themeToggleToDark') : t('themeToggleToLight')
+
+  const cycleLanguage = () => {
+    const currentIndex = languageModes.indexOf(mode)
+    const next: LanguageMode = languageModes[(currentIndex + 1) % languageModes.length] ?? 'en'
+    void set('languageMode', next)
+  }
 
   return (
-    <header className="title-bar">
-      <span className="title-bar__name">{displayName}</span>
-      <span className="title-bar__spacer" />
-      <div className="title-bar__buttons">
+    <header className="top-app-bar" style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}>
+      <button
+        type="button"
+        className="top-app-bar__icon-button"
+        style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+        onClick={props.onToggleDrawer}
+        aria-label={a('menuToggle')}
+        aria-expanded={props.drawerOpen}
+        title={t('menuToggle')}
+      >
+        <Icon name="menu" size={24} />
+      </button>
+
+      <div className="top-app-bar__brand">
+        <div className="top-app-bar__logo" aria-hidden="true">
+          <Icon name="deployed_code" size={22} filled />
+        </div>
+        <span className="top-app-bar__name">{displayName}</span>
+      </div>
+
+      <span className="top-app-bar__spacer" />
+
+      <button
+        type="button"
+        className="top-app-bar__icon-button"
+        style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+        onClick={cycleLanguage}
+        aria-label={a('language')}
+        title={t('language')}
+      >
+        <Icon name="translate" size={22} />
+      </button>
+      <button
+        type="button"
+        className="top-app-bar__icon-button"
+        style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+        onClick={toggleTheme}
+        aria-label={a(theme === 'light' ? 'themeToggleToDark' : 'themeToggleToLight')}
+        title={themeLabel}
+      >
+        <Icon name={theme === 'light' ? 'dark_mode' : 'light_mode'} size={22} />
+      </button>
+      <button
+        type="button"
+        className="top-app-bar__icon-button"
+        style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+        onClick={props.onOpenPalette}
+        aria-label={a('commandPaletteHint')}
+        title={t('commandPaletteHint')}
+      >
+        <Icon name="keyboard_command_key" size={22} />
+      </button>
+      <button
+        type="button"
+        className="top-app-bar__icon-button"
+        style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+        onClick={props.onOpenSettings}
+        aria-label={a('settings')}
+        title={t('settings')}
+      >
+        <Icon name="settings" size={22} />
+      </button>
+      <div className="top-app-bar__avatar" role="img" aria-label={a('account')}>
+        {displayName.charAt(0).toUpperCase() || 'M'}
+      </div>
+
+      <div
+        className="top-app-bar__window-controls"
+        style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+      >
         <button
-          className="title-bar__button"
-          onClick={toggleTheme}
-          aria-label={themeLabel}
-          title={themeLabel}
-        >
-          {theme === 'light' ? '◐' : '◑'}
-        </button>
-        <button
-          className="title-bar__button"
+          type="button"
+          className="top-app-bar__window-button"
           onClick={() => bridge.window.minimize()}
-          aria-label="Minimise"
+          aria-label={a('minimize')}
+          title={t('minimize')}
         >
-          {'─'}
+          <Icon name="remove" size={16} />
         </button>
         <button
-          className="title-bar__button"
+          type="button"
+          className="top-app-bar__window-button"
           onClick={() => bridge.window.toggleMaximize()}
-          aria-label="Maximise"
+          aria-label={a('maximize')}
+          title={t('maximize')}
         >
-          {'▢'}
+          <Icon name="crop_square" size={14} />
         </button>
         <button
-          className="title-bar__button title-bar__button--close"
+          type="button"
+          className="top-app-bar__window-button top-app-bar__window-button--close"
           onClick={() => bridge.window.close()}
-          aria-label="Close"
+          aria-label={a('closeWindow')}
+          title={t('closeWindow')}
         >
-          {'✕'}
+          <Icon name="close" size={16} />
         </button>
       </div>
     </header>
   )
 }
 
-function NavRail(props: {
+/**
+ * The toggleable nav drawer, ported from the design's `<nav>` section: a
+ * pill-shaped primary action, a main-destinations group, a managers group
+ * with per-manager toggle switches, and a tools group. `drawerOpen` mirrors
+ * the design's `sc-if value="{{ drawerOpen }}"` — collapsing removes the
+ * drawer from the layout entirely rather than merely hiding it, exactly as
+ * the design's canvas runtime does.
+ */
+function NavDrawer(props: {
   readonly route: RouteId
+  readonly managers: readonly ManagerAvailability[]
   onNavigate(route: RouteId): void
 }): JSX.Element {
+  const { t, a } = useI18n()
+
   const renderGroup = (
     label: string,
-    routes: ReadonlyArray<{ readonly id: RouteId; readonly label: string }>
+    routes: ReadonlyArray<{ readonly id: RouteId; readonly icon: string; readonly i18nKey: string }>
   ) => (
     <React.Fragment key={label}>
-      <div className="nav-rail__group-label">{label}</div>
-      {routes.map(route => (
-        <button
-          key={route.id}
-          id={`nav-${route.id}`}
-          className="nav-rail__item"
-          aria-current={route.id === props.route ? 'page' : undefined}
-          onClick={() => props.onNavigate(route.id)}
-        >
-          {route.label}
-        </button>
-      ))}
+      <div className="nav-drawer__group-label">{label}</div>
+      {routes.map(route => {
+        const current = route.id === props.route
+        return (
+          <button
+            key={route.id}
+            id={`nav-${route.id}`}
+            className="nav-drawer__item"
+            aria-current={current ? 'page' : undefined}
+            onClick={() => props.onNavigate(route.id)}
+          >
+            <Icon name={route.icon} size={20} filled={current} />
+            <span className="nav-drawer__item-label">
+              {t(route.i18nKey as Parameters<typeof t>[0])}
+            </span>
+          </button>
+        )
+      })}
     </React.Fragment>
   )
 
   return (
-    <nav className="nav-rail" aria-label="Sections">
-      {renderGroup('Packages', primaryRoutes)}
-      {renderGroup('Tools', toolsRoutes)}
+    <nav className="nav-drawer" aria-label={a('sectionsNav')}>
+      <button
+        type="button"
+        className="nav-drawer__fab"
+        onClick={() => props.onNavigate('discover')}
+      >
+        <Icon name="add" size={22} />
+        {t('newInstall')}
+      </button>
+
+      {renderGroup(t('discover'), primaryRoutes)}
+
+      <div className="nav-drawer__divider" role="separator" />
+      <div className="nav-drawer__group-label">{t('managers')}</div>
+      {props.managers.map(manager => (
+        <div key={manager.id} className="nav-drawer__manager-row">
+          <span className="nav-drawer__manager-badge" aria-hidden="true">
+            {manager.id.charAt(0).toUpperCase()}
+          </span>
+          <span className="nav-drawer__manager-name">{manager.id}</span>
+          <span
+            className="nav-drawer__manager-state"
+            aria-label={manager.available ? undefined : a('managerUnavailable')}
+          >
+            {manager.available ? '' : t('managerUnavailable')}
+          </span>
+        </div>
+      ))}
+
+      <div className="nav-drawer__divider" role="separator" />
+      <div className="nav-drawer__group-label">{t('tools')}</div>
+      {renderGroup(t('tools'), toolsRoutes)}
     </nav>
   )
 }
@@ -417,6 +547,7 @@ function AppContent(): JSX.Element {
   const [paletteOpen, setPaletteOpen] = React.useState(false)
   const [paletteSize, setPaletteSize] = React.useState<'card' | 'full'>('card')
   const [dockOpen, setDockOpen] = React.useState(true)
+  const [drawerOpen, setDrawerOpen] = React.useState(true)
   const [managers, setManagers] = React.useState<readonly ManagerAvailability[]>([])
   const [installed, setInstalled] = React.useState<readonly PackageRow[]>([])
   const [reloadNonce, setReloadNonce] = React.useState(0)
@@ -597,11 +728,24 @@ function AppContent(): JSX.Element {
 
   return (
     <div className="app-shell" data-density={String(settings['density'] ?? 'comfortable')}>
-      <TitleBar />
+      <TopAppBar
+        drawerOpen={drawerOpen}
+        onToggleDrawer={() => setDrawerOpen(open => !open)}
+        onOpenPalette={() => setPaletteOpen(true)}
+        onOpenSettings={() => tabs.openRoute('settings')}
+      />
       <TabStrip tabs={tabs} />
-      <div className="app-body">
-        <NavRail route={route} onNavigate={tabs.openRoute} />
-        <main className="route-surface" id="route-surface">
+      <div className="app-body" data-drawer-open={drawerOpen}>
+        {drawerOpen && (
+          <NavDrawer route={route} managers={managers} onNavigate={tabs.openRoute} />
+        )}
+        <main
+          className="route-surface"
+          id="route-surface"
+          role="tabpanel"
+          aria-labelledby={`tab-${tabs.activeId}`}
+          tabIndex={0}
+        >
           {surface}
         </main>
       </div>
@@ -625,6 +769,9 @@ function AppContent(): JSX.Element {
 
       <div className="visually-hidden" aria-live="polite">
         {t('appName')}
+      </div>
+      <div className="visually-hidden" aria-live="polite">
+        {drawerOpen ? t('navExpanded') : t('navCollapsed')}
       </div>
     </div>
   )

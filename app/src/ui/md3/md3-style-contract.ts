@@ -66,3 +66,89 @@ export function md3PaletteFor(theme: 'light' | 'dark'): Md3Palette {
 export function md3PaletteToCssText(palette: Md3Palette): string {
   return md3ColorRoles.map(role => `--${role}:${palette[role]}`).join(';')
 }
+
+/**
+ * Typography scale, shape scale, elevation, state-layer opacities and motion.
+ * Unlike colour, these do not change between light and dark — the design's
+ * canvas runtime used the same values in both themes, so they are declared
+ * once here rather than duplicated per palette. Declared as CSS custom
+ * properties on `:root` (see app.css) so every ported component reads them
+ * instead of hand-rolling a size or a duration.
+ */
+export const md3Typography = {
+  displaySize: '22px',
+  headlineSize: '20px',
+  titleSize: '16px',
+  bodySize: '14px',
+  bodySmallSize: '13px',
+  labelSize: '12px',
+  labelSmallSize: '11px',
+  monoFamily: "'Roboto Mono', ui-monospace, monospace",
+  bodyFamily: "Roboto, 'Segoe UI', Arial, sans-serif",
+} as const
+
+export const md3Shape = {
+  none: '0px',
+  extraSmall: '4px',
+  small: '8px',
+  medium: '12px',
+  large: '16px',
+  extraLarge: '28px',
+  full: '999px',
+} as const
+
+/** Elevation levels 0-5, as the box-shadow the design's cards and menus use. */
+export const md3Elevation = {
+  level0: 'none',
+  level1: '0 1px 2px rgba(0,0,0,.15), 0 1px 3px 1px rgba(0,0,0,.08)',
+  level2: '0 1px 2px rgba(0,0,0,.15), 0 2px 6px 2px rgba(0,0,0,.10)',
+  level3: '0 4px 8px 3px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.20)',
+  level4: '0 4px 16px rgba(0,0,0,.25)',
+  level5: '0 8px 24px rgba(0,0,0,.30)',
+} as const
+
+/** State-layer opacities applied over `on`/`onv`-coloured content. */
+export const md3StateLayerOpacity = {
+  hover: 0.08,
+  focus: 0.10,
+  pressed: 0.12,
+  dragged: 0.16,
+} as const
+
+export const md3Motion = {
+  durationShort: '100ms',
+  durationMedium: '150ms',
+  durationLong: '250ms',
+  easingStandard: 'cubic-bezier(.2,0,0,1)',
+  /** The design's own `pop` keyframe easing, used for popovers and menus. */
+  easingEmphasized: 'cubic-bezier(.05,.7,.1,1)',
+} as const
+
+/**
+ * Renders the theme-independent tokens above as CSS custom-property
+ * declarations, in the same `--name:value;--name:value` shape as
+ * {@link md3PaletteToCssText} so both can be set on the same root element.
+ */
+export function md3StaticTokensToCssText(): string {
+  const toKebab = (key: string): string =>
+    key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
+  // Shape values collide in spirit with generic-sounding names (`medium`,
+  // `large`, `full`) so that group alone is prefixed; the others already
+  // carry a self-describing key (`headlineSize`, `level1`, `durationShort`).
+  const groups: ReadonlyArray<readonly [Record<string, string>, string]> = [
+    [md3Typography, ''],
+    [md3Shape, 'shape-'],
+    [md3Elevation, ''],
+    [md3Motion, ''],
+  ]
+  const declarations: string[] = []
+  for (const [group, prefix] of groups) {
+    for (const [key, value] of Object.entries(group)) {
+      declarations.push(`--md-${prefix}${toKebab(key)}:${value}`)
+    }
+  }
+  for (const [key, value] of Object.entries(md3StateLayerOpacity)) {
+    declarations.push(`--md-state-${key}:${value}`)
+  }
+  return declarations.join(';')
+}

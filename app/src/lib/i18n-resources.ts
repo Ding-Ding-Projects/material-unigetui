@@ -107,6 +107,22 @@ export const baseResources = {
   operations: { en: "Operations", yue: "操作" },
   noOperations: { en: "Nothing is running.", yue: "冇嘢行緊。" },
   managerUnavailable: { en: "Not available on this computer", yue: "呢部機用唔到" },
+  menuToggle: { en: "Menu", yue: "選單" },
+  themeToggleToLight: { en: "Switch to light theme", yue: "轉去淺色主題" },
+  themeToggleToDark: { en: "Switch to dark theme", yue: "轉去深色主題" },
+  minimize: { en: "Minimise", yue: "最小化" },
+  maximize: { en: "Maximise", yue: "最大化" },
+  closeWindow: { en: "Close", yue: "關閉視窗" },
+  commandPaletteHint: { en: "Command palette (Ctrl+Shift+F)", yue: "指令面板 (Ctrl+Shift+F)" },
+  account: { en: "Account", yue: "帳戶" },
+  sectionsNav: { en: "Sections", yue: "分區導覽" },
+  navExpanded: { en: "Navigation expanded", yue: "導覽已展開" },
+  navCollapsed: { en: "Navigation collapsed", yue: "導覽已收合" },
+  newInstall: { en: "Install a package", yue: "安裝軟件包" },
+  history: { en: "Operation history", yue: "操作記錄" },
+  automation: { en: "Automation · CLI & IPC", yue: "自動化 · CLI 同 IPC" },
+  tickets: { en: "Support Tickets", yue: "支援工單" },
+  about: { en: "Help & About", yue: "幫助同關於" },
 } as const
 
 export type TranslationKey = keyof typeof baseResources

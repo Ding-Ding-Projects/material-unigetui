@@ -28,6 +28,10 @@ import { VcpkgDriver } from '../manager-drivers/vcpkg-driver'
 import { OperationsQueue } from '../operations-queue'
 import { appLog } from '../app-log'
 import { resolveSurprise } from '../dim-sum'
+import { lockStore } from '../lock-store'
+import { authenticatorStore } from '../authenticator-store'
+import { UnlockLadder, newLadderState } from '../unlock-ladder'
+import { settingsStore as settings } from '../settings-store'
 import { ticketStore } from '../support-tickets'
 import {
   parseBundle,
@@ -299,6 +303,80 @@ export function registerAllIpc(): void {
   )
   ipcMain.handle(IpcChannels.ticketsAdvance, (_event, id: string) =>
     ticketStore.advance(id)
+  )
+
+  /* --------------------------------------------------------------- locks -- */
+
+  ipcMain.handle(IpcChannels.locksList, () => lockStore.list())
+  ipcMain.handle(
+    IpcChannels.locksCreatePassword,
+    (_e, target: string, label: string, password: string, duration: string, minutes: number) =>
+      lockStore.createPasswordLock(
+        target,
+        label,
+        password,
+        duration as 'surface' | 'minutes' | 'session',
+        minutes
+      )
+  )
+  ipcMain.handle(
+    IpcChannels.locksCreateTotp,
+    (_e, target: string, label: string, secret: string, duration: string, minutes: number) =>
+      lockStore.createTotpLock(
+        target,
+        label,
+        secret,
+        duration as 'surface' | 'minutes' | 'session',
+        minutes
+      )
+  )
+  ipcMain.handle(IpcChannels.locksRemove, (_e, id: string) => lockStore.remove(id))
+  ipcMain.handle(IpcChannels.locksIsLocked, (_e, target: string) =>
+    lockStore.isLocked(target, Date.now())
+  )
+  ipcMain.handle(IpcChannels.locksAttempt, async (_e, target: string, value: string) => {
+    const outcome = await lockStore.attempt(target, value, Date.now())
+    // The value is never logged, only the outcome.
+    appLog.write('info', 'lock', outcome.ok ? 'unlocked' : 'refused')
+    return outcome
+  })
+  ipcMain.handle(IpcChannels.locksRelock, (_e, target: string) =>
+    lockStore.relock(target)
+  )
+
+  /* -------------------------------------------------------------- ladder -- */
+
+  const ladder = new UnlockLadder()
+  const ladderState = newLadderState()
+
+  ipcMain.handle(IpcChannels.ladderIssue, async () => {
+    const stored = await settings.get('schoolMode')
+    return ladder.issue(ladderState, stored === true, Date.now())
+  })
+
+  ipcMain.handle(
+    IpcChannels.ladderGrade,
+    (_e, nonce: string, submission: unknown) =>
+      // The attempts the clock would have returned. The ladder returns exactly
+      // this and never more, or solving it becomes cheaper than waiting.
+      ladder.grade(ladderState, nonce, submission, Date.now(), 3)
+  )
+
+  /* ------------------------------------------------------- authenticator -- */
+
+  ipcMain.handle(IpcChannels.authList, () => authenticatorStore.list())
+  ipcMain.handle(
+    IpcChannels.authAdd,
+    (_e, uriOrSecret: string, issuer: string, account: string) =>
+      authenticatorStore.add(uriOrSecret, issuer, account)
+  )
+  ipcMain.handle(IpcChannels.authRemove, async (_e, id: string) => {
+    await authenticatorStore.remove(id)
+    return authenticatorStore.list()
+  })
+  ipcMain.handle(IpcChannels.authCodes, () => authenticatorStore.codes(Date.now()))
+  ipcMain.handle(IpcChannels.authGenerateSecret, () =>
+    authenticatorStore.generateSecret()
   )
 
   /* -------------------------------------------------------------- dimsum -- */

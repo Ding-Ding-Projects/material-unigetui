@@ -81,6 +81,31 @@ const bridge: MaterialUniGetUiBridge = {
   dimSum: {
     surprise: () => ipcRenderer.invoke(IpcChannels.dimSumSurprise),
   },
+  locks: {
+    list: () => ipcRenderer.invoke(IpcChannels.locksList),
+    createPassword: (target: string, label: string, password: string, duration: string, minutes: number) =>
+      ipcRenderer.invoke(IpcChannels.locksCreatePassword, target, label, password, duration, minutes),
+    createTotp: (target: string, label: string, secret: string, duration: string, minutes: number) =>
+      ipcRenderer.invoke(IpcChannels.locksCreateTotp, target, label, secret, duration, minutes),
+    remove: (id: string) => ipcRenderer.invoke(IpcChannels.locksRemove, id),
+    isLocked: (target: string) => ipcRenderer.invoke(IpcChannels.locksIsLocked, target),
+    attempt: (target: string, value: string) =>
+      ipcRenderer.invoke(IpcChannels.locksAttempt, target, value),
+    relock: (target: string) => ipcRenderer.invoke(IpcChannels.locksRelock, target),
+  },
+  ladder: {
+    issue: () => ipcRenderer.invoke(IpcChannels.ladderIssue),
+    grade: (nonce: string, submission: unknown) =>
+      ipcRenderer.invoke(IpcChannels.ladderGrade, nonce, submission),
+  },
+  authenticator: {
+    list: () => ipcRenderer.invoke(IpcChannels.authList),
+    add: (uriOrSecret: string, issuer: string, account: string) =>
+      ipcRenderer.invoke(IpcChannels.authAdd, uriOrSecret, issuer, account),
+    remove: (id: string) => ipcRenderer.invoke(IpcChannels.authRemove, id),
+    codes: () => ipcRenderer.invoke(IpcChannels.authCodes),
+    generateSecret: () => ipcRenderer.invoke(IpcChannels.authGenerateSecret),
+  },
   shell: {
     openExternal: (url: string) =>
       ipcRenderer.invoke(IpcChannels.openExternal, url),

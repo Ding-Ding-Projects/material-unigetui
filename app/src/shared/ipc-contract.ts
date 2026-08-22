@@ -42,6 +42,20 @@ export const IpcChannels = {
   ticketsCreate: 'tickets:create',
   ticketsAdvance: 'tickets:advance',
   dimSumSurprise: 'dimsum:surprise',
+  locksList: 'locks:list',
+  locksCreatePassword: 'locks:create-password',
+  locksCreateTotp: 'locks:create-totp',
+  locksRemove: 'locks:remove',
+  locksIsLocked: 'locks:is-locked',
+  locksAttempt: 'locks:attempt',
+  locksRelock: 'locks:relock',
+  ladderIssue: 'ladder:issue',
+  ladderGrade: 'ladder:grade',
+  authList: 'auth:list',
+  authAdd: 'auth:add',
+  authRemove: 'auth:remove',
+  authCodes: 'auth:codes',
+  authGenerateSecret: 'auth:generate-secret',
   openExternal: 'shell:open-external',
   openPath: 'shell:open-path',
   appDataPath: 'app:data-path',
@@ -73,6 +87,34 @@ export interface SupportTicketDto {
   readonly status: string
   readonly openedAt: string
   readonly replies: readonly string[]
+}
+
+export interface LockRecordDto {
+  readonly id: string
+  readonly target: string
+  readonly label: string
+  readonly method: string
+  readonly createdAt: string
+  readonly duration: string
+  readonly minutes: number
+}
+
+export interface AuthEntryDto {
+  readonly id: string
+  readonly issuer: string
+  readonly account: string
+  readonly algorithm: string
+  readonly digits: number
+  readonly period: number
+  /** The otpauth URI, so the entry can be re-paired. Shown only on request. */
+  readonly uri: string
+}
+
+export interface AuthCodeDto {
+  readonly id: string
+  readonly code: string
+  readonly next: string
+  readonly secondsRemaining: number
 }
 
 export interface VocabularyLoadResult {
@@ -150,6 +192,37 @@ export interface MaterialUniGetUiBridge {
       altEnglish: string
       altCantonese: string
     } | null>
+  }
+  readonly locks: {
+    list(): Promise<readonly LockRecordDto[]>
+    createPassword(
+      target: string, label: string, password: string,
+      duration: string, minutes: number
+    ): Promise<LockRecordDto>
+    createTotp(
+      target: string, label: string, secret: string,
+      duration: string, minutes: number
+    ): Promise<LockRecordDto | { error: string }>
+    remove(id: string): Promise<readonly LockRecordDto[]>
+    isLocked(target: string): Promise<boolean>
+    attempt(target: string, value: string): Promise<{ ok: boolean; reason?: string; until?: number }>
+    relock(target: string): Promise<void>
+  }
+  readonly ladder: {
+    issue(): Promise<unknown>
+    grade(nonce: string, submission: unknown): Promise<{
+      cleared: boolean
+      nextRung: string
+      message: string
+      attemptsReturned: number
+    }>
+  }
+  readonly authenticator: {
+    list(): Promise<readonly AuthEntryDto[]>
+    add(uriOrSecret: string, issuer: string, account: string): Promise<{ ok: boolean; reason?: string }>
+    remove(id: string): Promise<readonly AuthEntryDto[]>
+    codes(): Promise<readonly AuthCodeDto[]>
+    generateSecret(): Promise<string>
   }
   readonly shell: {
     openExternal(url: string): Promise<void>

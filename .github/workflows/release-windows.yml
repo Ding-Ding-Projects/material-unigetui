@@ -12,11 +12,16 @@ on:
 permissions:
   contents: write
 
-# Never cancel a publish in flight. Unlike a validation run there is no verdict
-# to re-derive: a cancelled release can strand a tag with no artifact attached.
-concurrency:
-  group: release-windows-${{ github.ref }}
-  cancel-in-progress: false
+# Deliberately NO concurrency group.
+#
+# With one, GitHub keeps a single pending run per group and cancels the rest, so
+# a burst of pushes silently produced no release for most of them — observed
+# here, with several runs completing as "cancelled".
+#
+# Parallel runs are safe because each mints its own tag from the run number and
+# refuses to overwrite an existing release, so two runs cannot collide. The rule
+# a concurrency group exists to protect — never cancel a publish in flight — is
+# satisfied better by never cancelling one at all.
 
 jobs:
   release:

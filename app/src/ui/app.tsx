@@ -10,6 +10,7 @@ import { OperationsDock, useOperations } from './operations-dock'
 import { SettingsRoute, SettingsTabId, SETTINGS_TABS, SETTING_DESCRIPTORS } from './settings-route'
 import { TabStrip, useTabs } from './tabs'
 import { DimSumSurprise } from './dim-sum-surprise'
+import { AuthenticatorRoute } from './authenticator-route'
 import {
   LogsRoute,
   HistoryRoute,
@@ -586,6 +587,9 @@ function AppContent(): JSX.Element {
       break
     case 'automation':
       surface = <AutomationRoute />
+      break
+    case 'auth':
+      surface = <AuthenticatorRoute />
       break
     default:
       surface = <NotYetPorted route={route} />

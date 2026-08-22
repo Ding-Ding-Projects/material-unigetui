@@ -2226,8 +2226,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/lock-store.ts"
+            ],
+            "note": "Per-target locks with independent credentials, password hashed with scrypt and TOTP secrets encrypted through the OS key material. No lock wizard or unlock prompt on any surface yet."
           }
         ],
         "documentation": [
@@ -2385,9 +2388,10 @@
           {
             "status": "present",
             "paths": [
-              "app/src/lib/totp.ts"
+              "app/src/lib/totp.ts",
+              "app/src/main-process/authenticator-store.ts"
             ],
-            "note": "RFC 6238 over RFC 4226, with otpauth:// generation and parsing. No QR rendering or pairing UI yet."
+            "note": "otpauth:// generation and parsing, honouring the parameters a URI carries. No QR rendering and no pairing confirmation step yet."
           }
         ],
         "documentation": [
@@ -2436,8 +2440,12 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/authenticator-store.ts",
+              "app/src/ui/authenticator-route.tsx"
+            ],
+            "note": "Arbitrary TOTP secrets, live codes, next-code peek, countdown, copy, URI reveal and removal. Secrets encrypted through the OS key material."
           }
         ],
         "documentation": [
@@ -2454,26 +2462,37 @@
         ],
         "persistence": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/authenticator-store.ts"
+            ],
+            "note": "Entries survive a restart; secrets are never written in the clear."
           }
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/totp-test.mjs"
+            ]
           }
         ],
         "builtArtifactInteraction": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/ui/authenticator-route.tsx"
+            ],
+            "note": "Generated a secret, added the entry, read a live code and removed it again in the running application."
           }
         ],
         "realCapture": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/assets/screenshots/authenticator.png"
+            ],
+            "note": "A real entry generating a live code in the built application."
           }
         ]
       }

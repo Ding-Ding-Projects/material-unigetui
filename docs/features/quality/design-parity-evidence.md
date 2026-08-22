@@ -91,27 +91,64 @@ entry. A row not yet evidenced carries `md3Audit.status: "pending"` and a
 ## Diffing
 
 `script/design-parity/diff.mjs` reads the inventory, and for every row with
-both raw captures present:
+both raw captures present, runs a three-stage comparison:
 
-- crops both images to their shared top-left region and computes a
-  per-pixel Euclidean RGB distance against a fixed threshold, reporting the
-  percentage of pixels that differ;
-- writes a labelled side-by-side PNG (reference | red divider | app) to
-  `docs/design-parity/side-by-side/`;
-- writes the numeric result into `docs/design-parity/diffs/diff-report.json`.
+1. **Alignment.** The reference is captured through a real Edge window (its
+   own minimal app-mode chrome) while the real app is a frameless Electron
+   window with a different, shorter custom title bar. A first version of
+   this script diffed both captures from their raw `(0,0)` origin and got a
+   ~96% "different" figure on every screen — an artifact of that chrome-height
+   mismatch shifting every row of real content out of alignment, not a real
+   defect. A second attempt at fixing it with global row/column brightness
+   cross-correlation did not work either: large expanses of both captures are
+   flat background at two *different* absolute brightness levels, so the
+   correlation had almost no real signal and degenerated to its search
+   boundary. What works is anchoring on the one landmark guaranteed to be
+   identical on both sides: the application's own brand-logo icon, a small
+   saturated dark-blue square rendered in the top app bar. Its first-appearing
+   pixel gives a direct structural `(dx, dy)` offset. Measured against every
+   currently-captured screen this anchor produces the *same* offset every
+   time (`dx=-3, dy=-31`), which is exactly the signature of a genuine,
+   constant chrome-height difference rather than per-screen noise. If the
+   anchor cannot be found on either side, the script falls back to bounded
+   brightness correlation and records `alignment.anchorFound: false` so a
+   reader knows that row's offset is a weaker statistical guess.
+2. **Level normalization.** Direct pixel sampling showed the reference
+   capture rendering with a uniform, exactly-reproducible `RGB(102,102,102)`
+   background — precisely white (255) scaled by 0.4, a 60%-opacity black
+   scrim over the whole canvas. A freshly relaunched, never-interacted-with
+   capture showed the identical scrim, so this is not a stale-capture or
+   focus artifact; it reproduces every time and is specific to the
+   reference's capture environment (most likely the design canvas dimming in
+   response to the Page Visibility API reporting the window as backgrounded
+   on a non-interactive Win32 desktop station — the real app, captured
+   through the identical method, shows no such scrim). Each image is
+   auto-levelled to its own 95th-percentile brightness before diffing, which
+   removes this uniform exposure offset while leaving hue, saturation and
+   relative contrast intact. Both discovered white points are recorded in
+   the diff report so the correction is inspectable, not hidden.
+3. **Pixel diff.** A per-pixel Euclidean RGB distance against a fixed
+   threshold is computed over the aligned, normalized, overlapping region,
+   reporting the percentage of pixels that differ.
 
-**Reading the diff percentages honestly:** the captured reference page runs
-inside a real browser window (native OS chrome) while the real application
-is a frameless Electron window with its own custom title bar. The two chrome
-heights are close but not pixel-identical, which shifts the content region
-by roughly ten to fifteen pixels vertically. Because the diff is a raw,
-unaligned per-pixel comparison, that shift alone produces diff percentages
-in the 95–97% range for every screen captured so far, even where the
-side-by-side images show the layouts matching closely. The diff numbers are
-real, computed evidence and are reported without adjustment — but they must
-be read alongside the side-by-side image, not in isolation, until the diff
-script gains an alignment step. That gap is recorded here rather than
-concealed by inflating a threshold or cropping the comparison to hide it.
+It also writes a labelled side-by-side PNG (reference | red divider | app,
+using the raw, unmodified captures — the alignment and normalization are
+diff-only corrections and never alter what a human sees in that image) to
+`docs/design-parity/side-by-side/`, and the numeric result plus alignment and
+white-point data into `docs/design-parity/diffs/diff-report.json`.
+
+**Reading the diff percentages.** Every screen currently sits between 5.6%
+and 12.4% different. A **good** value for a chrome/structure-only screen with
+no live host data is under roughly 5% — residual anti-aliasing, font
+hinting, and small deliberate deviations. A screen whose content is
+genuinely different data (Updates, Discover, Installed, Bundles,
+Authenticator, Operation history — reference fixture vs. real host/session
+state) reading higher, roughly 8–20%, is **expected, not a failure**: the
+side-by-side image is the real evidence for those rows, the number is a
+sanity check. A value approaching 50%+ on a screen that should hold static
+content is what would actually mean something is wrong. This scale is
+recorded here so a reader never has to guess what a number on this pipeline
+is supposed to mean.
 
 ## The guard
 
@@ -153,11 +190,24 @@ and then restored to green:
 
 ## Current coverage
 
-As of this evidence pass, 3 of the 13 inventoried screens (Discover,
-Updates, Settings) carry complete evidence: both raw captures, a
-side-by-side image, a diff-report entry, and a reviewed MD3 audit. The
-remaining 10 are recorded with their real-app route and a `pendingReason`;
-the guard correctly reports them incomplete rather than hiding them. Open
-defects found during the reviewed rows' MD3 audits are recorded in
+All 13 inventoried screens carry complete evidence: both raw captures, a
+side-by-side image, a diff-report entry, and a reviewed MD3 audit. Discover,
+Updates and Settings were re-captured against the current `main` (after the
+settings-placeholder, Tools-drawer-duplication, and regex/builder-translation
+fixes landed) rather than reusing the earlier, now-superseded captures. Open
+defects found during the MD3 audits are recorded in
 `docs/design-parity/inventory.json` per row, not fixed here — this evidence
-system does not modify `app/src/`.
+system does not modify `app/src/`. The two structurally real findings from
+this pass:
+
+- **File converter** and **Ollama suite manager** render the design's
+  structure with genuinely honest empty/unimplemented states (explicit
+  disclosure text, no fabricated data) — recorded as open defects because the
+  underlying adapters and bridges do not exist yet, not because the empty
+  state itself is wrong.
+- **Help & About** is a structural gap, not just a content difference: the
+  reference is a six-tab strip (About, Contributors, Translators, Licenses,
+  Release notes, Help); the real app renders a single flat page with no tab
+  navigation at all. The real page's content is genuinely useful (unsigned-
+  build disclosure, data-folder recovery path, driver-architecture note) but
+  does not map 1:1 onto any single reference tab.

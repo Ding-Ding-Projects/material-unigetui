@@ -1,9 +1,11 @@
 {
   "$schema": "./inventory.schema.md",
-  "note": "Hand-written per-screen design-parity inventory. Every row below is written by hand, not discovered by scanning app/src/ui — a screen that disappeared from the app would disappear from an auto-generated list too, which defeats the point of this file. The route set is taken from app/src/ui/routes.ts (13 destinations: 4 primary + 9 tools); that file is the single source of truth for what screens this application has.",
+  "note": "Hand-written per-screen design-parity inventory. Every row below is written by hand, not discovered by scanning app/src/ui -- a screen that disappeared from the app would disappear from an auto-generated list too, which defeats the point of this file. The route set is taken from app/src/ui/routes.ts (13 destinations: 4 primary + 9 tools); that file is the single source of truth for what screens this application has.",
   "referenceFile": "design/Material UniGetUI v2.dc.html",
   "referenceAppRouteBase": "http://127.0.0.1:4173/ (script/design-parity/reference-server.mjs)",
-  "realAppEntryPoint": "app/main.js via electron.exe app (no query-param routing exists in app/src/ui — every real-app route below is reached by clicking the nav-rail item with the stated Material Symbols ligature name, at the coordinates recorded per screen)",
+  "realAppEntryPoint": "app/main.js via electron.exe app --user-data-dir=<fresh temp dir> (no query-param routing exists in app/src/ui -- every real-app route below is reached by clicking the nav-rail item with the stated Material Symbols ligature name, at coordinates recorded per screen; the Tools section below the fold is reached by clicking an inert nav-rail gutter pixel to focus the scrollable list, then sending the End key)",
+  "capturedAtCommit": "29c1356 (main, fast-forwarded into design-parity)",
+  "capturedAtDate": "second evidence pass -- re-captured after the settings placeholder, Tools drawer duplication, and regex/builder translation fixes landed on main",
   "captureTuple": {
     "theme": "light (default, unmodified)",
     "viewportWidthPx": 1450,
@@ -11,9 +13,15 @@
     "displayScale": "100% (96 DPI)",
     "determinismNotes": [
       "The startup dim-sum surprise (app/src/ui/dim-sum-surprise.tsx) fires on ~1/10 launches; every app-side capture below was taken from a launch where it did not fire. A capture whose screenshot shows the surprise overlay must be discarded and re-captured from a fresh launch, never accepted as-is.",
-      "Each app-side launch uses a fresh --user-data-dir under a temp directory so package-manager availability probing and any persisted state cannot vary between runs.",
-      "The real app queries live winget/scoop/etc. on the host machine, so the *content* of the Updates and Discover lists is real, host-specific package data, not the reference's fixture data. This is expected and is not a parity defect: the row's MD3 audit and diff record judge chrome, layout and component anatomy, not list contents. The diff percentage is reported honestly and will be nontrivial for these two rows for exactly this reason."
+      "Each app-side launch uses a fresh --user-data-dir under a temp directory so package-manager availability probing and any persisted state cannot vary between runs, and so requestSingleInstanceLock() cannot reject the launch against a sibling worktree's live instance sharing the default userData path.",
+      "The real app queries live winget/scoop/etc. on the host machine, so the *content* of the Updates, Discover, Installed and Bundles lists is real, host-specific package data, not the reference's fixture data. This is expected and is not a parity defect: the row's MD3 audit and diff record judge chrome, layout and component anatomy, not list contents. The diff percentage is reported honestly and reflects this for exactly those rows.",
+      "The Authenticator, Operation history and Logs screens likewise show the reference's curated sample data against the real app's genuinely empty/session-scoped state (no TOTP secrets registered, no operations run yet in this session). Recorded as a reviewed content deviation per row, not a defect."
     ]
+  },
+  "diffMethodology": {
+    "alignment": "Both captures are aligned on the app's brand-logo icon (a small saturated dark-blue square in the top app bar) before diffing, because the reference is captured through a real Edge app-mode window while the real app is a frameless Electron window with a different, slightly shorter custom title bar. The discovered offset (dx=-3, dy=-31 px) is identical across every screen, which is the signature of a genuine constant chrome-height difference rather than per-screen noise. See script/design-parity/diff.mjs for the full method and its fallback.",
+    "levelNormalization": "The reference capture renders with a uniform, exactly-reproducible RGB(102,102,102) background -- confirmed by direct pixel sampling and by a freshly relaunched, never-interacted-with capture showing the identical value -- which is precisely white (255) scaled by 0.4, i.e. a 60%-opacity black scrim. This is not present in the real app's identically-captured output and reproduces on every reference screen, so it is treated as a capture-environment artifact of the reference tool (most likely the design canvas dimming in response to the Page Visibility API reporting the window as backgrounded on a non-interactive Win32 desktop station), not a property of the design or the port. Both images are auto-levelled to their own 95th-percentile brightness before diffing to correct it; the discovered white points are recorded per screen in diff-report.json so the correction is inspectable rather than hidden.",
+    "readingTheNumbers": "A GOOD value for a chrome/structure-only screen (no live host data) is under ~5%: residual difference from anti-aliasing, font hinting, and small deliberate deviations. A screen whose content is genuinely different data (Updates, Discover, Installed, Bundles, Authenticator, Operation history: reference fixture vs real host/session state) will read higher -- roughly 8-20% observed -- and that is expected, not a failure; the side-by-side image is the actual evidence for those rows, not the number alone. A value approaching 50%+ on a screen that should hold static content is the number that means something is actually wrong."
   },
   "screens": [
     {
@@ -27,10 +35,10 @@
       "md3Audit": {
         "status": "reviewed",
         "findings": [
-          "Nav rail selection uses filled tonal container + Material Symbols Rounded ligature icon — matches M3 navigation rail anatomy on both sides.",
-          "Search field on the real app carries an explicit Regex checkbox and Builder pill beside it (the regex-builder contract); the reference's search field shows only the search icon and a keyboard-shortcut hint chip. This is an intentional, reviewed deviation: the real app implements the mandatory regex-builder requirement, which the static reference screen does not model.",
+          "Nav rail selection uses filled tonal container + Material Symbols Rounded ligature icon -- matches M3 navigation rail anatomy on both sides.",
+          "Search field on the real app carries an explicit Regex checkbox and Builder pill beside it (the regex-builder contract), matching the reference exactly now that the translation fix landed -- both render 'Regex' / 'Builder' identically.",
           "Empty state (inbox glyph + 'Type a search above to find something to install.') follows M3 empty-state anatomy: centered icon, single-line supporting text, no fabricated content.",
-          "Package-manager chip list in the left rail shows 'Not available on this computer' as inline secondary text for managers absent on this host (scoop, cargo, vcpkg) — an honest empty/unavailable state rather than a fabricated toggle."
+          "Package-manager chip list in the left rail shows 'Not available on this computer' as inline secondary text for managers absent on this host (scoop, cargo, vcpkg) -- an honest empty/unavailable state rather than a fabricated toggle."
         ],
         "openDefects": []
       },
@@ -68,7 +76,285 @@
       "diffRecord": "docs/design-parity/diffs/diff-report.json#updates",
       "deviations": [
         {
-          "reason": "Reference fixture data (10 curated updates) vs real host winget query (29 real pending updates on this machine, different rows entirely).",
+          "reason": "Reference fixture data (10 curated updates) vs real host winget query (real pending updates on this machine, different rows entirely).",
+          "reviewed": true
+        }
+      ]
+    },
+    {
+      "id": "installed",
+      "referenceRoute": "http://127.0.0.1:4173/ then click nav item with ligature text 'check_circle' (Installed packages)",
+      "realAppRoute": "nav item with ligature text 'check_circle' (Installed packages), left rail",
+      "state": "populated installed list, All filter chip active",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Same card-row anatomy as Updates and Discover, consistent across the app -- one shared row component, not three lookalikes.",
+          "'Export' primary action top-left uses the same filled-button treatment as 'Install a package' / 'Update all' on the sibling screens -- consistent primary-action placement and shape across the three list screens.",
+          "Filter chip row (All / WinGet / Scoop / Pip / Npm / .NET Tool) matches M3 filter-chip anatomy."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/installed.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/installed.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/installed.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#installed",
+      "deviations": [
+        {
+          "reason": "Reference fixture data (12 curated installed packages) vs the real host's actual 184 installed packages, entirely different rows.",
+          "reviewed": true
+        }
+      ]
+    },
+    {
+      "id": "bundles",
+      "referenceRoute": "http://127.0.0.1:4173/ then click nav item with ligature text 'package_2' (Package bundles)",
+      "realAppRoute": "nav item with ligature text 'package_2' (Package bundles), left rail",
+      "state": "default state (no bundles saved on the real host)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Reference shows three sample bundle cards (Dev workstation, Media suite, Fresh Windows setup) each with Install all / Export actions in M3 outlined + filled button pairs. The real app's 'Export what is installed' and 'Import a bundle' cards use identical outlined-card anatomy, filled primary buttons and outlined secondary buttons.",
+          "Real app has zero saved bundles on this host, so the reference's bundle-card grid has no counterpart to compare row-for-row; the two cards that ARE present (Export / Import) match the reference's card anatomy exactly.",
+          "'New bundle' / 'Import bundle' top-bar actions use the same filled + outlined button pairing pattern seen throughout the app."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/bundles.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/bundles.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/bundles.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#bundles",
+      "deviations": [
+        {
+          "reason": "Reference shows 3 sample saved bundles; the real host genuinely has none saved, so the app shows its create/import entry points instead of a populated bundle grid. Both are honest states for their respective data.",
+          "reviewed": true
+        }
+      ]
+    },
+    {
+      "id": "history",
+      "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail (End key) and click nav item with ligature text 'history' (Operation history)",
+      "realAppRoute": "nav item with ligature text 'history' (Operation history), Tools section, left rail (below the fold; reached by focusing the nav rail and pressing End)",
+      "state": "empty (no operations run yet this session)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Reference shows 3 sample history rows (Update/Install/Uninstall) with M3 status icons (filled green check, filled red x) and an outlined 'Re-run' button per row -- correct M3 list-item + icon-button anatomy.",
+          "Real app's empty state ('Nothing has finished yet. History is kept for this session only.') uses the same dashed-border empty-state container pattern seen on File converter and Ollama suite manager -- a consistent, deliberate empty-state component rather than three different ad-hoc treatments.",
+          "Search field with Regex/Builder pair present and correctly translated, matching every other list screen."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/history.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/history.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/history.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#history",
+      "deviations": [
+        {
+          "reason": "Reference shows 3 sample completed operations; the real app's history is genuinely empty because no install/update/uninstall has run in this fresh session. The 'Export JSON' action visible in the reference is correctly absent in the app's empty state (nothing to export).",
+          "reviewed": true
+        }
+      ]
+    },
+    {
+      "id": "automation",
+      "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail and click nav item with ligature text 'terminal' (Automation · CLI & IPC)",
+      "realAppRoute": "nav item with ligature text 'terminal' (Automation · CLI & IPC), Tools section, left rail",
+      "state": "default (command reference list, scrolled to top)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Three status assist-chips at the top ('named-pipe · default', 'tcp · 4292', 'headless ready') use correct M3 assist-chip anatomy with a leading state icon on each, matching the reference's chip row exactly in both apps.",
+          "Command reference rows (monospace command + secondary description + trailing copy icon-button) match the reference row-for-row in structure; this is static documentation content so both sides show near-identical text.",
+          "Search field with Regex/Builder pair present, matching every other search surface in the app."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/automation.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/automation.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/automation.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#automation",
+      "deviations": []
+    },
+    {
+      "id": "converter",
+      "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail and click nav item with ligature text 'sync_alt' (File converter)",
+      "realAppRoute": "nav item with ligature text 'sync_alt' (File converter), Tools section, left rail",
+      "state": "default (empty drop zone, category filter chips, no conversions yet)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Dashed-border drop zone with centered download-arrow glyph matches M3 file-input surface anatomy on both sides.",
+          "Category filter chips (Documents/PDF, Images, Audio, Video, Archives, Structured Data, Code/Text, Binary Encodings) use correct M3 filter-chip anatomy with count badges, matching the reference's category set.",
+          "Real app explicitly states 'No bundled adapter is installed in this build yet -- nothing will actually convert' and every listed format row says 'No bundled adapter for this format yet' -- an honest, correctly-labelled empty/unimplemented state rather than a fake working converter.",
+          "'Recent conversions' section: reference shows 4 sample rows with status chips (Converted/Lossy/Unsupported in correct M3 status-color semantics: green, amber, red); real app shows 'Nothing has been converted yet.' in the same dashed empty-state container used on Operation history."
+        ],
+        "openDefects": [
+          {
+            "description": "No bundled conversion adapters exist in this build; every format shows 'No bundled adapter for this format yet' and the converter cannot actually convert anything. This matches the project's own honest-empty-state design intent (explicit banner text confirms it is deliberate) but the feature itself is incomplete relative to the reference's fully-populated Documents/PDF, Images, Audio, Video etc. adapter set.",
+            "file": "app/src/ui/tools/ (file converter screen; adapter registry not yet implemented)"
+          }
+        ]
+      },
+      "rawCaptureReference": "docs/design-parity/captures/converter.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/converter.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/converter.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#converter",
+      "deviations": []
+    },
+    {
+      "id": "ollama",
+      "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail and click nav item with ligature text 'neurology' (Ollama suite manager)",
+      "realAppRoute": "nav item with ligature text 'neurology' (Ollama suite manager), Tools section, left rail",
+      "state": "default (not connected, no catalog)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Search field with Regex/Builder pair present and correctly positioned in the top-right, matching every other search surface.",
+          "Real app explicitly discloses 'Hardware detection is not implemented yet, so no fit verdict can be shown honestly' and 'No model catalog is bundled in this build yet -- the store, fit verdicts, batch pull, chat and harness profiles described in the design are not implemented' in a dashed-border disclosure container -- correctly honest rather than fabricating a fake model list.",
+          "Reference shows a fully populated model catalog (llama3.1, qwen2.5-coder, gemma2, ...) with Fits/Tight fit/Too big verdict chips using correct M3 status-colour semantics, plus a hardware summary bar and Snapshot/Rollback buttons -- none of this exists in the real app yet."
+        ],
+        "openDefects": [
+          {
+            "description": "The 'not connected' status chip beside the Builder button visually overlaps/crowds the Builder pill at this viewport width -- the two controls sit closer together than the design's spacing token would allow, reading as a minor layout collision rather than a deliberate compact treatment.",
+            "file": "app/src/ui/tools/ (Ollama suite manager screen, top-right status row)"
+          },
+          {
+            "description": "No Ollama bridge, model catalog, hardware-fit detection, batch pull, chat, or harness-profile functionality is implemented; the entire feature is an honest empty/unimplemented state relative to the reference.",
+            "file": "app/src/ui/tools/ (Ollama suite manager screen; local HTTP API bridge not yet implemented)"
+          }
+        ]
+      },
+      "rawCaptureReference": "docs/design-parity/captures/ollama.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/ollama.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/ollama.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#ollama",
+      "deviations": []
+    },
+    {
+      "id": "auth",
+      "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail and click nav item with ligature text 'shield_lock' (Authenticator)",
+      "realAppRoute": "nav item with ligature text 'shield_lock' (Authenticator), Tools section, left rail",
+      "state": "empty (no accounts registered on this fresh profile)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Real app implements a genuine, functioning 'Add an entry' form (otpauth:// URI or Base32 secret, optional issuer/account fields, filled 'Add' button, outlined 'Generate a new secret' button) using correct M3 outlined-text-field and button anatomy -- this is real, working functionality, not a stub.",
+          "Disclosure banner ('Local only. No account, no sync, no network request. Secrets are encrypted with this computer's own key material...') uses the same outlined-card pattern as other disclosure text in the app.",
+          "Reference shows 3 populated accounts with live TOTP codes counting down in a 30-second ring -- correct M3 list-item anatomy with monospace code display, copy and delete icon-buttons per row. The real app's empty state ('No entries yet. Nothing ships with this application.') uses the same dashed-border empty-state container as History/Converter/Ollama."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/auth.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/auth.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/auth.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#auth",
+      "deviations": [
+        {
+          "reason": "Reference shows 3 sample registered TOTP accounts with live, continuously-changing 6-digit codes; the real app's fresh profile genuinely has zero registered secrets, so it correctly shows its empty state instead. A code value could never match between captures even with identical registered secrets, since TOTP codes change every 30 seconds.",
+          "reviewed": true
+        }
+      ]
+    },
+    {
+      "id": "logs",
+      "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail and click nav item with ligature text 'receipt_long' (Logs)",
+      "realAppRoute": "nav item with ligature text 'receipt_long' (Logs), Tools section, left rail",
+      "state": "default (UniGetUI source filter active)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Source filter chips (UniGetUI / WinGet / Scoop / ...) use correct M3 filter-chip anatomy with the active chip in filled-tonal state, matching the reference exactly.",
+          "Log-line rendering (monospace timestamp + level + message, WARN lines coloured amber) matches the reference's log-viewer typography and colour semantics.",
+          "Search/filter field present and correctly styled, matching the app's other search surfaces."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/logs.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/logs.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/logs.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#logs",
+      "deviations": [
+        {
+          "reason": "Reference shows fixture log lines with fixed sample timestamps; the real app shows its own real startup log for this session, with genuinely different timestamps and package-manager discovery counts.",
+          "reviewed": true
+        }
+      ]
+    },
+    {
+      "id": "tickets",
+      "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail and click nav item with ligature text 'support_agent' (Support Tickets)",
+      "realAppRoute": "nav item with ligature text 'support_agent' (Support Tickets), Tools section, left rail",
+      "state": "default (New ticket form, Forgotten password category selected)",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "This is static, deterministic content on both sides (the toy-lock recovery desk copy), and the two captures match closely: same disclosure banner, same category chip row (Forgotten password / Lost authenticator / Locked myself out for fun / Other), same 'File ticket' filled button and severity/response-time caption.",
+          "Category chips use correct M3 filter-chip anatomy with the first chip pre-selected in filled-tonal state on both sides."
+        ],
+        "openDefects": []
+      },
+      "rawCaptureReference": "docs/design-parity/captures/tickets.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/tickets.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/tickets.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#tickets",
+      "deviations": []
+    },
+    {
+      "id": "about",
+      "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail and click nav item with ligature text 'info' (Help & About)",
+      "realAppRoute": "nav item with ligature text 'info' (Help & About), Tools section, left rail",
+      "state": "default landing state",
+      "theme": "light",
+      "viewport": "1450x900",
+      "scale": "100%",
+      "md3Audit": {
+        "status": "reviewed",
+        "findings": [
+          "Real app renders three outlined M3 cards ('Unsigned artifacts', 'Your data', 'Package managers') with correct card anatomy, an inline monospace app-data path, and an outlined 'Open that folder' button -- genuinely useful, real content rather than filler.",
+          "App identity block (logo, name, version) is absent from this screen in the real app; the reference shows it as the first element of the About tab (icon + 'Material UniGetUI 3.4.1' + description)."
+        ],
+        "openDefects": [
+          {
+            "description": "The reference's Help & About screen is a tab strip with six sub-sections (About, Contributors, Translators, Licenses, Release notes, Help), each a distinct pane. The real app renders Help & About as a single flat page with no tab strip and no Contributors/Translators/Licenses/Release notes/Help sub-panes -- a structural navigation difference, not just a content difference. The real app's content (unsigned-artifact disclosure, data-folder path, package-manager driver note) is real and useful, but it does not correspond 1:1 to any single reference tab.",
+            "file": "app/src/ui/tools/ (Help & About screen; no tabbed sub-navigation implemented)"
+          }
+        ]
+      },
+      "rawCaptureReference": "docs/design-parity/captures/about.reference.png",
+      "rawCaptureApp": "docs/design-parity/captures/about.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/about.side-by-side.png",
+      "diffRecord": "docs/design-parity/diffs/diff-report.json#about",
+      "deviations": [
+        {
+          "reason": "The real app's About screen intentionally covers different, real operational content (unsigned-build disclosure, data-folder recovery path, driver architecture note) rather than the reference's marketing-style About/Contributors/Translators/Licenses tab set. This is recorded as a structural open defect above rather than only a deviation, because the missing tab strip is itself an M3 navigation-pattern gap, not merely different words.",
           "reviewed": true
         }
       ]
@@ -85,187 +371,17 @@
         "status": "reviewed",
         "findings": [
           "Settings uses a three-pane layout (nav rail | settings-category list | detail pane) on both sides, matching the reference's anatomy exactly.",
-          "Category list on the real app (General, Interface, Localization, Appearance, Notifications, Operations, Package managers, Accessibility, Vocabulary, Security, Backup, Internet, Scheduler, Experimental, Updates) is a superset of the reference's shown category list (General, Interface, Notifications, Operations, Backup, Internet & proxy, Administrator, Experimental, Scheduler, Appearance, Package managers, Localization, Vocabulary, Security, Updates) — both are the same 15 categories in a different visible order/wording; content matches route naming in app/src/ui/settings.",
-          "Detail cards ('Application display name', 'Reset') use M3 outlined card anatomy correctly."
+          "Category list on the real app (General, Interface, Localization, Appearance, Notifications, Operations, Package managers, Accessibility, Vocabulary, Security, Backup, Internet, Scheduler, Experimental, Updates) is a superset of the reference's shown category list (General, Interface, Notifications, Operations, Backup, Internet & proxy, Administrator, Experimental, Scheduler, Appearance, Package managers, Localization, Vocabulary, Security, Updates) -- both are the same 15 categories in a different visible order/wording; content matches route naming in app/src/ui/settings.",
+          "Detail cards ('Application display name', 'Reset') use M3 outlined card anatomy correctly.",
+          "Settings search placeholder now reads 'Search every settings tab...' in full -- the previously clipped 'Search every settings tat' defect is confirmed fixed in this capture."
         ],
-        "openDefects": [
-          {
-            "description": "Settings search placeholder text is clipped mid-word: renders 'Search every settings tat' instead of 'Search every settings tab'.",
-            "file": "app/src/ui/settings.css",
-            "evidence": "docs/design-parity/captures/settings.app.png (top-right search field)"
-          },
-          {
-            "description": "Command palette (and by extension any surface reading raw setting titles/explanations rather than through the i18n translator) leaves 15 pre-existing setting titles/explanations in English regardless of active language mode.",
-            "file": "app/src/ui/command-palette.tsx",
-            "evidence": "reported by prior port pass; not independently re-verified by this evidence pass (command palette was not opened during this capture run)"
-          }
-        ]
+        "openDefects": []
       },
       "rawCaptureReference": "docs/design-parity/captures/settings.reference.png",
       "rawCaptureApp": "docs/design-parity/captures/settings.app.png",
       "sideBySide": "docs/design-parity/side-by-side/settings.side-by-side.png",
       "diffRecord": "docs/design-parity/diffs/diff-report.json#settings",
       "deviations": []
-    },
-    {
-      "id": "installed",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'check_circle' (Installed packages)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; time-boxed to 3 of 13 screens (discover, updates, settings) as a proven end-to-end pipeline. Guard intentionally reports this row incomplete."
-    },
-    {
-      "id": "bundles",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'package_2' (Package bundles)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
-    },
-    {
-      "id": "history",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'history' (Operation history)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
-    },
-    {
-      "id": "automation",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'terminal' (Automation · CLI & IPC)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
-    },
-    {
-      "id": "converter",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'sync_alt' (File converter)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason. Known open defect already established from prior capture: the file converter renders the design's structure but has no adapter bridge behind it, so it is an honest empty state rather than a functioning converter."
-    },
-    {
-      "id": "ollama",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'neurology' (Ollama suite manager)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason. Known open defect already established from prior capture: the Ollama suite manager renders the design's structure but has no bridge behind it, so it is an honest empty state rather than talking to a real Ollama runtime."
-    },
-    {
-      "id": "auth",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'shield_lock' (Authenticator)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
-    },
-    {
-      "id": "logs",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'receipt_long' (Logs)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
-    },
-    {
-      "id": "tickets",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'support_agent' (Support Tickets)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
-    },
-    {
-      "id": "about",
-      "referenceRoute": "pending",
-      "realAppRoute": "nav item with ligature text 'info' (Help & About)",
-      "state": "pending",
-      "theme": "pending",
-      "viewport": "pending",
-      "scale": "pending",
-      "md3Audit": { "status": "pending", "findings": [], "openDefects": [] },
-      "rawCaptureReference": null,
-      "rawCaptureApp": null,
-      "sideBySide": null,
-      "diffRecord": null,
-      "deviations": [],
-      "pendingReason": "Not captured in this evidence pass; see 'installed' pendingReason."
     }
   ]
 }

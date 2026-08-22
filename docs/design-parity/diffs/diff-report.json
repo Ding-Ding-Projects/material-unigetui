@@ -1,6 +1,7 @@
 {
-  "generatedAt": "2026-08-22T02:36:19.849Z",
+  "generatedAt": "2026-08-22T02:59:34.642Z",
   "threshold": 40,
+  "method": "brand-logo anchor alignment (falls back to bounded row-brightness correlation when the logo cannot be located on either side), then RGB Euclidean diff over the aligned overlap region",
   "results": [
     {
       "screenId": "discover",
@@ -15,10 +16,28 @@
         "width": 1450,
         "height": 900
       },
-      "sizeMismatch": true,
-      "comparedPixels": 1279128,
-      "diffPixels": 1235742,
-      "diffPercent": 96.608,
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 248.66666666666666,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 114669,
+      "diffPercent": 9.307,
       "threshold": 40
     },
     {
@@ -34,10 +53,398 @@
         "width": 1450,
         "height": 900
       },
-      "sizeMismatch": true,
-      "comparedPixels": 1279128,
-      "diffPixels": 1234032,
-      "diffPercent": 96.474,
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 144325,
+      "diffPercent": 11.714,
+      "threshold": 40
+    },
+    {
+      "screenId": "installed",
+      "referenceCapture": "docs/design-parity/captures/installed.reference.png",
+      "appCapture": "docs/design-parity/captures/installed.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/installed.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 153256,
+      "diffPercent": 12.439,
+      "threshold": 40
+    },
+    {
+      "screenId": "bundles",
+      "referenceCapture": "docs/design-parity/captures/bundles.reference.png",
+      "appCapture": "docs/design-parity/captures/bundles.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/bundles.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 106531,
+      "diffPercent": 8.646,
+      "threshold": 40
+    },
+    {
+      "screenId": "history",
+      "referenceCapture": "docs/design-parity/captures/history.reference.png",
+      "appCapture": "docs/design-parity/captures/history.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/history.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 69729,
+      "diffPercent": 5.659,
+      "threshold": 40
+    },
+    {
+      "screenId": "automation",
+      "referenceCapture": "docs/design-parity/captures/automation.reference.png",
+      "appCapture": "docs/design-parity/captures/automation.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/automation.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 151740,
+      "diffPercent": 12.316,
+      "threshold": 40
+    },
+    {
+      "screenId": "converter",
+      "referenceCapture": "docs/design-parity/captures/converter.reference.png",
+      "appCapture": "docs/design-parity/captures/converter.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/converter.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 124921,
+      "diffPercent": 10.139,
+      "threshold": 40
+    },
+    {
+      "screenId": "ollama",
+      "referenceCapture": "docs/design-parity/captures/ollama.reference.png",
+      "appCapture": "docs/design-parity/captures/ollama.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/ollama.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 108800,
+      "diffPercent": 8.831,
+      "threshold": 40
+    },
+    {
+      "screenId": "auth",
+      "referenceCapture": "docs/design-parity/captures/auth.reference.png",
+      "appCapture": "docs/design-parity/captures/auth.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/auth.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 117187,
+      "diffPercent": 9.511,
+      "threshold": 40
+    },
+    {
+      "screenId": "logs",
+      "referenceCapture": "docs/design-parity/captures/logs.reference.png",
+      "appCapture": "docs/design-parity/captures/logs.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/logs.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 98175,
+      "diffPercent": 7.968,
+      "threshold": 40
+    },
+    {
+      "screenId": "tickets",
+      "referenceCapture": "docs/design-parity/captures/tickets.reference.png",
+      "appCapture": "docs/design-parity/captures/tickets.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/tickets.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 127705,
+      "diffPercent": 10.365,
+      "threshold": 40
+    },
+    {
+      "screenId": "about",
+      "referenceCapture": "docs/design-parity/captures/about.reference.png",
+      "appCapture": "docs/design-parity/captures/about.app.png",
+      "sideBySide": "docs/design-parity/side-by-side/about.side-by-side.png",
+      "referenceSize": {
+        "width": 1434,
+        "height": 892
+      },
+      "appSize": {
+        "width": 1450,
+        "height": 900
+      },
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 115267,
+      "diffPercent": 9.355,
       "threshold": 40
     },
     {
@@ -53,61 +460,29 @@
         "width": 1450,
         "height": 900
       },
-      "sizeMismatch": true,
-      "comparedPixels": 1279128,
-      "diffPixels": 1233746,
-      "diffPercent": 96.452,
+      "alignment": {
+        "dx": -3,
+        "dy": -31,
+        "method": "logo-anchor",
+        "anchorFound": true,
+        "refAnchor": {
+          "row": 45,
+          "col": 71
+        },
+        "appAnchor": {
+          "row": 14,
+          "col": 68
+        }
+      },
+      "levelNormalization": {
+        "referenceWhitePoint": 102,
+        "appWhitePoint": 255,
+        "note": "each image auto-levelled to its own 95th-percentile brightness before diffing, to correct the reference capture's uniform backgrounded-window scrim (see the comment on computeWhitePoint in this file); diffPercent below is computed on the normalized copies, comparedPixels/diffPixels count normalized pixels"
+      },
+      "comparedPixels": 1232091,
+      "diffPixels": 121975,
+      "diffPercent": 9.9,
       "threshold": 40
-    },
-    {
-      "screenId": "installed",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "bundles",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "history",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "automation",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "converter",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "ollama",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "auth",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "logs",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "tickets",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
-    },
-    {
-      "screenId": "about",
-      "skipped": true,
-      "reason": "missing raw capture(s) on disk"
     }
   ]
 }

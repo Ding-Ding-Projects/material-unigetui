@@ -2330,8 +2330,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/main-process/unlock-ladder.ts"
+            ],
+            "note": "All four rungs, generated and graded in the main process against single-use nonces. No renderer surface yet."
           }
         ],
         "documentation": [
@@ -2354,8 +2357,11 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/unlock-ladder-test.mjs"
+            ],
+            "note": "Covers the skip budget at both guards, nonce replay, expiry, the elapsed-time floor on the timed round, mole double-counting, and that clearing grants no session."
           }
         ],
         "builtArtifactInteraction": [
@@ -2377,8 +2383,11 @@
       "evidence": {
         "implementation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/src/lib/totp.ts"
+            ],
+            "note": "RFC 6238 over RFC 4226, with otpauth:// generation and parsing. No QR rendering or pairing UI yet."
           }
         ],
         "documentation": [
@@ -2401,8 +2410,11 @@
         ],
         "focusedTest": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "app/test/unit/totp-test.mjs"
+            ],
+            "note": "All six RFC 6238 vectors for SHA-1, SHA-256 and SHA-512, plus a 64-bit counter test proven to fail on a 32-bit implementation."
           }
         ],
         "builtArtifactInteraction": [

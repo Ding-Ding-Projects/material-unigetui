@@ -29,26 +29,85 @@ submodule at `v2026.2.7` and is used as a reference for command lines and output
 parsing — none of its C# is ever executed.
 
 <details open>
-<summary><b>Screenshots</b> — captured from the real built application</summary>
+<summary><b>Screenshots</b> — a full capture matrix from the real built application</summary>
 
-Every image below was taken from the built artifact running on a hidden desktop,
-not from the design file and not from a mockup.
+Every image below was taken from the built artifact through a reproducible,
+committed harness — `script/capture-matrix.mjs` — driving the real Electron
+renderer over the Chrome DevTools Protocol, never a mockup, a design file, or
+a hand-edited image. Captured at commit `975dcc3` (see
+[the capture-matrix article](docs/features/quality/capture-matrix.md) for the
+exact method and its self-checks). There is deliberately no screenshot of the
+Installed or Software updates screens populated with real packages — that is
+the machine's software inventory, personal data that does not belong in a
+public repository — so both show the honest loading/empty state instead.
 
-**Discover — live results from the real `winget` catalogue**
+<details>
+<summary><b>Primary routes</b> — Discover, Software updates, Installed packages, Package bundles</summary>
 
-![Discover packages showing real winget search results for 7zip, listing 7-Zip, Advanced Archive Password Recovery, NanaZip and others with their package IDs and versions](docs/assets/screenshots/discover-search.png)
+![Discover packages screen in the built application, light theme, showing the 64px top app bar, the toggleable nav drawer with package-manager list, the tab strip, and the empty search state](docs/assets/screenshots/route-discover.png)
 
-**The same screen in dark theme** — one token layer, both palettes lifted verbatim from the design
+![Software updates screen in the built application, light theme](docs/assets/screenshots/route-updates.png)
 
-![The same Discover screen rendered in dark theme, with the navigation rail, search field and result rows all recoloured from the dark palette](docs/assets/screenshots/discover-dark.png)
+![Installed packages screen in the built application, light theme, showing its honest loading state ("0 of 0 / Asking your package managers nicely...") rather than real installed software](docs/assets/screenshots/route-installed.png)
 
-**A route that is not built yet, saying so**
+![Package bundles screen in the built application, light theme](docs/assets/screenshots/route-bundles.png)
 
-![The Settings route showing a dashed panel reading "Not implemented yet", explaining that the design is checked in and the inventory records what is missing](docs/assets/screenshots/not-implemented.png)
+</details>
 
-There is deliberately no screenshot of the Installed or Software updates screens
-populated: those list the machine's real software inventory, which is personal
-data and does not belong in a public repository.
+<details>
+<summary><b>Tools routes</b> — Operation history, Automation, File converter, Ollama suite manager, Authenticator, Logs, Support Tickets, Help &amp; About</summary>
+
+![Operation history screen in the built application, light theme](docs/assets/screenshots/route-history.png)
+
+![Automation (CLI & IPC) screen in the built application, light theme](docs/assets/screenshots/route-automation.png)
+
+![File converter screen in the built application, light theme](docs/assets/screenshots/route-converter.png)
+
+![Ollama suite manager screen in the built application, light theme](docs/assets/screenshots/route-ollama.png)
+
+![Authenticator screen in the built application, light theme](docs/assets/screenshots/route-auth.png)
+
+![Logs screen in the built application, light theme](docs/assets/screenshots/route-logs.png)
+
+![Support Tickets screen in the built application, light theme](docs/assets/screenshots/route-tickets.png)
+
+![Help & About screen in the built application, light theme](docs/assets/screenshots/route-about.png)
+
+</details>
+
+<details>
+<summary><b>Settings</b> — tabbed, with its own regex-wired search</summary>
+
+Settings opens on the General tab (same render as `settings-general.png`
+below, so only the tabbed captures are shown to avoid a duplicate image).
+
+![Settings surface with the General tab open, showing the application display name control and a reset-all-settings action, each explaining what it does and whether it was changed from its default](docs/assets/screenshots/settings-general.png)
+
+![Settings surface with the Appearance tab open, in the built application](docs/assets/screenshots/settings-appearance.png)
+
+![Settings surface with the Localization tab open, in the built application](docs/assets/screenshots/settings-localization.png)
+
+</details>
+
+<details>
+<summary><b>Interaction surfaces</b> — regex builder, tab-strip search, command palette</summary>
+
+![The anchored regex builder popover open beside the Discover screen's search field, with guided controls for anchors, character classes, groups and quantifiers, plus a live pattern field](docs/assets/screenshots/regex-builder.png)
+
+![The tab strip with several open tabs and its search panel expanded, showing scope choices (this strip / this group / grouped tabs / everything open) and the tab-discovery search with its own regex builder](docs/assets/screenshots/tab-strip-search.png)
+
+![The command palette opened with Ctrl+Shift+F, showing searchable destinations and settings](docs/assets/screenshots/command-palette.png)
+
+</details>
+
+<details>
+<summary><b>Dark theme and narrow layout</b></summary>
+
+![Discover packages screen rendered in dark theme, recoloured from the dark MD3 palette](docs/assets/screenshots/route-discover-dark.png)
+
+![Discover packages screen emulated at a 480px-wide viewport via CDP device-metrics emulation (the real OS window has a 1280px minimum width, so this is the only way to observe narrow-layout behaviour). This capture also shows a real, unfixed defect: the nav drawer has no responsive behaviour at narrow widths — it stays a fixed 256px wide, leaving under 200px for content and clipping the top app bar's title and icon cluster. See `docs/features/quality/capture-matrix.md` for the exact file and line.](docs/assets/screenshots/route-discover-narrow.png)
+
+</details>
 
 </details>
 

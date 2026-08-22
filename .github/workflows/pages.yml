@@ -15,11 +15,20 @@ permissions:
   id-token: write
   contents: read
 
-# Never cancel a deployment in flight. A cancelled publish can leave the site
-# half-updated, and unlike a validation run there is no verdict to re-derive.
+# Cancel in progress, deliberately — and unlike the release workflow, which has
+# no concurrency group at all.
+#
+# A Pages deploy is idempotent: the newest publish is a superset of the one it
+# replaces, so cancelling a stale deploy loses nothing. A release is not — a
+# cancelled publish can strand a tag with no artifact attached, which is why
+# these two workflows are configured differently on purpose.
+#
+# Observed here first: with cancel-in-progress false, GitHub kept one pending
+# run per group and cancelled the rest, so the site sat several deploys behind
+# while runs queued.
 concurrency:
   group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:

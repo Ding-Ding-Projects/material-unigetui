@@ -87,6 +87,13 @@ Each has a row in the inventory with its own seven evidence dimensions. None is
 optional; the ordering below is about sequence, not priority.
 
 - [x] Language modes and both funny-level sliders wired to rendered copy
+- [x] The dim sum surprise, from the public catalog's release assets
+- [x] TOTP to the RFC 6238 vectors, and a working authenticator
+- [x] The unlock ladder engine, with every safety rule tested and watched failing
+- [x] The lock store — per-element, independent credentials, OS-encrypted
+- [ ] A lock wizard and unlock prompt on any surface (the store has no caller)
+- [ ] A ladder UI (the engine is complete; nothing renders it)
+- [ ] QR pairing, and a confirmation step before a TOTP factor arms
 - [x] Anchored regex builder on every application and site search field
 - [ ] The same builder on every dropdown and context menu — neither exists yet
 - [x] Tabs: pinning, grouping, the four tab searches, previewed bulk close
@@ -101,9 +108,9 @@ optional; the ordering below is about sequence, not priority.
 - [x] ADHD mode settings — persisted and documented
 - [ ] ADHD modes actually changing the surfaces
 - [ ] Appearance: per-element editors, infinite colour picker, presets
-- [ ] Toy locks, Support Tickets recovery, the unlock ladder
-- [ ] TOTP pairing and the built-in authenticator
-- [ ] Universal export and local version history
+- [x] Support Tickets recovery route
+- [x] Export — bundles, in six formats, with the lossy ones disclosed first
+- [ ] Export for everything else, and local version history
 - [ ] Offline documentation browser
 - [ ] Narrator and voice selection
 - [ ] Status Hub registration

@@ -17,6 +17,29 @@ characters, a plain-text navigation rail, no icon font at all, and Roboto
 named in CSS but never vendored, so every surface fell back to the system
 font. That is what changed.
 
+## Closeout evidence
+
+Checked on 2026-09-18 in the primary checkout at
+`C:\Users\cntow\Documents\GitHub\material-unigetui`.
+
+| Check | Result |
+| --- | --- |
+| Fetched remote | `origin` fetched with pruning enabled |
+| Local `main` | `92b74957ffaffe2777bb23ba50028ddbf9d8693e` |
+| Remote `main` | `92b74957ffaffe2777bb23ba50028ddbf9d8693e`, verified with `git ls-remote` |
+| Ahead or behind | `0 0` for `HEAD...origin/main` |
+| Linked worktrees | None discovered by `git worktree list --porcelain` |
+| Stashes | None |
+| Uncommitted files | None |
+| Unmerged index entries | None |
+| Conflict markers | None found by the repository scan |
+| Open GitHub issues | None returned by `gh issue list --state open` |
+| External archive | Not created because no redundant linked worktree, branch, or stash qualified for cleanup |
+
+No preservation commit was needed because the primary checkout and every
+discovered Git state were already clean and fully pushed. There was no conflict
+to resolve, so no non-obvious conflict choice exists for this pass.
+
 | | |
 | --- | --- |
 | Design sections ported | **14 of 14** (two are structure only, see below) |

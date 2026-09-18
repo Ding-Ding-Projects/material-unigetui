@@ -131,3 +131,13 @@ optional; the ordering below is about sequence, not priority.
   This was raised with its cost stated and chosen anyway.
 - Code signing, ever. Artifacts are unsigned and will show an unknown-publisher
   warning; the release notes must say so rather than implying otherwise.
+
+## Phase 5 — Repository closeout, 2026-09-18
+
+- [x] Fetch and prune the remote before closeout
+- [x] Inventory the primary checkout, linked worktrees, branches, and stashes
+- [x] Verify local `main` and remote `main` agree at `92b74957ffaffe2777bb23ba50028ddbf9d8693e`
+- [x] Confirm there are no recoverable uncommitted paths, unmerged index entries, or conflict markers
+- [x] Scan open GitHub issues for this repository
+- [x] Refresh `HANDOFF.md` with exact closeout evidence
+- [x] Confirm no cleanup candidates exist, so no external archive or deletion pass is required

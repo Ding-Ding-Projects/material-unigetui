@@ -1,5 +1,17 @@
 # Handoff
 
+## Bounded converter update — 2026-10-05
+
+The desktop converter now has one real local JSON → CSV lane: constrained shape,
+resource limits, loss disclosure, bounded preview, named isolated bridge, native
+pickers, cancellation and atomic create-only saves. All other adapter entries
+remain unavailable. See [the lane contract](docs/features/json-to-csv.md) and
+[verification limits](docs/verification/json-to-csv.md). This does not complete
+the universal converter or certify native UI parity. The older "no converter
+bridge" statements below describe the September snapshot, not the current lane.
+
+## Historical September handoff
+
 Written for whoever picks this up next, including a future me with no memory of
 today. Every claim was checked against the repository as it stands.
 
@@ -19,8 +31,7 @@ font. That is what changed.
 
 ## Closeout evidence
 
-Checked on 2026-09-18 in the primary checkout at
-`C:\Users\cntow\Documents\GitHub\material-unigetui`.
+Checked on 2026-09-18 in a local Windows checkout.
 
 | Check | Result |
 | --- | --- |
@@ -95,7 +106,7 @@ inlines them, so the packaged application carries no `node_modules`.
 - **The unlock ladder**, generated and graded in the main process with
   single-use nonces and a capped skip budget.
 - **The dim sum surprise**, sourced from the public catalog's release assets.
-- **The Day Teet Hui**, generated from the inventory and deployed.
+- **The Project website**, generated from the inventory and deployed.
 - **An unsigned installer**, installed and launched headlessly, then removed.
 
 ## What is deliberately not built

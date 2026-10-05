@@ -4,7 +4,7 @@
 
 **The Material Design 3 interface for your package managers.**
 
-[Day Teet Hui](https://ding-ding-projects.github.io/material-unigetui/) ·
+[Project website](https://ding-ding-projects.github.io/material-unigetui/) ·
 [Roadmap](ROADMAP.md) ·
 [Handoff](HANDOFF.md) ·
 [Design reference](design/)
@@ -61,7 +61,7 @@ public repository — so both show the honest loading/empty state instead.
 
 ![Automation (CLI & IPC) screen in the built application, light theme](docs/assets/screenshots/route-automation.png)
 
-![File converter screen in the built application, light theme](docs/assets/screenshots/route-converter.png)
+![Historical converter catalog, before the bounded JSON-to-CSV lane](docs/assets/screenshots/route-converter.png)
 
 ![Ollama suite manager screen in the built application, light theme](docs/assets/screenshots/route-ollama.png)
 
@@ -152,7 +152,7 @@ all nine.
   preload bridge that exposes named calls and never a generic channel forwarder.
 - A custom Material title bar; the operating-system frame is never product chrome.
 - Light and dark themes from a single token contract.
-- The Day Teet Hui, generated from the same inventory the tests enforce, with
+- The Project website, generated from the same inventory the tests enforce, with
   10/10 behaviour checks passing.
 
 </details>
@@ -163,7 +163,7 @@ all nine.
 - Ten of the eleven in-scope package managers. WinGet only, so far.
 - Installing, updating and uninstalling from the interface. The operations queue
   exists and is tested; nothing in the UI triggers it.
-- Bundles, history, automation, converter, Ollama, authenticator, logs, tickets,
+- Bundles, history, automation, Ollama, authenticator, logs, tickets,
   about, and settings. Each says so on screen rather than pretending.
 - Most of the universal feature contracts. All 62 are in the inventory with
   written reasons.
@@ -181,6 +181,10 @@ Apt, Dnf, Flatpak, Homebrew, Pacman and Snap exist upstream and are deliberately
 out of scope while delivery targets Windows.
 
 </details>
+
+## Bounded local JSON → CSV
+
+The desktop File converter now supports one [constrained JSON-to-CSV path](docs/features/json-to-csv.md): choose a UTF-8 JSON file, review shape/loss limits and a bounded preview, then save a new CSV atomically. Other conversion formats remain unavailable. This is not completion of the converter contract; see [the current checks and native QA gaps](docs/verification/json-to-csv.md). The converter screenshot above predates this addition.
 
 ## A note on signing
 

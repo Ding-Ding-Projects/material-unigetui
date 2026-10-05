@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates the Day Teet Hui from the canonical inventory.
+ * Generates the Project website from the canonical inventory.
  *
  * The feature table is generated rather than authored so the site cannot claim
  * a contract the inventory does not carry, and cannot quietly fall behind when

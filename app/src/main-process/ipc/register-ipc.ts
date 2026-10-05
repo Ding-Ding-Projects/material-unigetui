@@ -1,3 +1,4 @@
+import { registerConverterIpc } from './converter-ipc'
 import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron'
 import { promises as fs } from 'fs'
 import { settingsStore } from '../settings-store'
@@ -73,6 +74,7 @@ function broadcast(channel: string, ...args: readonly unknown[]): void {
 }
 
 export function registerAllIpc(): void {
+  registerConverterIpc()
   const drivers = createDrivers()
   const queue = new OperationsQueue(drivers)
 

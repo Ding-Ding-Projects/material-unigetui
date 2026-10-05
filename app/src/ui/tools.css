@@ -186,3 +186,12 @@
 .about-tab:hover { background: var(--sch); }
 .about-tab:focus-visible { outline: 2px solid var(--p); outline-offset: 2px; }
 .about-tab[aria-selected="true"] { background: var(--sc); color: var(--onsc); border-color: transparent; }
+
+/* Bounded structured-data converter. Long filenames/cells must not widen chrome. */
+.json-csv-panel { margin-block: 20px; padding: 20px; border: 1px solid var(--ol); border-radius: 16px; overflow-wrap: anywhere; }
+.json-csv-panel h2 { margin-top: 0; font-size: 20px; }
+.json-csv-panel p { line-height: 1.5; }
+.json-csv-panel__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.json-csv-panel__table { overflow: auto; max-height: 260px; }
+.json-csv-panel table { width: 100%; border-collapse: collapse; text-align: start; }
+.json-csv-panel th, .json-csv-panel td { padding: 10px; border: 1px solid var(--ol); min-width: 100px; max-width: 360px; white-space: pre-wrap; overflow-wrap: anywhere; }

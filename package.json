@@ -25,7 +25,8 @@
     "test:negative": "node script/negative-regression.mjs",
     "design-parity:reference-server": "node script/design-parity/reference-server.mjs",
     "design-parity:diff": "node script/design-parity/diff.mjs",
-    "design-parity:guard": "node --test app/test/unit/design-parity-guard-test.mjs"
+    "design-parity:guard": "node --test app/test/unit/design-parity-guard-test.mjs",
+    "verify:converter-built": "node script/verify-converter-built.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
@@ -40,6 +41,7 @@
     "pngjs": "^7.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-test-renderer": "18.3.1",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
     "typescript": "5.9.3",

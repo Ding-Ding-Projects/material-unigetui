@@ -19,7 +19,7 @@ import { useNotifications } from './notifications'
  * options, installer link, empty state) ships to the running app without
  * touching app.tsx. `PackageBundlesRoute` and `IgnoredUpdatesManager` are
  * additional design-matched surfaces exported for a future integrator to
- * wire in (see the port pig's final report for the exact blocker: the design
+ * wire in (see the port task's final report for the exact blocker: the design
  * calls for one Bundles surface, but the currently wired one lives in
  * tool-routes.tsx, a file this lane may not edit).
  */
@@ -819,7 +819,7 @@ const BUNDLE_FORMATS: ReadonlyArray<{
  * live one from there, and this lane's allowed paths do not include app.tsx
  * or tool-routes.tsx to repoint that import. Exported here, fully wired to
  * the real `bundles.export` / `bundles.import` bridge, ready for an
- * integrator to swap in. See the port pig's final report.
+ * integrator to swap in. The host integration is documented in this repository.
  */
 export function PackageBundlesRoute(props: {
   readonly installed: readonly PackageRow[]

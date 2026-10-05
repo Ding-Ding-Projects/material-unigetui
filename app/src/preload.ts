@@ -12,6 +12,11 @@ import { Operation, OperationAction } from './models/operation'
  * and undone the isolation it appears to provide.
  */
 const bridge: MaterialUniGetUiBridge = {
+  converter: {
+    prepareJsonCsv: () => ipcRenderer.invoke(IpcChannels.converterPrepareJsonCsv),
+    saveJsonCsv: (token: string) => ipcRenderer.invoke(IpcChannels.converterSaveJsonCsv, token),
+    cancel: () => ipcRenderer.invoke(IpcChannels.converterCancel),
+  },
   packages: {
     search: (query: string, manager?: ManagerId) =>
       ipcRenderer.invoke(IpcChannels.packagesSearch, query, manager),

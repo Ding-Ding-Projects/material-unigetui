@@ -4,23 +4,14 @@ import { SearchField, SearchState, emptySearchState, searchMatcher } from '../md
 import { useI18n } from '../app-state'
 import { TranslationKey } from '../../lib/i18n-resources'
 
-/**
- * Ported from the design's `rConverter` section, widened into the categorized
- * adapter catalog the completeness inventory calls for.
- *
- * `window.materialUniGetUi` exposes no converter bridge at all — no adapter
- * registry, no bounded sandboxed decoder, nothing. Inventing one here would
- * be exactly the decorative control this project's rules forbid, so instead:
- * every format below is real (it is what the design's own recent-conversions
- * row lists), every one is honestly marked as having no bundled adapter yet,
- * and the drop zone is a disabled control that says so rather than a button
- * that silently does nothing when clicked.
- */
+import { JsonCsvPanel } from './json-csv-panel'
+
+/** One real JSON-to-CSV lane; the remaining adapter catalog stays unavailable. */
 
 interface FormatEntry {
   readonly id: string
   readonly icon: string
-  readonly label: string
+  readonly labelKey: TranslationKey
 }
 
 interface Category {
@@ -36,9 +27,9 @@ const CATEGORIES: readonly Category[] = [
     icon: 'picture_as_pdf',
     titleKey: 'converterCatDocuments',
     formats: [
-      { id: 'md-html', icon: 'description', label: 'Markdown → HTML' },
-      { id: 'pdf-split', icon: 'call_split', label: 'PDF split' },
-      { id: 'pdf-merge', icon: 'call_merge', label: 'PDF merge' },
+      { id: 'md-html', icon: 'description', labelKey: 'converterFormatMarkdownHtml' },
+      { id: 'pdf-split', icon: 'call_split', labelKey: 'converterFormatPdfSplit' },
+      { id: 'pdf-merge', icon: 'call_merge', labelKey: 'converterFormatPdfMerge' },
     ],
   },
   {
@@ -46,49 +37,49 @@ const CATEGORIES: readonly Category[] = [
     icon: 'image',
     titleKey: 'converterCatImages',
     formats: [
-      { id: 'png-jpg', icon: 'image', label: 'PNG → JPG' },
-      { id: 'webp-png', icon: 'image', label: 'WEBP → PNG' },
-      { id: 'svg-raster', icon: 'image', label: 'SVG → raster' },
+      { id: 'png-jpg', icon: 'image', labelKey: 'converterFormatPngJpg' },
+      { id: 'webp-png', icon: 'image', labelKey: 'converterFormatWebpPng' },
+      { id: 'svg-raster', icon: 'image', labelKey: 'converterFormatSvgRaster' },
     ],
   },
   {
     id: 'audio',
     icon: 'audiotrack',
     titleKey: 'converterCatAudio',
-    formats: [{ id: 'wav-mp3', icon: 'audiotrack', label: 'WAV → MP3' }],
+    formats: [{ id: 'wav-mp3', icon: 'audiotrack', labelKey: 'converterFormatWavMp3' }],
   },
   {
     id: 'video',
     icon: 'movie',
     titleKey: 'converterCatVideo',
-    formats: [{ id: 'mov-mp4', icon: 'movie', label: 'MOV → MP4' }],
+    formats: [{ id: 'mov-mp4', icon: 'movie', labelKey: 'converterFormatMovMp4' }],
   },
   {
     id: 'archives',
     icon: 'folder_zip',
     titleKey: 'converterCatArchives',
-    formats: [{ id: 'zip-7z', icon: 'folder_zip', label: 'ZIP ⇄ 7z' }],
+    formats: [{ id: 'zip-7z', icon: 'folder_zip', labelKey: 'converterFormatZip7z' }],
   },
   {
     id: 'data',
     icon: 'table_chart',
     titleKey: 'converterCatData',
     formats: [
-      { id: 'json-yaml', icon: 'table_chart', label: 'JSON ⇄ YAML' },
-      { id: 'csv-json', icon: 'table_chart', label: 'CSV ⇄ JSON' },
+      { id: 'json-yaml', icon: 'table_chart', labelKey: 'converterFormatJsonYaml' },
+      { id: 'csv-json', icon: 'table_chart', labelKey: 'converterFormatCsvJson' },
     ],
   },
   {
     id: 'code',
     icon: 'code',
     titleKey: 'converterCatCode',
-    formats: [{ id: 'crlf-lf', icon: 'code', label: 'Line-ending normalisation' }],
+    formats: [{ id: 'crlf-lf', icon: 'code', labelKey: 'converterFormatLineEndings' }],
   },
   {
     id: 'binary',
     icon: 'memory',
     titleKey: 'converterCatBinary',
-    formats: [{ id: 'base64', icon: 'memory', label: 'Base64 ⇄ binary' }],
+    formats: [{ id: 'base64', icon: 'memory', labelKey: 'converterFormatBase64' }],
   },
 ]
 
@@ -105,18 +96,14 @@ export function ConverterRoute(): JSX.Element {
     CATEGORIES.find(candidate => candidate.id === activeCategory) ?? FIRST_CATEGORY
   const search = searchByCategory[category.id] ?? emptySearchState
   const matcher = searchMatcher(search)
-  const shown = category.formats.filter(format => matcher.test(format.label))
+  const shown = category.formats.filter(format => matcher.test(t(format.labelKey)))
 
   return (
     <>
       <h1 className="route-surface__heading">{t('converter')}</h1>
       <p className="route-surface__sub">{t('converterSub')}</p>
 
-      <button type="button" className="tool-dropzone" disabled title={t('converterDropHint')}>
-        <Icon name="place_item" size={44} style={{ color: 'var(--p)' }} />
-        <div className="tool-dropzone__title">{t('converterDropTitle')}</div>
-        <div className="tool-dropzone__hint">{t('converterDropHint')}</div>
-      </button>
+      <JsonCsvPanel />
 
       <div
         className="category-tabs"
@@ -131,9 +118,21 @@ export function ConverterRoute(): JSX.Element {
             role="tab"
             id={`converter-tab-${candidate.id}`}
             aria-selected={candidate.id === category.id}
+            tabIndex={candidate.id === category.id ? 0 : -1}
             aria-controls={`converter-panel-${candidate.id}`}
             className="category-tab"
             onClick={() => setActiveCategory(candidate.id)}
+            onKeyDown={event => {
+              const index = CATEGORIES.findIndex(item => item.id === candidate.id)
+              const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? CATEGORIES.length - 1
+                : event.key === 'ArrowRight' ? (index + 1) % CATEGORIES.length
+                : event.key === 'ArrowLeft' ? (index + CATEGORIES.length - 1) % CATEGORIES.length : -1
+              const next = CATEGORIES[nextIndex]
+              if (!next) return
+              event.preventDefault()
+              setActiveCategory(next.id)
+              document.getElementById(`converter-tab-${next.id}`)?.focus()
+            }}
           >
             <Icon name={candidate.icon} size={16} />
             {t(candidate.titleKey)}
@@ -152,7 +151,7 @@ export function ConverterRoute(): JSX.Element {
           label={`${t('converterSearchLabel')} — ${t(category.titleKey)}`}
           placeholder={t('converterSearchPh')}
           state={search}
-          sampleText={category.formats[0]?.label ?? ''}
+          sampleText={category.formats[0] ? t(category.formats[0].labelKey) : ''}
           resultSummary={`${shown.length} ${t('of')} ${category.formats.length}`}
           onChange={next =>
             setSearchByCategory(current => ({ ...current, [category.id]: next }))
@@ -166,7 +165,7 @@ export function ConverterRoute(): JSX.Element {
             <div className="format-row" key={format.id}>
               <Icon name={format.icon} size={22} style={{ color: 'var(--p)' }} />
               <div className="format-row__grow">
-                <div className="format-row__name">{format.label}</div>
+                <div className="format-row__name">{t(format.labelKey)}</div>
                 <div className="format-row__note">{t('converterNoAdapter')}</div>
               </div>
               <span className="format-row__status">{a('converterNoAdapter')}</span>
@@ -174,11 +173,6 @@ export function ConverterRoute(): JSX.Element {
           ))
         )}
       </div>
-
-      <div style={{ marginTop: 20, marginBottom: 8, fontSize: 14, fontWeight: 500 }}>
-        {t('recent')}
-      </div>
-      <div className="state-note">{t('converterRecentEmpty')}</div>
 
       <div
         className="note"

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "canonicalFeatureDigest": "49cf99dece92cb7aec232ec29601dcd4e5541b494c22bb989af028614eacb48a",
+  "canonicalFeatureDigest": "4a22e93618d39cab86f6a4c694dbcb9ebd4cf3011a13c4fe621738fbb0f6bcf9",
   "dimensions": [
     "implementation",
     "documentation",
@@ -2559,44 +2559,73 @@
       "evidence": {
         "implementation": [
           {
+            "status": "present",
+            "paths": [
+              "app/src/main-process/converter/json-csv.ts",
+              "app/src/main-process/converter/converter-service.ts",
+              "app/src/main-process/ipc/converter-ipc.ts",
+              "app/src/preload.ts",
+              "app/src/ui/tools/json-csv-panel.tsx"
+            ]
+          },
+          {
             "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "reason": "Only the bounded desktop JSON-to-CSV lane is implemented. Other adapters, PDF operations, batch queue and the independent site surface remain unimplemented."
           }
         ],
         "documentation": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "present",
+            "paths": [
+              "docs/features/json-to-csv.md",
+              "docs/verification/json-to-csv.md"
+            ]
           }
         ],
         "localization": [
           {
+            "status": "present",
+            "paths": [
+              "app/src/lib/i18n-resources.ts",
+              "app/test/unit/converter-panel-test.mjs"
+            ]
+          },
+          {
             "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "reason": "Native rendered language and accessibility verification is pending; unsupported converter categories remain unimplemented."
           }
         ],
         "persistence": [
           {
             "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "reason": "This lane intentionally uses expiring in-memory previews and an atomic user-chosen CSV output. Durable conversion queue/history and recovery are not implemented."
           }
         ],
         "focusedTest": [
           {
+            "status": "present",
+            "paths": [
+              "app/test/unit/json-csv-test.mjs",
+              "app/test/unit/converter-service-test.mjs",
+              "app/test/unit/converter-panel-test.mjs",
+              "script/verify-converter-built.mjs"
+            ]
+          },
+          {
             "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "reason": "Native Windows filesystem/dialog and rendered interaction coverage remains pending."
           }
         ],
         "builtArtifactInteraction": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "blocked",
+            "reason": "Built main/preload bundles are exercised through a simulated Electron boundary with real filesystem I/O; this is wiring evidence only. Native Chromium launch is unavailable in the current cloud environment, so actual renderer/dialog interaction is not certified."
           }
         ],
         "realCapture": [
           {
-            "status": "pending",
-            "reason": "Not started; this contract has been adopted but nothing has been built for it yet."
+            "status": "blocked",
+            "reason": "No new native built-application capture was produced for the JSON-to-CSV lane. Existing converter screenshots predate it."
           }
         ]
       }

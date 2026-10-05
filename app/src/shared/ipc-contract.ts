@@ -1,3 +1,4 @@
+import { ConverterPreparedResult, ConverterSavedResult } from './converter-contract'
 import { ManagerAvailability, ManagerId } from '../models/manager'
 import {
   DiscoveredPackage,
@@ -16,6 +17,9 @@ import { Operation, OperationAction } from '../models/operation'
  * at runtime with a rejected promise and nothing to read in the source.
  */
 export const IpcChannels = {
+  converterPrepareJsonCsv: 'converter:prepare-json-csv',
+  converterSaveJsonCsv: 'converter:save-json-csv',
+  converterCancel: 'converter:cancel',
   packagesSearch: 'packages:search',
   packagesInstalled: 'packages:installed',
   packagesUpdates: 'packages:updates',
@@ -126,6 +130,11 @@ export interface VocabularyLoadResult {
 }
 
 export interface MaterialUniGetUiBridge {
+  readonly converter: {
+    prepareJsonCsv(): Promise<ConverterPreparedResult>
+    saveJsonCsv(token: string): Promise<ConverterSavedResult>
+    cancel(): Promise<boolean>
+  }
   readonly packages: {
     search(query: string, manager?: ManagerId): Promise<readonly DiscoveredPackage[]>
     installed(): Promise<readonly InstalledPackage[]>

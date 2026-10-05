@@ -44,7 +44,7 @@
     { "id": "local-version-history", "name": "Append-only local Git history with a filterable manager" },
     { "id": "changelog-viewer", "name": "In-app changelog with date picker, search, export, and commit links" },
     { "id": "offline-documentation", "name": "Bundled offline documentation browser with completeness guard" },
-    { "id": "landing-and-documentation-site", "name": "Day Teet Hui carrying every contract on per-visitor storage" },
+    { "id": "landing-and-documentation-site", "name": "Project website carrying every contract on per-visitor storage" },
     { "id": "shared-link-embed", "name": "Product-specific social preview and Open Graph tags" },
     { "id": "toy-locks", "name": "Per-element password or TOTP toy locks with independent credentials" },
     { "id": "support-tickets", "name": "Support Tickets recovery route to the application-data folder" },

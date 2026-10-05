@@ -192,30 +192,49 @@
       "id": "converter",
       "referenceRoute": "http://127.0.0.1:4173/ then scroll the nav rail and click nav item with ligature text 'sync_alt' (File converter)",
       "realAppRoute": "nav item with ligature text 'sync_alt' (File converter), Tools section, left rail",
-      "state": "default (empty drop zone, category filter chips, no conversions yet)",
+      "state": "JSON-to-CSV choose/preview/save states; other adapters unavailable (new states not captured)",
       "theme": "light",
       "viewport": "1450x900",
       "scale": "100%",
       "md3Audit": {
-        "status": "reviewed",
-        "findings": [
-          "Dashed-border drop zone with centered download-arrow glyph matches M3 file-input surface anatomy on both sides.",
-          "Category filter chips (Documents/PDF, Images, Audio, Video, Archives, Structured Data, Code/Text, Binary Encodings) use correct M3 filter-chip anatomy with count badges, matching the reference's category set.",
-          "Real app explicitly states 'No bundled adapter is installed in this build yet -- nothing will actually convert' and every listed format row says 'No bundled adapter for this format yet' -- an honest, correctly-labelled empty/unimplemented state rather than a fake working converter.",
-          "'Recent conversions' section: reference shows 4 sample rows with status chips (Converted/Lossy/Unsupported in correct M3 status-color semantics: green, amber, red); real app shows 'Nothing has been converted yet.' in the same dashed empty-state container used on Operation history."
-        ],
+        "status": "pending",
+        "findings": [],
         "openDefects": [
           {
-            "description": "No bundled conversion adapters exist in this build; every format shows 'No bundled adapter for this format yet' and the converter cannot actually convert anything. This matches the project's own honest-empty-state design intent (explicit banner text confirms it is deliberate) but the feature itself is incomplete relative to the reference's fully-populated Documents/PDF, Images, Audio, Video etc. adapter set.",
-            "file": "app/src/ui/tools/ (file converter screen; adapter registry not yet implemented)"
+            "description": "New JSON-to-CSV panel requires native rendered layout, keyboard, theme and language review. Other adapters remain unimplemented.",
+            "file": "app/src/ui/tools/json-csv-panel.tsx"
           }
         ]
       },
-      "rawCaptureReference": "docs/design-parity/captures/converter.reference.png",
-      "rawCaptureApp": "docs/design-parity/captures/converter.app.png",
-      "sideBySide": "docs/design-parity/side-by-side/converter.side-by-side.png",
-      "diffRecord": "docs/design-parity/diffs/diff-report.json#converter",
-      "deviations": []
+      "rawCaptureReference": null,
+      "rawCaptureApp": null,
+      "sideBySide": null,
+      "diffRecord": null,
+      "deviations": [],
+      "historicalEvidence": {
+        "state": "default (empty drop zone, category filter chips, no conversions yet)",
+        "md3Audit": {
+          "status": "reviewed",
+          "findings": [
+            "Dashed-border drop zone with centered download-arrow glyph matches M3 file-input surface anatomy on both sides.",
+            "Category filter chips (Documents/PDF, Images, Audio, Video, Archives, Structured Data, Code/Text, Binary Encodings) use correct M3 filter-chip anatomy with count badges, matching the reference's category set.",
+            "Real app explicitly states 'No bundled adapter is installed in this build yet -- nothing will actually convert' and every listed format row says 'No bundled adapter for this format yet' -- an honest, correctly-labelled empty/unimplemented state rather than a fake working converter.",
+            "'Recent conversions' section: reference shows 4 sample rows with status chips (Converted/Lossy/Unsupported in correct M3 status-color semantics: green, amber, red); real app shows 'Nothing has been converted yet.' in the same dashed empty-state container used on Operation history."
+          ],
+          "openDefects": [
+            {
+              "description": "No bundled conversion adapters exist in this build; every format shows 'No bundled adapter for this format yet' and the converter cannot actually convert anything. This matches the project's own honest-empty-state design intent (explicit banner text confirms it is deliberate) but the feature itself is incomplete relative to the reference's fully-populated Documents/PDF, Images, Audio, Video etc. adapter set.",
+              "file": "app/src/ui/tools/ (file converter screen; adapter registry not yet implemented)"
+            }
+          ]
+        },
+        "rawCaptureReference": "docs/design-parity/captures/converter.reference.png",
+        "rawCaptureApp": "docs/design-parity/captures/converter.app.png",
+        "sideBySide": "docs/design-parity/side-by-side/converter.side-by-side.png",
+        "diffRecord": "docs/design-parity/diffs/diff-report.json#converter",
+        "note": "Predates the 2026-10-05 bounded JSON-to-CSV lane; preserved for historical comparison only."
+      },
+      "pendingReason": "The bounded JSON-to-CSV lane changes the previous empty converter layout. Native Chromium cannot launch in the current cloud environment, so historical captures are not current proof."
     },
     {
       "id": "ollama",

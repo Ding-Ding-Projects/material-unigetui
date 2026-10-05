@@ -12,11 +12,12 @@
 </div>
 
 > [!WARNING]
-> **Not released.** There is no installer to download yet. This repository
-> contains a working application you can build and run, a complete design, and
-> an inventory that says exactly how much of the intended product exists. That
-> figure is currently **9 of 434 evidence records**. The roadmap is not
-> aspirational marketing — it is the honest remainder.
+> **Work in progress.** Unsigned Windows installers are available from
+> [GitHub releases](https://github.com/Ding-Ding-Projects/material-unigetui/releases).
+> Expect an unknown-publisher warning on Windows. Release availability does not
+> certify feature completeness or native acceptance. Check release notes and
+> the [feature evidence inventory](app/test/fixtures/feature-completeness/evidence-paths.json)
+> for the current scope; the roadmap records unfinished work.
 
 ---
 
@@ -167,7 +168,7 @@ all nine.
   about, and settings. Each says so on screen rather than pretending.
 - Most of the universal feature contracts. All 62 are in the inventory with
   written reasons.
-- No installer has been produced or released.
+- Feature completeness and native acceptance must be checked per release.
 
 </details>
 

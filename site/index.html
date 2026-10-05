@@ -60,10 +60,12 @@
     <p class="lede" data-string="tagline">The Material Design 3 interface for your package managers.</p>
 
     <div class="note">
-      <strong>Not released yet.</strong> There is no installer to download. This
-      site describes work in progress, and the status tab says exactly how much
-      of it exists — because a page that implies a finished product is the one
-      thing a reader cannot check for themselves.
+      <strong data-string="releaseStatusTitle">Work in progress.</strong>
+      <span data-string="releaseAvailability">Unsigned Windows installers are available on</span>
+      <a href="https://github.com/Ding-Ding-Projects/material-unigetui/releases" data-string="releaseLink">GitHub releases</a>.
+      <span data-string="releaseWarning">Expect an unknown-publisher warning on Windows.</span>
+      <span data-string="releaseLimits">Release availability does not certify feature completeness or native acceptance.</span>
+      <span data-string="releaseCheck">Check release notes and the status tab for the current scope and incomplete contracts.</span>
     </div>
 
     <h2>What it is</h2>
@@ -457,6 +459,9 @@
         native <code>winget</code> driver.</li>
         <li>The renderer is isolated behind a preload bridge that exposes named
         calls only.</li>
+        <li><span data-string="converterBounded">The desktop converter has one bounded local JSON → CSV lane with a preview and atomic new-file saves. Other adapters remain unavailable.</span>
+        <a href="https://github.com/Ding-Ding-Projects/material-unigetui/blob/main/docs/features/json-to-csv.md" data-string="converterLink">Converter scope and verification limits</a>.</li>
+        <li data-string="converterVerification">This does not complete the converter contract. Native app/dialog, accessibility, theme/language and fresh capture verification remain pending.</li>
       </ul>
     </div>
 
@@ -466,9 +471,9 @@
         <li>Ten of the eleven in-scope package managers.</li>
         <li>Installing, updating and uninstalling from the interface — the queue
         exists, nothing triggers it.</li>
-        <li>Most of the routes: bundles, history, converter, Ollama, authenticator,
+        <li>Most of the routes: bundles, history, Ollama, authenticator,
         logs, tickets, settings. They say so on screen instead of pretending.</li>
-        <li>No installer has been produced or released.</li>
+        <li data-string="releaseIncomplete">Feature completeness and native acceptance must be checked per release.</li>
       </ul>
     </div>
   </section>

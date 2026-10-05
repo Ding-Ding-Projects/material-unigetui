@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fails the build when a feature contract the published Day Teet Hui has
+ * Fails the build when a feature contract the published project website has
  * adopted is absent from the site it actually generates.
  *
  * This is a HAND-WRITTEN enumeration, not a discovery scan. A guard that only
@@ -24,6 +24,7 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync, existsSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { hasHonestReleaseCopy, hasHonestConverterCopy } from './release-copy-contract.mjs'
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const siteDir = join(repoRoot, 'site')
@@ -126,8 +127,8 @@ const CONTRACTS = [
   {
     id: 'honest-status',
     description:
-      'The site states plainly that no installer exists yet, rather than reading as a finished product.',
-    check: () => /Not released yet/.test(html) && /There is no installer to download/.test(html),
+      'The site links available unsigned installers while preserving work-in-progress and acceptance limitations.',
+    check: () => hasHonestReleaseCopy(html) && hasHonestConverterCopy(html),
   },
   {
     id: 'shared-link-embed',

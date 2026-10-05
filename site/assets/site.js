@@ -1,5 +1,5 @@
 /*
- * Day Teet Hui behaviour.
+ * Project website behaviour.
  *
  * Everything here is per-visitor and local: state lives in localStorage, no
  * request leaves the page, and there is no analytics of any kind. The controls
@@ -34,6 +34,16 @@
 
   var STRINGS = {
     en: {
+      releaseStatusTitle: 'Work in progress.',
+      releaseAvailability: 'Unsigned Windows installers are available on',
+      releaseLink: 'GitHub releases',
+      releaseWarning: 'Expect an unknown-publisher warning on Windows.',
+      releaseLimits: 'Release availability does not certify feature completeness or native acceptance.',
+      releaseCheck: 'Check release notes and the status tab for the current scope and incomplete contracts.',
+      releaseIncomplete: 'Feature completeness and native acceptance must be checked per release.',
+      converterBounded: 'The desktop converter has one bounded local JSON → CSV lane with a preview and atomic new-file saves. Other adapters remain unavailable.',
+      converterLink: 'Converter scope and verification limits',
+      converterVerification: 'This does not complete the converter contract. Native app/dialog, accessibility, theme/language and fresh capture verification remain pending.',
       tagline: 'The Material Design 3 interface for your package managers.',
       searchLabel: 'Search features',
       searchPlaceholder: 'Search features, contracts, IDs…',
@@ -43,6 +53,16 @@
       invalid: 'not a valid expression yet',
     },
     yue: {
+      releaseStatusTitle: '開發中。',
+      releaseAvailability: '未簽署嘅 Windows 安裝程式可以喺以下頁面下載：',
+      releaseLink: 'GitHub 發佈版本',
+      releaseWarning: 'Windows 會顯示發行者不明嘅警告。',
+      releaseLimits: '有版本發佈唔代表功能已齊全，亦唔代表通過原生程式驗收。',
+      releaseCheck: '請睇版本說明同狀態分頁，了解目前範圍同未完成嘅功能合約。',
+      releaseIncomplete: '每個版本都要分開確認功能完整程度同原生程式驗收。',
+      converterBounded: '桌面轉換器已有一條受限制嘅本機 JSON → CSV 轉換流程，提供預覽同原子式另存新檔。其他轉換器仍然未提供。',
+      converterLink: '轉換範圍同驗證限制',
+      converterVerification: '呢個功能未完成整份轉換器合約。原生程式同對話框、無障礙、主題／語言同新截圖驗證仍然待完成。',
       tagline: '你部機啲套件管理器，終於有返個似樣嘅 Material Design 3 介面。',
       searchLabel: '搵功能',
       searchPlaceholder: '搵功能、合約、ID…',
